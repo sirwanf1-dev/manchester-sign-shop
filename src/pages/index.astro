@@ -83,6 +83,42 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,'neon':300,'lightbox':250,rgb:350};
   function calculate(){const area=Math.max(0,Number(width?.value||0)*Number(height?.value||0));const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
   [type,width,height,finish].forEach(el=>el?.addEventListener('input',calculate));calculate();
+
+  // Mobile card sliders: show two cards at once and advance one card at a time.
+  function setupCardSlider(selector){
+    const rail=document.querySelector(selector);
+    if(!rail) return;
+    const cards=[...rail.children];
+    if(cards.length<3) return;
+    let position=0;
+    let timer;
+    const step=()=>cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(rail).gap || '0');
+    const max=()=>Math.max(0,cards.length-2);
+
+    function move(){
+      position = position >= max() ? 0 : position + 1;
+      rail.scrollTo({left: position * step(), behavior:'smooth'});
+    }
+
+    function start(){
+      clearInterval(timer);
+      timer=setInterval(move,3000);
+    }
+
+    rail.addEventListener('touchstart',()=>clearInterval(timer),{passive:true});
+    rail.addEventListener('touchend',start,{passive:true});
+    window.addEventListener('resize',()=>{
+      position=0;
+      rail.scrollTo({left:0,behavior:'auto'});
+      start();
+    });
+    start();
+  }
+
+  if(window.matchMedia('(max-width:760px)').matches){
+    setupCardSlider('.sign-grid');
+    setupCardSlider('.shop-grid');
+  }
 </script>
 
 <style>
@@ -181,26 +217,31 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       white-space:nowrap;
     }
 
-    /* Mobile cards stay still: two cards per row, all products remain visible. */
+    /* Mobile card slider: two cards visible, with reliable horizontal sliding. */
     .sign-grid,
     .shop-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
+      display:flex !important;
+      flex-wrap:nowrap !important;
       gap:10px;
-      padding:0 16px 8px;
       width:100%;
-      overflow:visible !important;
-      transform:none !important;
-      transition:none !important;
-      will-change:auto !important;
+      padding:0 16px 8px;
+      overflow-x:auto !important;
+      overflow-y:hidden !important;
+      scroll-behavior:smooth;
+      scroll-snap-type:x mandatory;
+      scrollbar-width:none;
+      -ms-overflow-style:none;
     }
+    .sign-grid::-webkit-scrollbar,
+    .shop-grid::-webkit-scrollbar{display:none}
     .sign-card,
     .shop-card{
-      display:block !important;
+      flex:0 0 calc((100% - 10px - 32px) / 2) !important;
+      width:calc((100% - 10px - 32px) / 2) !important;
       min-width:0 !important;
-      width:100% !important;
       height:auto !important;
       transform:none !important;
+      scroll-snap-align:start;
     }
     .sign-image,
     .shop-card{

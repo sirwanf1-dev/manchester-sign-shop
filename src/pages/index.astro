@@ -1,16 +1,18 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import Layout from '../layouts/Layout.astro';
 import LightboxGallery from '../components/LightboxGallery.astro';
 import { signCategories, shopProducts } from '../data/website.js';
 
-const realImages = [];
-for (let i = 1; i <= 10; i++) {
-  const url = `/manchester-sign-shop/images/real-images/real-image-${i}.jpg`;
-  try {
-    const response = await fetch(new URL(`.${url}`, Astro.site ?? Astro.url.origin));
-    if (response.ok) realImages.push(url);
-  } catch {}
-}
+const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
+const realFiles = fs.existsSync(realDir)
+  ? fs.readdirSync(realDir)
+      .filter(file => /^real-image-(?:[1-9]|10)\.(jpe?g|png|webp)$/i.test(file))
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+  : [];
+
+const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-images/${file}`);
 ---
 
 <Layout>

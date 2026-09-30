@@ -18,7 +18,6 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   <main>
     <section class="hero">
       <div class="hero-copy">
-        <div class="hero-kicker"><span></span> MANCHESTER SIGN SHOP</div>
         <h1>MANCHESTER <em>SIGN GROUP</em></h1>
         <p>Professional signs, lighting and sign-making supplies — designed to get your business noticed.</p>
         <div class="hero-actions">
@@ -78,11 +77,13 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       <div class="estimate-shell">
         <div class="estimate-intro">
           <p class="eyebrow">02 / QUICK ESTIMATE</p>
-          <h2>Get an estimated price for your sign.</h2>
-          <p>Enter the basic dimensions below. This is an indicative starting estimate; installation and final specification are quoted separately.</p>
+          <button class="estimate-toggle" id="estimateToggle" type="button" aria-expanded="false" aria-controls="calculator">
+            <span>Get an estimated price for your sign.</span>
+            <b>+</b>
+          </button>
         </div>
 
-        <div class="calculator">
+        <div class="calculator" id="calculator" aria-hidden="true">
           <div class="field">
             <label for="signType">SIGN TYPE</label>
             <select id="signType">
@@ -183,6 +184,16 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   dots.forEach((dot, index) => dot.addEventListener('click', () => { showSlide(index); startSlider(); }));
   if (slides.length) { showSlide(0); startSlider(); }
 
+  const estimateToggle = document.querySelector('#estimateToggle');
+  const calculator = document.querySelector('#calculator');
+
+  estimateToggle?.addEventListener('click', () => {
+    const open = calculator?.classList.toggle('open');
+    estimateToggle.setAttribute('aria-expanded', String(Boolean(open)));
+    calculator?.setAttribute('aria-hidden', String(!open));
+    estimateToggle.classList.toggle('open', Boolean(open));
+  });
+
   const type = document.querySelector('#signType');
   const width = document.querySelector('#width');
   const height = document.querySelector('#height');
@@ -212,7 +223,13 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   .hero-kicker { display:flex; align-items:center; gap:9px; margin-bottom:17px; }
   .hero-kicker span { width:28px; height:1px; background:#e62935; }
   h1 { margin:0; max-width:900px; font-size:clamp(45px,12vw,105px); line-height:.88; letter-spacing:-5px; }
-  h1 em { display:block; color:#e62935; font-style:normal; }
+  h1 em { display:inline; color:#e62935; font-style:normal; }
+  .estimate-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:0; border:0; background:none; color:#fff; text-align:left; cursor:pointer; font:inherit; }
+  .estimate-toggle span { max-width:700px; font-size:clamp(30px,5vw,52px); line-height:1; font-weight:800; letter-spacing:-2px; }
+  .estimate-toggle b { flex:0 0 auto; width:42px; height:42px; display:grid; place-items:center; border:1px solid #e62935; color:#e62935; font-size:25px; font-weight:400; transition:transform .3s,background .3s,color .3s; }
+  .estimate-toggle.open b { transform:rotate(45deg); background:#e62935; color:#fff; }
+  .calculator { max-height:0; overflow:hidden; opacity:0; transform:translateY(-12px); transition:max-height .55s ease,opacity .35s ease,transform .55s ease; pointer-events:none; }
+  .calculator.open { max-height:900px; opacity:1; transform:translateY(0); margin-top:28px; pointer-events:auto; }
   .hero-copy > p:not(.hero-kicker) { max-width:520px; color:#aaa; font-size:15px; line-height:1.65; margin:22px 0 0; }
   .hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:20px; margin-top:28px; }
   .primary-button { display:inline-block; background:#e62935; color:#fff; padding:15px 20px; border-radius:4px; text-decoration:none; font-size:11px; font-weight:900; letter-spacing:1.5px; box-shadow:0 12px 40px rgba(230,41,53,.2); }
@@ -290,7 +307,8 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   }
   @media(max-width:700px) {
     .hero { padding-top:46px; }
-    h1 { font-size:clamp(45px,12.5vw,62px); }
+    h1 { white-space:nowrap; font-size:clamp(30px,8.6vw,48px); letter-spacing:-2.6px; }
+    .estimate-toggle span { font-size:clamp(27px,7.8vw,34px); letter-spacing:-1.2px; }
     .hero-copy > p:not(.hero-kicker) { font-size:14px; }
     .hero-visual { min-height:250px; }
     .hero-frame { height:250px; }
@@ -300,7 +318,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
     .section-head { display:block; margin-bottom:24px; }
     .section-copy { margin-top:14px; }
     .estimate-shell { display:block; padding:62px 0; }
-    .estimate-intro { margin-bottom:28px; }
+    .estimate-intro { margin-bottom:0; }
   }
   @media(max-width:390px) {
     .hero-actions { gap:14px; }

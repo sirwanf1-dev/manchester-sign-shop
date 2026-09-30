@@ -6,326 +6,103 @@ import LightboxGallery from '../components/LightboxGallery.astro';
 import { signCategories, shopProducts } from '../data/website.js';
 
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
-const realFiles = fs.existsSync(realDir)
-  ? fs.readdirSync(realDir)
-      .filter(file => /^real-image-(?:[1-9]|10)\.(jpe?g|png|webp)$/i.test(file))
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-  : [];
+const realFiles = fs.existsSync(realDir) ? fs.readdirSync(realDir).filter(file => /^real-image-(?:[1-9]|10)\.(jpe?g|png|webp)$/i.test(file)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})) : [];
 const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-images/${file}`);
 ---
 
-<Layout title="Manchester Sign Shop | Signs, Lighting & Supplies">
+<Layout title="Manchester Sign Group | Signs, Supplies & Everything You Need">
   <main>
     <section class="hero">
-      <div class="hero-copy">
-        <h1>MANCHESTER <em>SIGN GROUP</em></h1>
-        <p>Professional signs, lighting and sign-making supplies — designed to get your business noticed.</p>
-        <div class="hero-actions">
-          <a class="primary-button" href="#estimate">GET A QUOTE</a>
-          <a class="text-button" href="#signs">VIEW OUR SIGNS <span>↓</span></a>
-        </div>
+      <div class="hero-heading">
+        <h1>MANCHESTER <em>SIGN</em> GROUP</h1>
+        <p>SIGNS <i></i> SUPPLIES <i></i> EVERYTHING YOU NEED</p>
       </div>
-
-      <div class="hero-visual" aria-label="Sign project preview">
-        <div class="visual-glow"></div>
-        <div class="hero-frame">
-          {signCategories.slice(0, 3).map((item, index) => (
-            <div class:list={['hero-slide', { active: index === 0 }]} data-slide={index}>
-              <img src={item.image} alt={item.title} />
-              <div class="slide-label"><span>0{index + 1}</span>{item.title}</div>
-            </div>
-          ))}
-          <div class="slide-dots">
-            {signCategories.slice(0, 3).map((_, index) => <button type="button" data-dot={index} aria-label={`Show slide ${index + 1}`}></button>)}
-          </div>
-        </div>
-      </div>
-
-      <div class="scroll-note">SCROLL TO EXPLORE <span>↓</span></div>
-    </section>
-
-    <section class="intro-strip">
-      <div><strong>BUILT FOR BUSINESS.</strong> From simple flat signs to illuminated RGB installations.</div>
-      <a href="#shop">SHOP SUPPLIES →</a>
-    </section>
-
-    <section class="section" id="signs">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">01 / OUR SIGNS</p>
-          <h2>Make an entrance.</h2>
-        </div>
-        <p class="section-copy">Choose a sign style, then tell us your size, finish and lighting requirements.</p>
-      </div>
-      <div class="sign-grid">
-        {signCategories.map((item, index) => (
-          <article class:list={['sign-card', index === 0 ? 'featured' : '']}>
-            <div class="card-image">
-              <img src={item.image} alt={item.title} loading="lazy" />
-              <span>0{index + 1}</span>
-            </div>
-            <div class="card-bottom">
-              <h3>{item.title}</h3>
-              <span>VIEW →</span>
-            </div>
+      <div class="hero-slider">
+        {signCategories.slice(0,3).map((item,index)=>(
+          <article class:list={['hero-slide',{active:index===0}]} data-slide={index}>
+            <img src={item.image} alt={item.title} />
+            <button class="slider-arrow left" type="button" data-prev aria-label="Previous sign">‹</button>
+            <button class="slider-arrow right" type="button" data-next aria-label="Next sign">›</button>
           </article>
         ))}
+        <div class="slider-dots">{signCategories.slice(0,3).map((_,index)=><button type="button" data-dot={index} aria-label={`Slide ${index+1}`}></button>)}</div>
+      </div>
+    </section>
+
+    <section class="content-section signs-section" id="signs">
+      <div class="section-title-row"><h2>OUR <em>SIGNS</em></h2><a href="#signs">VIEW ALL SIGNS <span>→</span></a></div>
+      <div class="sign-grid">
+        {signCategories.map(item=><article class="sign-card"><div class="sign-image"><img src={item.image} alt={item.title} loading="lazy" /><div class="image-shade"></div><h3>{item.title}</h3></div></article>)}
       </div>
     </section>
 
     <section class="estimate-section" id="estimate">
-      <div class="estimate-shell">
-        <div class="estimate-intro">
-          <p class="eyebrow">02 / QUICK ESTIMATE</p>
-          <button class="estimate-toggle" id="estimateToggle" type="button" aria-expanded="false" aria-controls="calculator">
-            <span>Get an estimated price for your sign.</span>
-            <b>+</b>
-          </button>
-        </div>
-
-        <div class="calculator" id="calculator" aria-hidden="true">
-          <div class="field">
-            <label for="signType">SIGN TYPE</label>
-            <select id="signType">
-              <option value="flat">Flat Sign</option>
-              <option value="3d">3D Sign</option>
-              <option value="neon">Neon</option>
-              <option value="lightbox">Lightbox Sign</option>
-              <option value="rgb">RGB Sign</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="width">WIDTH <small>mm</small></label>
-            <input id="width" type="number" min="100" step="50" value="1000" />
-          </div>
-          <div class="field">
-            <label for="height">HEIGHT <small>mm</small></label>
-            <input id="height" type="number" min="100" step="50" value="500" />
-          </div>
-          <div class="field">
-            <label for="finish">FINISH</label>
-            <select id="finish">
-              <option value="standard">Standard</option>
-              <option value="premium">Premium finish</option>
-            </select>
-          </div>
-          <div class="estimate-output">
-            <span>INDICATIVE STARTING PRICE</span>
-            <strong id="estimatePrice">£200</strong>
-            <small>Final price depends on artwork, materials, lighting and specification.</small>
-          </div>
-          <a class="calculator-button" href="mailto:info@manchestersignshop.co.uk?subject=Sign%20quote%20request">REQUEST A QUOTE →</a>
-        </div>
+      <button class="estimate-toggle" id="estimateToggle" type="button" aria-expanded="false" aria-controls="calculator">
+        <span class="estimate-icon">▣</span>
+        <span class="estimate-text"><small>INSTANT SIGN ESTIMATE</small><strong>Get an estimated price for your sign.</strong></span>
+        <b>›</b>
+      </button>
+      <div class="calculator" id="calculator" aria-hidden="true">
+        <div class="field"><label>SIGN TYPE</label><select id="signType"><option value="flat">Flat Sign</option><option value="3d">3D Sign</option><option value="neon">Neon</option><option value="lightbox">Lightbox Sign</option><option value="rgb">RGB Sign</option></select></div>
+        <div class="field"><label>WIDTH <small>mm</small></label><input id="width" type="number" min="100" step="50" value="1000" /></div>
+        <div class="field"><label>HEIGHT <small>mm</small></label><input id="height" type="number" min="100" step="50" value="500" /></div>
+        <div class="field"><label>FINISH</label><select id="finish"><option value="standard">Standard</option><option value="premium">Premium finish</option></select></div>
+        <div class="estimate-output"><span>INDICATIVE STARTING PRICE</span><strong id="estimatePrice">£200</strong></div>
+        <a class="quote-button" href="mailto:info@manchestersignshop.co.uk?subject=Sign%20quote%20request">REQUEST A QUOTE →</a>
       </div>
     </section>
 
-    <section class="section projects" id="projects">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">03 / RECENT WORK</p>
-          <h2>Your projects here.</h2>
-        </div>
-        <p class="section-copy">Real customer work will appear automatically when you add photos to the real-images folder.</p>
-      </div>
-      {realImages.length ? (
-        <LightboxGallery images={realImages} />
-      ) : (
-        <div class="project-empty">
-          <div class="empty-mark">+</div>
-          <strong>REAL PROJECT PHOTOS</strong>
-          <span>Add real-image-1.jpg through real-image-10.jpg to show your work here.</span>
-        </div>
-      )}
+    <section class="content-section shop-section" id="shop">
+      <div class="section-title-row"><div><h2><em>SHOP</em></h2><p>SIGN MAKING SUPPLIES</p></div><a href="#shop">VIEW ALL PRODUCTS <span>→</span></a></div>
+      <div class="shop-grid">{shopProducts.map(item=><article class="shop-card"><img src={item.image} alt={item.title} loading="lazy" /><div class="shop-overlay"><h3>{item.title}</h3></div></article>)}</div>
     </section>
 
-    <section class="shop-section" id="shop">
-      <div class="section">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">04 / SHOP</p>
-            <h2>Supplies for sign makers.</h2>
-          </div>
-          <p class="section-copy">Core materials and lighting components for your next sign build.</p>
-        </div>
-        <div class="shop-grid">
-          {shopProducts.map((item, index) => (
-            <article class="shop-card">
-              <img src={item.image} alt={item.title} loading="lazy" />
-              <div><span>0{index + 1}</span><h3>{item.title}</h3><b>VIEW PRODUCT →</b></div>
-            </article>
-          ))}
-        </div>
-      </div>
+    <section class="benefits">
+      <div><b>▱</b><strong>FAST DELIVERY</strong><span>UK WIDE</span></div>
+      <div><b>♢</b><strong>QUALITY PRODUCTS</strong><span>TRUSTED BRANDS</span></div>
+      <div><b>▤</b><strong>SECURE PAYMENT</strong><span>SAFE & EASY</span></div>
+      <div><b>♧</b><strong>EXPERT SUPPORT</strong><span>WE'RE HERE TO HELP</span></div>
     </section>
 
-    <section class="final-cta">
-      <p class="eyebrow">READY TO START?</p>
-      <h2>Let's make your sign.</h2>
-      <a class="primary-button" href="#estimate">GET AN ESTIMATE</a>
-    </section>
+    {realImages.length > 0 && <section class="content-section real-work"><div class="section-title-row"><h2>RECENT <em>WORK</em></h2></div><LightboxGallery images={realImages} /></section>}
   </main>
 </Layout>
 
 <script>
-  const slides = [...document.querySelectorAll('[data-slide]')];
-  const dots = [...document.querySelectorAll('[data-dot]')];
-  let activeSlide = 0;
-  let slideTimer;
-
-  function showSlide(index) {
-    activeSlide = (index + slides.length) % slides.length;
-    slides.forEach((slide, i) => slide.classList.toggle('active', i === activeSlide));
-    dots.forEach((dot, i) => dot.classList.toggle('active', i === activeSlide));
-  }
-  function startSlider() {
-    clearInterval(slideTimer);
-    slideTimer = setInterval(() => showSlide(activeSlide + 1), 4200);
-  }
-  dots.forEach((dot, index) => dot.addEventListener('click', () => { showSlide(index); startSlider(); }));
-  if (slides.length) { showSlide(0); startSlider(); }
-
-  const estimateToggle = document.querySelector('#estimateToggle');
-  const calculator = document.querySelector('#calculator');
-
-  estimateToggle?.addEventListener('click', () => {
-    const open = calculator?.classList.toggle('open');
-    estimateToggle.setAttribute('aria-expanded', String(Boolean(open)));
-    calculator?.setAttribute('aria-hidden', String(!open));
-    estimateToggle.classList.toggle('open', Boolean(open));
-  });
-
-  const type = document.querySelector('#signType');
-  const width = document.querySelector('#width');
-  const height = document.querySelector('#height');
-  const finish = document.querySelector('#finish');
-  const output = document.querySelector('#estimatePrice');
-
-  const rates = { flat: 0.0004, '3d': 0.00075, neon: 0.0009, lightbox: 0.0007, rgb: 0.001 };
-  const minimums = { flat: 150, '3d': 250, neon: 300, lightbox: 250, rgb: 350 };
-
-  function calculate() {
-    const area = Math.max(0, Number(width.value || 0) * Number(height.value || 0));
-    const multiplier = finish.value === 'premium' ? 1.22 : 1;
-    const price = Math.max(minimums[type.value], Math.round(area * rates[type.value] * multiplier));
-    output.textContent = `£${price.toLocaleString('en-GB')}`;
-  }
-  [type, width, height, finish].forEach(el => el?.addEventListener('input', calculate));
-  calculate();
+  const slides=[...document.querySelectorAll('[data-slide]')],dots=[...document.querySelectorAll('[data-dot]')];
+  let active=0,timer;
+  function show(i){active=(i+slides.length)%slides.length;slides.forEach((s,n)=>s.classList.toggle('active',n===active));dots.forEach((d,n)=>d.classList.toggle('active',n===active));}
+  function restart(){clearInterval(timer);timer=setInterval(()=>show(active+1),5000);}
+  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();show(active+1);restart()}));
+  document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();show(active-1);restart()}));
+  dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);restart()})); if(slides.length){show(0);restart()}
+  const toggle=document.querySelector('#estimateToggle'),calc=document.querySelector('#calculator');
+  toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});
+  const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),finish=document.querySelector('#finish'),output=document.querySelector('#estimatePrice');
+  const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,neon:300,lightbox:250,rgb:350};
+  function calculate(){const area=Math.max(0,Number(width?.value||0)*Number(height?.value||0));const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
+  [type,width,height,finish].forEach(el=>el?.addEventListener('input',calculate));calculate();
 </script>
 
 <style>
-  :global(*) { box-sizing:border-box; }
-  :global(body) { overflow-x:hidden; }
-  main { overflow:hidden; }
-  .hero { position:relative; min-height:calc(100svh - 61px); display:grid; align-items:center; grid-template-columns:1fr; gap:34px; width:min(1180px,92%); margin:auto; padding:54px 0 74px; }
-  .hero-copy { position:relative; z-index:2; }
-  .hero-kicker,.eyebrow { color:#e62935; font-size:10px; font-weight:900; letter-spacing:3px; }
-  .hero-kicker { display:flex; align-items:center; gap:9px; margin-bottom:17px; }
-  .hero-kicker span { width:28px; height:1px; background:#e62935; }
-  h1 { margin:0; max-width:900px; font-size:clamp(45px,12vw,105px); line-height:.88; letter-spacing:-5px; }
-  h1 em { display:inline; color:#e62935; font-style:normal; }
-  .estimate-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:0; border:0; background:none; color:#fff; text-align:left; cursor:pointer; font:inherit; }
-  .estimate-toggle span { max-width:700px; font-size:clamp(30px,5vw,52px); line-height:1; font-weight:800; letter-spacing:-2px; }
-  .estimate-toggle b { flex:0 0 auto; width:42px; height:42px; display:grid; place-items:center; border:1px solid #e62935; color:#e62935; font-size:25px; font-weight:400; transition:transform .3s,background .3s,color .3s; }
-  .estimate-toggle.open b { transform:rotate(45deg); background:#e62935; color:#fff; }
-  .calculator { max-height:0; overflow:hidden; opacity:0; transform:translateY(-12px); transition:max-height .55s ease,opacity .35s ease,transform .55s ease; pointer-events:none; }
-  .calculator.open { max-height:900px; opacity:1; transform:translateY(0); margin-top:28px; pointer-events:auto; }
-  .hero-copy > p:not(.hero-kicker) { max-width:520px; color:#aaa; font-size:15px; line-height:1.65; margin:22px 0 0; }
-  .hero-actions { display:flex; align-items:center; flex-wrap:wrap; gap:20px; margin-top:28px; }
-  .primary-button { display:inline-block; background:#e62935; color:#fff; padding:15px 20px; border-radius:4px; text-decoration:none; font-size:11px; font-weight:900; letter-spacing:1.5px; box-shadow:0 12px 40px rgba(230,41,53,.2); }
-  .text-button { color:#fff; text-decoration:none; font-size:10px; font-weight:800; letter-spacing:1.3px; }
-  .text-button span { color:#e62935; margin-left:5px; }
-  .hero-visual { position:relative; min-height:290px; }
-  .visual-glow { position:absolute; inset:15% 10%; background:radial-gradient(circle,rgba(230,41,53,.2),transparent 65%); filter:blur(22px); }
-  .hero-frame { position:relative; height:290px; border:1px solid #2b2b31; background:#101014; overflow:hidden; box-shadow:0 25px 80px rgba(0,0,0,.5); }
-  .hero-slide { position:absolute; inset:0; opacity:0; transform:scale(1.04); transition:opacity .7s ease,transform 1.4s ease; }
-  .hero-slide.active { opacity:1; transform:scale(1); }
-  .hero-slide img { width:100%; height:100%; object-fit:cover; }
-  .slide-label { position:absolute; left:15px; bottom:15px; display:flex; gap:10px; align-items:center; background:rgba(8,8,9,.8); padding:10px 12px; font-size:10px; font-weight:900; letter-spacing:1.2px; }
-  .slide-label span { color:#e62935; }
-  .slide-dots { position:absolute; right:14px; bottom:14px; display:flex; gap:5px; }
-  .slide-dots button { width:24px; height:3px; border:0; padding:0; background:#555; }
-  .slide-dots button.active { background:#e62935; }
-  .scroll-note { position:absolute; bottom:22px; left:0; color:#666; font-size:8px; letter-spacing:2px; }
-  .scroll-note span { color:#e62935; }
-  .intro-strip { border-top:1px solid #202024; border-bottom:1px solid #202024; padding:19px 4%; display:flex; justify-content:space-between; gap:20px; color:#888; font-size:11px; letter-spacing:.2px; }
-  .intro-strip strong { color:#fff; }
-  .intro-strip a { color:#e62935; text-decoration:none; font-weight:900; font-size:9px; letter-spacing:1px; white-space:nowrap; }
-  .section { width:min(1180px,92%); margin:auto; padding:82px 0; }
-  .section-head { display:flex; justify-content:space-between; align-items:end; gap:40px; margin-bottom:30px; }
-  .eyebrow { margin:0 0 13px; }
-  h2 { margin:0; font-size:clamp(37px,7vw,70px); line-height:.95; letter-spacing:-3px; }
-  .section-copy { max-width:340px; color:#777; font-size:13px; line-height:1.65; margin:0; }
-  .sign-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
-  .sign-card { background:#111115; border:1px solid #242429; transition:transform .25s,border-color .25s; }
-  .sign-card:hover { transform:translateY(-3px); border-color:#e62935; }
-  .card-image { position:relative; aspect-ratio:1.18; overflow:hidden; background:#17171c; }
-  .card-image img { width:100%; height:100%; object-fit:cover; transition:transform .45s; }
-  .sign-card:hover img { transform:scale(1.04); }
-  .card-image > span { position:absolute; top:11px; left:11px; padding:5px 7px; background:rgba(8,8,9,.75); color:#e62935; font-size:9px; font-weight:900; }
-  .card-bottom { display:flex; align-items:center; justify-content:space-between; padding:15px; }
-  .card-bottom h3 { margin:0; font-size:15px; }
-  .card-bottom span { color:#777; font-size:9px; font-weight:900; letter-spacing:1px; }
-  .estimate-section { background:#111115; border-top:1px solid #222228; border-bottom:1px solid #222228; }
-  .estimate-shell { width:min(1180px,92%); margin:auto; padding:76px 0; display:grid; grid-template-columns:.9fr 1.1fr; gap:55px; align-items:start; }
-  .estimate-intro h2 { max-width:560px; }
-  .estimate-intro > p:last-child { max-width:450px; color:#777; font-size:13px; line-height:1.7; }
-  .calculator { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:18px; border:1px solid #29292f; background:#0b0b0d; }
-  .field { display:grid; gap:7px; }
-  .field label { color:#777; font-size:9px; font-weight:900; letter-spacing:1.5px; }
-  .field small { color:#444; }
-  .field input,.field select { width:100%; border:1px solid #29292f; background:#151519; color:#fff; padding:13px 11px; border-radius:3px; outline:none; font:inherit; }
-  .field input:focus,.field select:focus { border-color:#e62935; }
-  .estimate-output { grid-column:1/-1; border-top:1px solid #29292f; margin-top:5px; padding-top:18px; display:grid; gap:5px; }
-  .estimate-output span { color:#777; font-size:8px; letter-spacing:1.8px; }
-  .estimate-output strong { color:#e62935; font-size:38px; letter-spacing:-1px; }
-  .estimate-output small { color:#555; line-height:1.5; }
-  .calculator-button { grid-column:1/-1; text-align:center; color:#fff; background:#e62935; text-decoration:none; padding:14px; font-size:10px; font-weight:900; letter-spacing:1.2px; }
-  .project-empty { min-height:280px; border:1px dashed #2c2c31; display:grid; place-items:center; align-content:center; gap:10px; color:#555; text-align:center; padding:30px; }
-  .project-empty strong { color:#999; font-size:11px; letter-spacing:2px; }
-  .project-empty span { font-size:12px; }
-  .empty-mark { display:grid; place-items:center; width:50px; height:50px; border:1px solid #e62935; color:#e62935; font-size:25px; }
-  .shop-section { background:#101014; border-top:1px solid #1e1e23; }
-  .shop-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
-  .shop-card { position:relative; min-height:180px; overflow:hidden; border:1px solid #242429; background:#151519; }
-  .shop-card img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55; }
-  .shop-card > div { position:relative; z-index:1; min-height:180px; padding:17px; display:flex; flex-direction:column; justify-content:flex-end; background:linear-gradient(transparent 30%,rgba(8,8,9,.95)); }
-  .shop-card span { color:#e62935; font-size:8px; font-weight:900; }
-  .shop-card h3 { margin:5px 0 12px; font-size:17px; }
-  .shop-card b { color:#888; font-size:8px; letter-spacing:1.2px; }
-  .final-cta { width:min(1180px,92%); margin:auto; text-align:center; padding:100px 0 120px; }
-  .final-cta h2 { margin-bottom:25px; }
-  .final-cta .eyebrow { margin-bottom:15px; }
-  @media(min-width:760px) {
-    .hero { grid-template-columns:1.15fr .85fr; min-height:calc(100svh - 61px); gap:70px; }
-    .hero-visual { min-height:440px; }
-    .hero-frame { height:440px; }
-    .sign-grid { grid-template-columns:repeat(3,1fr); }
-    .sign-card.featured { grid-column:span 2; }
-    .shop-grid { grid-template-columns:repeat(5,1fr); }
-    .shop-card,.shop-card > div { min-height:260px; }
-  }
-  @media(max-width:700px) {
-    .hero { padding-top:46px; }
-    h1 { white-space:nowrap; font-size:clamp(30px,8.6vw,48px); letter-spacing:-2.6px; }
-    .estimate-toggle span { font-size:clamp(27px,7.8vw,34px); letter-spacing:-1.2px; }
-    .hero-copy > p:not(.hero-kicker) { font-size:14px; }
-    .hero-visual { min-height:250px; }
-    .hero-frame { height:250px; }
-    .scroll-note { display:none; }
-    .intro-strip { align-items:flex-start; flex-direction:column; }
-    .section { padding:62px 0; }
-    .section-head { display:block; margin-bottom:24px; }
-    .section-copy { margin-top:14px; }
-    .estimate-shell { display:block; padding:62px 0; }
-    .estimate-intro { margin-bottom:0; }
-  }
-  @media(max-width:390px) {
-    .hero-actions { gap:14px; }
-    .primary-button { padding:13px 16px; }
-    .sign-grid { grid-template-columns:1fr; }
-    .shop-grid { grid-template-columns:1fr; }
-    .calculator { grid-template-columns:1fr; }
-    .estimate-output,.calculator-button { grid-column:auto; }
-  }
+  :global(*){box-sizing:border-box}:global(body){overflow-x:hidden;background:#050708}main{overflow:hidden}
+  .hero{width:min(1200px,94%);margin:auto;padding:20px 0 32px}.hero-heading{text-align:center;padding:0 0 18px}
+  h1{margin:0;font-size:clamp(42px,7vw,82px);line-height:.95;letter-spacing:-4px;font-weight:950;white-space:nowrap}h1 em,.section-title-row h2 em,.shop-section h2 em{font-style:normal;color:#ff1730}
+  .hero-heading p{margin:12px 0 0;color:#ddd;font-size:14px;letter-spacing:7px;font-weight:700}.hero-heading i{display:inline-block;width:3px;height:16px;margin:0 13px;background:#ff1730;vertical-align:-3px}
+  .hero-slider{position:relative;aspect-ratio:16/7;border:1px solid #34383c;border-radius:18px;overflow:hidden;background:#121518}.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s}.hero-slide.active{opacity:1}.hero-slide img{width:100%;height:100%;display:block;object-fit:cover}
+  .slider-arrow{position:absolute;top:50%;transform:translateY(-50%);width:58px;height:58px;border:2px solid rgba(255,255,255,.8);border-radius:50%;background:rgba(0,0,0,.4);color:#fff;font-size:50px;line-height:45px;cursor:pointer}.slider-arrow.left{left:18px}.slider-arrow.right{right:18px}
+  .slider-dots{position:absolute;left:50%;bottom:15px;transform:translateX(-50%);display:flex;gap:10px;padding:8px 15px;border-radius:20px;background:rgba(0,0,0,.7)}.slider-dots button{width:15px;height:15px;border:0;border-radius:50%;background:#555;cursor:pointer}.slider-dots button.active{background:#ff1730}
+  .content-section{width:min(1200px,94%);margin:auto;padding:20px 0 34px}.section-title-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px}.section-title-row h2{margin:0;font-size:clamp(32px,5vw,54px);letter-spacing:-2px;line-height:1}
+  .section-title-row a{border:2px solid #ff1730;border-radius:28px;padding:12px 20px;color:#fff;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.5px;box-shadow:0 0 18px rgba(255,23,48,.16)}.section-title-row a span{color:#ff1730;font-size:18px;margin-left:6px}
+  .shop-section .section-title-row{align-items:end}.shop-section h2{margin:0}.shop-section p{margin:7px 0 0;color:#eee;letter-spacing:4px;font-size:12px;font-weight:800}
+  .sign-grid,.shop-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.sign-card,.shop-card{min-width:0}
+  .sign-image,.shop-card{position:relative;aspect-ratio:1/1.05;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.sign-image img,.shop-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}.sign-card:hover img,.shop-card:hover img{transform:scale(1.05)}
+  .image-shade,.shop-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.85) 100%)}.sign-image h3,.shop-overlay h3{position:absolute;bottom:14px;left:16px;right:10px;margin:0;color:#fff;font-size:15px;font-weight:900;text-transform:uppercase}
+  .estimate-section{width:min(1120px,92%);margin:5px auto 20px;padding:3px;border:2px solid #ff1730;border-radius:20px;background:linear-gradient(110deg,#ff1730,#b00018 55%,#ff1730);box-shadow:0 0 35px rgba(255,23,48,.28)}
+  .estimate-toggle{width:100%;display:grid;grid-template-columns:85px 1fr 45px;align-items:center;gap:18px;padding:25px 42px;border:0;border-radius:16px;background:#9d071a;color:#fff;text-align:left;cursor:pointer}.estimate-icon{font-size:55px;line-height:1;text-align:center}.estimate-text{display:grid;gap:8px}.estimate-text small{font-size:12px;letter-spacing:4px;font-weight:800}.estimate-text strong{font-size:30px;line-height:1.05}.estimate-toggle>b{font-size:52px;font-weight:300;text-align:center;transition:transform .3s}.estimate-toggle[aria-expanded=true]>b{transform:rotate(90deg)}
+  .calculator{display:none;grid-template-columns:repeat(2,1fr);gap:12px;padding:25px;background:#0b0d0e;border-radius:0 0 16px 16px}.calculator.open{display:grid}.field{display:grid;gap:7px}.field label{font-size:9px;color:#888;font-weight:900;letter-spacing:1.5px}.field input,.field select{width:100%;padding:13px;border:1px solid #303437;background:#15191b;color:#fff;border-radius:4px}.estimate-output{grid-column:1/-1;padding-top:15px;border-top:1px solid #303437}.estimate-output span{font-size:9px;color:#888;letter-spacing:2px}.estimate-output strong{display:block;color:#ff1730;font-size:38px;margin-top:5px}.quote-button{grid-column:1/-1;padding:15px;text-align:center;background:#ff1730;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1.5px}
+  .shop-section{padding-top:12px}.shop-card{aspect-ratio:1/.98}.shop-overlay{background:linear-gradient(transparent 45%,rgba(0,0,0,.9) 100%)}
+  .benefits{width:min(1200px,94%);margin:0 auto;padding:34px 0 25px;border-top:1px solid #303437;display:grid;grid-template-columns:repeat(4,1fr)}.benefits div{display:grid;grid-template-columns:42px 1fr;column-gap:10px;padding:0 25px;border-right:1px solid #303437}.benefits div:last-child{border:0}.benefits b{grid-row:span 2;color:#ff1730;font-size:30px}.benefits strong{font-size:12px}.benefits span{color:#888;font-size:10px;margin-top:3px}
+  .real-work{padding-top:60px}
+  @media(max-width:760px){.hero{width:94%;padding-top:18px}.hero-heading{padding-bottom:15px}h1{font-size:clamp(30px,8.3vw,52px);letter-spacing:-2px}.hero-heading p{font-size:9px;letter-spacing:4px}.hero-heading i{height:11px;width:2px;margin:0 7px}.hero-slider{aspect-ratio:1.55;border-radius:12px}.slider-arrow{width:44px;height:44px;font-size:38px;line-height:34px}.slider-arrow.left{left:9px}.slider-arrow.right{right:9px}.slider-dots{bottom:8px;gap:6px;padding:6px 10px}.slider-dots button{width:9px;height:9px}.content-section{width:94%;padding:18px 0 28px}.section-title-row{margin-bottom:12px}.section-title-row h2{font-size:31px}.section-title-row a{padding:9px 12px;font-size:9px;white-space:nowrap}.sign-grid,.shop-grid{grid-template-columns:repeat(2,1fr);gap:10px}.sign-image,.shop-card{border-radius:9px;aspect-ratio:1/.95}.sign-image h3,.shop-overlay h3{font-size:11px;left:10px;bottom:9px}.sign-grid .sign-card:last-child{grid-column:1/-1}.estimate-section{width:94%;border-radius:15px}.estimate-toggle{grid-template-columns:45px 1fr 30px;padding:19px 17px;gap:10px;border-radius:12px}.estimate-icon{font-size:32px}.estimate-text small{font-size:8px;letter-spacing:2px}.estimate-text strong{font-size:18px}.estimate-toggle>b{font-size:38px}.calculator{grid-template-columns:1fr;padding:15px}.estimate-output,.quote-button{grid-column:auto}.benefits{width:94%;grid-template-columns:repeat(2,1fr);gap:18px 0}.benefits div{padding:0 12px;border-right:0}.benefits div:nth-child(odd){border-right:1px solid #303437}}
 </style>

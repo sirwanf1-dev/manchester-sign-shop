@@ -84,7 +84,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
     let position=0, railTimer;
     const getStep=()=>cards[0]?.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).gap || '0');
     const move=()=>{
-      const visibleCards=3;
+      const visibleCards=2;
       const max=Math.max(0,cards.length-visibleCards);
       if(position >= max){
         rail.style.transition='none';
@@ -95,7 +95,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
         }));
         return;
       }
-      position++;
+      position=Math.min(position+2,max);
       rail.style.transform=`translate3d(-${position*getStep()}px,0,0)`;
     };
     const start=()=>{
@@ -220,7 +220,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       white-space:nowrap;
     }
 
-    /* Small automatic card carousel: two compact cards visible, no horizontal page scrolling. */
+    /* Small automatic card carousel: exactly two compact cards visible. */
     .sign-grid,
     .shop-grid{
       display:flex;
@@ -234,8 +234,8 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
     }
     .sign-card,
     .shop-card{
-      flex:0 0 calc((100% - 20px)/3);
-      width:calc((100% - 20px)/3);
+      flex:0 0 calc((100% - 10px)/2);
+      width:calc((100% - 10px)/2);
     }
     .sign-image,
     .shop-card{

@@ -196,13 +196,19 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
     }
     .sign-card,
     .shop-card{
-      min-width:0;
-      width:auto;
+      display:block !important;
+      min-width:0 !important;
+      width:100% !important;
+      height:auto !important;
       transform:none !important;
     }
     .sign-image,
     .shop-card{
-      aspect-ratio:1.18/1;
+      display:block !important;
+      width:100% !important;
+      height:auto !important;
+      min-height:140px !important;
+      aspect-ratio:1.18/1 !important;
       border-radius:10px;
     }
     .sign-image h3,

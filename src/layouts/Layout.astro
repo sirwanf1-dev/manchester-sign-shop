@@ -1,27 +1,24 @@
 ---
-const { title = 'Manchester Sign Shop' } = Astro.props;
+const { title = 'Manchester Sign Group' } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#080809" />
-    <meta name="description" content="Manchester Sign Shop — signs, lighting and sign-making supplies." />
+    <meta name="theme-color" content="#050708" />
+    <meta name="description" content="Manchester Sign Group — signs, supplies and everything you need." />
     <title>{title}</title>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/manchester-sign-shop/" aria-label="Manchester Sign Shop home">
-        <span class="brand-mark">MS</span>
-        <span>Manchester Sign Shop</span>
-      </a>
-      <a class="header-order" href="#estimate">ORDER NOW</a>
+      <button class="menu-button" type="button" aria-label="Open menu"><span></span><span></span><span></span></button>
+      <a class="header-order" href="#estimate">ORDER NOW <span>→</span></a>
     </header>
     <slot />
     <footer class="site-footer">
-      <span>MANCHESTER SIGN SHOP</span>
-      <span>Signs • Lighting • Supplies</span>
+      <span>MANCHESTER SIGN GROUP</span>
+      <span>SIGNS • SUPPLIES • EVERYTHING YOU NEED</span>
     </footer>
   </body>
 </html>
@@ -29,72 +26,12 @@ const { title = 'Manchester Sign Shop' } = Astro.props;
 <style>
   :global(*) { box-sizing:border-box; }
   :global(html) { scroll-behavior:smooth; }
-  :global(body) {
-    margin:0;
-    background:#080809;
-    color:#f7f7f8;
-    font-family:Arial,Helvetica,sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  .site-header {
-    position:sticky;
-    top:0;
-    z-index:100;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:18px;
-    width:100%;
-    padding:14px 4%;
-    background:rgba(8,8,9,.82);
-    border-bottom:1px solid rgba(255,255,255,.07);
-    backdrop-filter:blur(16px);
-  }
-  .brand {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:#fff;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:800;
-    letter-spacing:.4px;
-    text-transform:uppercase;
-  }
-  .brand-mark {
-    display:grid;
-    place-items:center;
-    width:32px;
-    height:32px;
-    border-radius:8px;
-    background:#e62935;
-    color:#fff;
-    font-size:11px;
-  }
-  .header-order {
-    color:#fff;
-    background:#e62935;
-    padding:10px 14px;
-    border-radius:5px;
-    text-decoration:none;
-    font-size:11px;
-    font-weight:900;
-    letter-spacing:1.2px;
-  }
-  .site-footer {
-    display:flex;
-    justify-content:space-between;
-    gap:20px;
-    padding:28px 4%;
-    border-top:1px solid #1c1c20;
-    color:#777;
-    font-size:10px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-  }
-  @media(max-width:600px) {
-    .brand span:last-child { display:none; }
-    .site-header { padding:12px 18px; }
-    .site-footer { flex-direction:column; }
-  }
+  :global(body) { margin:0; background:#050708; color:#f7f7f8; font-family:Arial,Helvetica,sans-serif; -webkit-font-smoothing:antialiased; }
+  .site-header { height:94px; position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 3.5%; background:rgba(5,7,8,.88); border-bottom:1px solid rgba(255,255,255,.12); backdrop-filter:blur(18px); }
+  .menu-button { width:52px; height:48px; display:flex; flex-direction:column; justify-content:center; gap:7px; padding:0; border:0; background:transparent; cursor:pointer; }
+  .menu-button span { display:block; width:41px; height:4px; border-radius:3px; background:#fff; }
+  .header-order { display:flex; align-items:center; gap:10px; padding:17px 28px; border-radius:12px; background:#ff1730; color:#fff; text-decoration:none; font-size:16px; font-weight:900; letter-spacing:.4px; box-shadow:0 0 28px rgba(255,23,48,.28); }
+  .header-order span { font-size:22px; line-height:1; }
+  .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 4%; border-top:1px solid #202326; color:#777; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
+  @media(max-width:600px){ .site-header{height:82px;padding:0 20px}.menu-button{width:42px}.menu-button span{width:36px;height:3px}.header-order{padding:14px 19px;border-radius:9px;font-size:13px}.header-order span{font-size:18px}.site-footer{flex-direction:column} }
 </style>

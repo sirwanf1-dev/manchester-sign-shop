@@ -84,7 +84,8 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
     let position=0, railTimer;
     const getStep=()=>cards[0]?.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).gap || '0');
     const move=()=>{
-      const max=Math.max(0,cards.length-2);
+      const visibleCards=3;
+      const max=Math.max(0,cards.length-visibleCards);
       if(position >= max){
         rail.style.transition='none';
         position=0;
@@ -233,8 +234,8 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
     }
     .sign-card,
     .shop-card{
-      flex:0 0 calc((100% - 10px)/2);
-      width:calc((100% - 10px)/2);
+      flex:0 0 calc((100% - 20px)/3);
+      width:calc((100% - 20px)/3);
     }
     .sign-image,
     .shop-card{

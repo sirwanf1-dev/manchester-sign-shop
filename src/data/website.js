@@ -8,7 +8,7 @@ export const signCategories = [
 
 export const shopProducts = [
   { title: 'Ceiling Panels', image: '/manchester-sign-shop/images/shop/ceiling-panels.svg' },
-  { title: 'Glue & Adhesives', image: '/manchester-sign-shop/images/shop/glue-adhesives.svg' },
+  { title: 'Glue & Adhesives', image: '/manchester-sign-shop/images/shop/glue-adhesives-v2.svg' },
   { title: 'RGB Lights', image: '/manchester-sign-shop/images/shop/rgb-lights.svg' },
   { title: 'White Lights', image: '/manchester-sign-shop/images/shop/white-lights.svg' },
   { title: 'Power Supplies', image: '/manchester-sign-shop/images/shop/power-supplies.svg' }

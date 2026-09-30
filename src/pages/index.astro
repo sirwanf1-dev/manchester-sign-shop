@@ -77,45 +77,6 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();show(active-1);restart()}));
   dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);restart()})); if(slides.length){show(0);restart()}
 
-  function setupMobileRail(selector){
-    const rail=document.querySelector(selector);
-    if(!rail) return;
-    const cards=[...rail.children];
-    let position=0, railTimer;
-    const getStep=()=>cards[0]?.getBoundingClientRect().width + parseFloat(getComputedStyle(rail).gap || '0');
-    const move=()=>{
-      const visibleCards=2;
-      const max=Math.max(0,cards.length-visibleCards);
-      if(position >= max){
-        rail.style.transition='none';
-        position=0;
-        rail.style.transform='translate3d(0,0,0)';
-        requestAnimationFrame(()=>requestAnimationFrame(()=>{
-          rail.style.transition='transform .65s ease';
-        }));
-        return;
-      }
-      position=Math.min(position+2,max);
-      rail.style.transform=`translate3d(-${position*getStep()}px,0,0)`;
-    };
-    const start=()=>{
-      clearInterval(railTimer);
-      railTimer=setInterval(move,2800);
-    };
-    const reset=()=>{
-      position=0;
-      rail.style.transition='none';
-      rail.style.transform='translate3d(0,0,0)';
-      requestAnimationFrame(()=>rail.style.transition='transform .65s ease');
-      start();
-    };
-    window.addEventListener('resize',reset);
-    start();
-  }
-
-  setupMobileRail('.sign-grid');
-  setupMobileRail('.shop-grid');
-
   const toggle=document.querySelector('#estimateToggle'),calc=document.querySelector('#calculator');
   toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});
   const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),finish=document.querySelector('#finish'),output=document.querySelector('#estimatePrice');
@@ -220,22 +181,18 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       white-space:nowrap;
     }
 
-    /* Small automatic card carousel: exactly two compact cards visible. */
+    /* Mobile cards stay still: two cards per row, all products remain visible. */
     .sign-grid,
     .shop-grid{
-      display:flex;
-      overflow:hidden;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:10px;
       padding:0 16px 8px;
-      touch-action:pan-y;
-      transform:translate3d(0,0,0);
-      transition:transform .65s ease;
-      will-change:transform;
     }
     .sign-card,
     .shop-card{
-      flex:0 0 calc((100% - 10px)/2);
-      width:calc((100% - 10px)/2);
+      min-width:0;
+      width:auto;
     }
     .sign-image,
     .shop-card{
@@ -254,11 +211,6 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       object-fit:cover;
     }
     .sign-grid .sign-card:last-child{grid-column:auto}
-
-    @media (prefers-reduced-motion: reduce){
-      .sign-grid,
-      .shop-grid{transition:none}
-    }
 
     /* The estimate becomes a compact, thumb-friendly action bar. */
     .estimate-section{

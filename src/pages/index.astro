@@ -304,7 +304,18 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       padding-top:8px;
     }
     .shop-section .section-title-row{
-      align-items:flex-end;
+      align-items:center;
+    }
+    .shop-section .section-title-row a{
+      min-width:190px;
+      min-height:58px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 16px;
+      font-size:11px;
+      text-align:center;
     }
     .shop-section p{
       margin-top:5px;
@@ -314,21 +325,34 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
 
     .benefits{
       width:100%;
-      padding:24px 16px 18px;
-      grid-template-columns:1fr 1fr;
+      padding:18px 10px 14px;
+      grid-template-columns:repeat(4,minmax(0,1fr));
       gap:0;
     }
     .benefits div{
-      min-height:70px;
-      padding:10px 10px;
+      min-height:42px;
+      padding:6px 3px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
       border-right:1px solid #303437;
-      border-bottom:1px solid #303437;
+      border-bottom:0;
+      text-align:center;
     }
-    .benefits div:nth-child(even){border-right:0}
-    .benefits div:nth-child(n+3){border-bottom:0}
-    .benefits b{font-size:24px}
-    .benefits strong{font-size:10px}
-    .benefits span{font-size:8px}
+    .benefits div:last-child{border-right:0}
+    .benefits b{
+      font-size:13px;
+      line-height:1;
+      flex:0 0 auto;
+    }
+    .benefits strong{
+      font-size:7px;
+      line-height:1;
+      white-space:nowrap;
+      letter-spacing:.1px;
+    }
+    .benefits span{display:none}
 
     .real-work{padding-top:36px}
   }

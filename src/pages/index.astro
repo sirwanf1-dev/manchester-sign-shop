@@ -1,0 +1,110 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LightboxGallery from '../components/LightboxGallery.astro';
+import { signCategories, shopProducts } from '../data/website.js';
+
+const realImages = [];
+for (let i = 1; i <= 10; i++) {
+  const url = `/manchester-sign-shop/images/real-images/real-image-${i}.jpg`;
+  try {
+    const response = await fetch(new URL(`.${url}`, Astro.site ?? Astro.url.origin));
+    if (response.ok) realImages.push(url);
+  } catch {}
+}
+---
+
+<Layout>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">MANCHESTER SIGN SHOP</p>
+      <h1><span>Professional Signs.</span> <strong>Built to Stand Out.</strong></h1>
+      <p class="intro">Signs, lighting and sign-making supplies for businesses and sign makers.</p>
+      <a class="button" href="#estimate">ORDER NOW</a>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">OUR SIGNS</p>
+      <h2>Made for your business.</h2>
+      <div class="cards">
+        {signCategories.map(item => <article><img src={item.image} alt={item.title} /><h3>{item.title}</h3></article>)}
+      </div>
+    </section>
+
+    <section class="section projects">
+      <p class="eyebrow">OUR WORK</p>
+      <h2>Recent projects.</h2>
+      {realImages.length ? <LightboxGallery images={realImages} /> : <div class="empty">Your real project photos will appear here automatically.</div>}
+    </section>
+
+    <section class="estimate" id="estimate">
+      <button class="estimate-toggle" type="button" aria-expanded="false">Get an estimated price for your sign.</button>
+      <div class="calculator" hidden>
+        <label>Sign type<select><option>Flat Sign</option><option>3D Sign</option><option>Neon</option><option>Lightbox Sign</option><option>RGB Sign</option></select></label>
+        <label>Width (mm)<input type="number" min="1" value="1000" /></label>
+        <label>Height (mm)<input type="number" min="1" value="500" /></label>
+        <p class="estimate-result">Estimated price: <strong>Contact us</strong></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">SHOP</p>
+      <h2>Sign-making supplies.</h2>
+      <div class="cards shop">
+        {shopProducts.map(item => <article><img src={item.image} alt={item.title} /><h3>{item.title}</h3></article>)}
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  const toggle = document.querySelector('.estimate-toggle');
+  const calculator = document.querySelector('.calculator');
+  toggle?.addEventListener('click', () => {
+    const open = !calculator?.hasAttribute('hidden');
+    if (open) {
+      calculator?.setAttribute('hidden', '');
+      toggle.setAttribute('aria-expanded', 'false');
+    } else {
+      calculator?.removeAttribute('hidden');
+      toggle.setAttribute('aria-expanded', 'true');
+      calculator?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+</script>
+
+<style>
+  :global(*) { box-sizing:border-box; }
+  :global(html) { scroll-behavior:smooth; }
+  :global(body) { margin:0; background:#0b0b0d; color:#f5f5f5; font-family:Arial,Helvetica,sans-serif; }
+  main { overflow:hidden; }
+  .hero,.section,.estimate { width:min(1100px,92%); margin:auto; }
+  .hero { min-height:82vh; display:flex; flex-direction:column; justify-content:center; padding:70px 0; }
+  .eyebrow { color:#e52b36; font-size:11px; font-weight:800; letter-spacing:3px; margin:0 0 16px; }
+  h1 { font-size:clamp(42px,8vw,92px); line-height:.94; letter-spacing:-4px; max-width:950px; margin:0; }
+  h1 strong { color:#e52b36; }
+  .intro { color:#aaa; max-width:560px; font-size:18px; line-height:1.6; }
+  .button { display:inline-block; width:max-content; padding:15px 24px; border:1px solid #e52b36; color:#fff; text-decoration:none; font-weight:800; margin-top:14px; }
+  .section { padding:80px 0; }
+  h2 { font-size:clamp(34px,6vw,62px); margin:0 0 28px; letter-spacing:-2px; }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .cards article { background:#151519; border:1px solid #25252b; overflow:hidden; }
+  .cards img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; }
+  .cards h3 { margin:0; padding:18px; font-size:20px; }
+  .estimate { padding:20px 0 80px; }
+  .estimate-toggle { width:100%; border:0; background:#e52b36; color:white; padding:22px; font-size:18px; font-weight:800; text-align:left; cursor:pointer; }
+  .calculator { margin-top:12px; display:grid; grid-template-columns:repeat(3,1fr); gap:14px; background:#151519; padding:20px; border:1px solid #25252b; }
+  .calculator label { display:grid; gap:8px; color:#aaa; font-size:13px; }
+  .calculator input,.calculator select { background:#0b0b0d; color:#fff; border:1px solid #333; padding:12px; }
+  .estimate-result { grid-column:1/-1; font-size:20px; }
+  .empty { padding:60px 20px; text-align:center; border:1px dashed #333; color:#777; }
+  @media(max-width:700px) {
+    .hero { min-height:72vh; padding:45px 0; }
+    h1 { font-size:clamp(38px,10vw,52px); letter-spacing:-2px; white-space:nowrap; }
+    .intro { font-size:14px; }
+    .section { padding:55px 0; }
+    .cards { grid-template-columns:1fr 1fr; }
+    .cards h3 { font-size:16px; padding:13px; }
+    .calculator { grid-template-columns:1fr; }
+    .estimate-result { grid-column:auto; }
+  }
+</style>

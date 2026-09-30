@@ -188,11 +188,17 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       grid-template-columns:repeat(2,minmax(0,1fr));
       gap:10px;
       padding:0 16px 8px;
+      width:100%;
+      overflow:visible !important;
+      transform:none !important;
+      transition:none !important;
+      will-change:auto !important;
     }
     .sign-card,
     .shop-card{
       min-width:0;
       width:auto;
+      transform:none !important;
     }
     .sign-image,
     .shop-card{

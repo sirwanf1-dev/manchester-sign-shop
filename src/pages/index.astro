@@ -53,7 +53,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
     </section>
 
     <section class="content-section shop-section" id="shop">
-      <div class="section-title-row"><div><h2><em>SHOP</em></h2><p>SIGN MAKING SUPPLIES</p></div><a href="#shop">VIEW ALL PRODUCTS <span>→</span></a></div>
+      <div class="section-title-row"><div><h2><em>SHOP</em></h2><p>SIGN MAKING SUPPLIES</p></div><a href="#shop">ORDER NOW <span>→</span></a></div>
       <div class="shop-grid">{shopProducts.map(item=><article class="shop-card"><img src={item.image} alt={item.title} loading="lazy" /><div class="shop-overlay"><h3>{item.title}</h3></div></article>)}</div>
     </section>
 
@@ -153,21 +153,22 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       padding:14px 0 22px;
     }
     .hero-heading{
-      text-align:left;
-      padding:0 16px 14px;
+      text-align:center;
+      padding:0 12px 14px;
     }
     h1{
-      font-size:clamp(28px,8.2vw,38px);
-      line-height:.98;
-      letter-spacing:-1.8px;
+      font-size:clamp(25px,7.2vw,31px);
+      line-height:1;
+      letter-spacing:.6px;
       white-space:nowrap;
     }
     .hero-heading p{
-      margin-top:9px;
+      margin-top:10px;
       font-size:8px;
       letter-spacing:2.8px;
       line-height:1.4;
       white-space:nowrap;
+      text-align:center;
     }
     .hero-heading i{
       height:9px;

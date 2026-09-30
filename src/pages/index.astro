@@ -211,6 +211,11 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       bottom:12px;
       font-size:13px;
     }
+    .sign-image img,
+    .shop-card img{
+      transform:scale(1) !important;
+      object-fit:cover;
+    }
     .sign-grid .sign-card:last-child{grid-column:auto}
 
     /* The estimate becomes a compact, thumb-friendly action bar. */

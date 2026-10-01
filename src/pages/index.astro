@@ -38,14 +38,14 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
 
     <section class="estimate-section" id="estimate">
       <button class="estimate-toggle" id="estimateToggle" type="button" aria-expanded="false" aria-controls="calculator">
-        <span class="estimate-icon">▣</span>
+        <span class="estimate-icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><rect x="7" y="4" width="34" height="40" rx="5"></rect><rect x="13" y="10" width="22" height="8" rx="2"></rect><path d="M14 24h4M22 24h4M30 24h4M14 31h4M22 31h4M30 31h4M14 38h4M22 38h4M30 38h4"></path></svg></span>
         <span class="estimate-text"><small>INSTANT SIGN ESTIMATE</small><strong>Get an estimated price for your sign.</strong></span>
         <b>›</b>
       </button>
       <div class="calculator" id="calculator" aria-hidden="true">
         <div class="field"><label>SIGN TYPE</label><select id="signType"><option value="flat">Flat Sign</option><option value="3d">3D Sign</option><option value="neon">Neon</option><option value="lightbox">Lightbox Sign</option><option value="rgb">RGB Sign</option></select></div>
-        <div class="field"><label>WIDTH <small>mm</small></label><input id="width" type="number" min="100" step="50" value="1000" /></div>
-        <div class="field"><label>HEIGHT <small>mm</small></label><input id="height" type="number" min="100" step="50" value="500" /></div>
+        <div class="field"><label>WIDTH <small>cm</small></label><input id="width" type="number" min="10" step="1" value="100" /></div>
+        <div class="field"><label>HEIGHT <small>cm</small></label><input id="height" type="number" min="10" step="1" value="50" /></div>
         <div class="field"><label>FINISH</label><select id="finish"><option value="standard">Standard</option><option value="premium">Premium finish</option></select></div>
         <div class="estimate-output"><span>INDICATIVE STARTING PRICE</span><strong id="estimatePrice">£200</strong></div>
         <a class="quote-button" href="mailto:info@manchestersignshop.co.uk?subject=Sign%20quote%20request">REQUEST A QUOTE →</a>
@@ -81,7 +81,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});
   const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),finish=document.querySelector('#finish'),output=document.querySelector('#estimatePrice');
   const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,'neon':300,'lightbox':250,rgb:350};
-  function calculate(){const area=Math.max(0,Number(width?.value||0)*Number(height?.value||0));const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
+  function calculate(){const widthCm=Math.max(0,Number(width?.value||0));const heightCm=Math.max(0,Number(height?.value||0));const area=widthCm*heightCm*100;const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
   [type,width,height,finish].forEach(el=>el?.addEventListener('input',calculate));calculate();
 
   // Mobile card sliders: show two cards at once and advance one card at a time.
@@ -138,7 +138,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
   .sign-image{position:relative;aspect-ratio:1/1;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.shop-card{position:relative;aspect-ratio:1/1.05;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.sign-image img,.shop-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}.sign-card:hover img,.shop-card:hover img{transform:scale(1.05)}
   .image-shade,.shop-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.85) 100%)}.sign-image h3,.shop-overlay h3{position:absolute;bottom:14px;left:16px;right:10px;margin:0;color:#fff;font-size:15px;font-weight:900;text-transform:uppercase}
   .estimate-section{width:min(1120px,92%);margin:5px auto 20px;padding:3px;border:2px solid #ff1730;border-radius:20px;background:linear-gradient(110deg,#ff1730,#b00018 55%,#ff1730);box-shadow:0 0 35px rgba(255,23,48,.28)}
-  .estimate-toggle{width:100%;display:grid;grid-template-columns:85px 1fr 45px;align-items:center;gap:18px;padding:25px 42px;border:0;border-radius:16px;background:#9d071a;color:#fff;text-align:left;cursor:pointer}.estimate-icon{font-size:55px;line-height:1;text-align:center}.estimate-text{display:grid;gap:8px}.estimate-text small{font-size:12px;letter-spacing:4px;font-weight:800}.estimate-text strong{font-size:30px;line-height:1.05}.estimate-toggle>b{font-size:52px;font-weight:300;text-align:center;transition:transform .3s}.estimate-toggle[aria-expanded=true]>b{transform:rotate(90deg)}
+  .estimate-toggle{width:100%;display:grid;grid-template-columns:85px 1fr 45px;align-items:center;gap:18px;padding:25px 42px;border:0;border-radius:16px;background:#9d071a;color:#fff;text-align:left;cursor:pointer}.estimate-icon{display:flex;align-items:center;justify-content:center;color:#fff}.estimate-icon svg{width:52px;height:52px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.estimate-text{display:grid;gap:8px}.estimate-text small{font-size:12px;letter-spacing:4px;font-weight:800}.estimate-text strong{font-size:30px;line-height:1.05}.estimate-toggle>b{font-size:52px;font-weight:300;text-align:center;transition:transform .3s}.estimate-toggle[aria-expanded=true]>b{transform:rotate(90deg)}
   .calculator{display:none;grid-template-columns:repeat(2,1fr);gap:12px;padding:25px;background:#0b0d0e;border-radius:0 0 16px 16px}.calculator.open{display:grid}.field{display:grid;gap:7px}.field label{font-size:9px;color:#888;font-weight:900;letter-spacing:1.5px}.field input,.field select{width:100%;padding:13px;border:1px solid #303437;background:#15191b;color:#fff;border-radius:4px}.estimate-output{grid-column:1/-1;padding-top:15px;border-top:1px solid #303437}.estimate-output span{font-size:9px;color:#888;letter-spacing:2px}.estimate-output strong{display:block;color:#ff1730;font-size:38px;margin-top:5px}.quote-button{grid-column:1/-1;padding:15px;text-align:center;background:#ff1730;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1.5px}
   .shop-section{padding-top:12px}.shop-card{aspect-ratio:1/.98}.shop-overlay{background:linear-gradient(transparent 45%,rgba(0,0,0,.9) 100%)}
   .benefits{width:min(1200px,94%);margin:0 auto;padding:34px 0 25px;border-top:1px solid #303437;display:grid;grid-template-columns:repeat(4,1fr)}.benefits div{display:grid;grid-template-columns:42px 1fr;column-gap:10px;padding:0 25px;border-right:1px solid #303437}.benefits div:last-child{border:0}.benefits b{grid-row:span 2;color:#ff1730;font-size:30px}.benefits strong{font-size:12px}.benefits span{color:#888;font-size:10px;margin-top:3px}
@@ -288,7 +288,7 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
       padding:16px 14px;
       border-radius:11px;
     }
-    .estimate-icon{font-size:28px}
+    .estimate-icon svg{width:30px;height:30px}
     .estimate-text{gap:5px}
     .estimate-text small{
       font-size:7px;

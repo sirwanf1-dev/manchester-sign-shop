@@ -29,13 +29,6 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
       </div>
     </section>
 
-    <section class="content-section signs-section" id="signs">
-      <div class="section-title-row"><h2>OUR <em>SIGNS</em></h2><a href="#signs">VIEW ALL SIGNS <span>→</span></a></div>
-      <div class="sign-grid">
-        {signCategories.map(item=><article class="sign-card"><div class="sign-image"><img src={item.image} alt={item.title} loading="lazy" /><div class="image-shade"></div><h3>{item.title}</h3></div></article>)}
-      </div>
-    </section>
-
     <section class="estimate-section" id="estimate">
       <button class="estimate-toggle" id="estimateToggle" type="button" aria-expanded="false" aria-controls="calculator">
         <span class="estimate-icon" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><rect x="7" y="4" width="34" height="40" rx="5"></rect><rect x="13" y="10" width="22" height="8" rx="2"></rect><path d="M14 24h4M22 24h4M30 24h4M14 31h4M22 31h4M30 31h4M14 38h4M22 38h4M30 38h4"></path></svg></span>
@@ -83,7 +76,6 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
   function calculate(){const widthCm=Math.max(0,Number(width?.value||0));const heightCm=Math.max(0,Number(height?.value||0));const area=widthCm*heightCm*100;const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
   [type,width,height,finish].forEach(el=>el?.addEventListener('input',calculate));calculate();
 
-  // Mobile card sliders: show two cards at once and advance one card at a time.
   function setupCardSlider(selector){
     const rail=document.querySelector(selector);
     if(!rail) return;
@@ -93,17 +85,11 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
     let timer;
     const step=()=>cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(rail).gap || '0');
     const max=()=>Math.max(0,cards.length-2);
-
     function move(){
       position = position >= max() ? 0 : position + 1;
       rail.scrollTo({left: position * step(), behavior:'smooth'});
     }
-
-    function start(){
-      clearInterval(timer);
-      timer=setInterval(move,3000);
-    }
-
+    function start(){clearInterval(timer);timer=setInterval(move,3000);}
     rail.addEventListener('touchstart',()=>clearInterval(timer),{passive:true});
     rail.addEventListener('touchend',start,{passive:true});
     window.addEventListener('resize',()=>{
@@ -115,7 +101,6 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
   }
 
   if(window.matchMedia('(max-width:760px)').matches){
-    setupCardSlider('.sign-grid');
     setupCardSlider('.shop-grid');
   }
 </script>
@@ -133,9 +118,9 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
   .shop-section .section-title-row{align-items:end}.shop-section h2{margin:0}.shop-section h2 em{color:#b8ff5a}.shop-section p{margin:7px 0 0;color:#eee;letter-spacing:4px;font-size:12px;font-weight:800}
   .shop-section .section-title-row a{border-color:#b8ff5a;box-shadow:0 0 18px rgba(184,255,90,.18)}
   .shop-section .section-title-row a span{color:#b8ff5a}
-  .sign-grid,.shop-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.sign-card,.shop-card{min-width:0}
-  .sign-image{position:relative;aspect-ratio:1/1;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.shop-card{position:relative;aspect-ratio:1/1.05;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.sign-image img,.shop-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}.sign-card:hover img,.shop-card:hover img{transform:scale(1.05)}
-  .image-shade,.shop-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.85) 100%)}.sign-image h3,.shop-overlay h3{position:absolute;bottom:14px;left:16px;right:10px;margin:0;color:#fff;font-size:15px;font-weight:900;text-transform:uppercase}
+  .shop-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.shop-card{min-width:0}
+  .shop-card{position:relative;aspect-ratio:1/1.05;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.shop-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}.shop-card:hover img{transform:scale(1.05)}
+  .shop-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.85) 100%)}.shop-overlay h3{position:absolute;bottom:14px;left:16px;right:10px;margin:0;color:#fff;font-size:15px;font-weight:900;text-transform:uppercase}
   .estimate-section{width:min(1120px,92%);margin:5px auto 20px;padding:3px;border:2px solid #ff1730;border-radius:20px;background:linear-gradient(110deg,#ff1730,#b00018 55%,#ff1730);box-shadow:0 0 35px rgba(255,23,48,.28)}
   .estimate-toggle{width:100%;display:grid;grid-template-columns:85px 1fr 45px;align-items:center;gap:18px;padding:25px 42px;border:0;border-radius:16px;background:#9d071a;color:#fff;text-align:left;cursor:pointer}.estimate-icon{display:flex;align-items:center;justify-content:center;color:#fff}.estimate-icon svg{width:52px;height:52px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.estimate-text{display:grid;gap:8px}.estimate-text small{font-size:12px;letter-spacing:4px;font-weight:800}.estimate-text strong{font-size:30px;line-height:1.05}.estimate-toggle>b{font-size:52px;font-weight:300;text-align:center;transition:transform .3s}.estimate-toggle[aria-expanded=true]>b{transform:rotate(90deg)}
   .calculator{display:none;grid-template-columns:repeat(2,1fr);gap:12px;padding:25px;background:#0b0d0e;border-radius:0 0 16px 16px}.calculator.open{display:grid}.field{display:grid;gap:7px}.field label{font-size:9px;color:#888;font-weight:900;letter-spacing:1.5px}.field input,.field select{width:100%;padding:13px;border:1px solid #303437;background:#15191b;color:#fff;border-radius:4px}.estimate-output{grid-column:1/-1;padding-top:15px;border-top:1px solid #303437}.estimate-output span{font-size:9px;color:#888;letter-spacing:2px}.estimate-output strong{display:block;color:#ff1730;font-size:38px;margin-top:5px}.quote-button{grid-column:1/-1;padding:15px;text-align:center;background:#ff1730;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1.5px}
@@ -143,221 +128,17 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
   .benefits{width:min(1200px,94%);margin:0 auto;padding:34px 0 25px;border-top:1px solid #303437;display:grid;grid-template-columns:repeat(4,1fr)}.benefits div{display:grid;grid-template-columns:42px 1fr;column-gap:10px;padding:0 25px;border-right:1px solid #303437}.benefits div:last-child{border:0}.benefits b{grid-row:span 2;color:#ff1730;font-size:30px}.benefits strong{font-size:12px}.benefits span{color:#888;font-size:10px;margin-top:3px}
   @media(max-width:760px){
     :global(body){background:#050708}
-
-    /* Mobile is a different layout, not a smaller desktop layout. */
-    .hero{
-      width:100%;
-      margin:0;
-      padding:14px 0 22px;
-    }
-    .hero-heading{
-      text-align:center;
-      padding:0 12px 14px;
-    }
-    h1{
-      font-size:clamp(25px,7.2vw,31px);
-      line-height:1;
-      letter-spacing:.6px;
-      white-space:nowrap;
-    }
-    .hero-heading p{
-      margin-top:10px;
-      font-size:8px;
-      letter-spacing:2.8px;
-      line-height:1.4;
-      white-space:nowrap;
-      text-align:center;
-    }
-    .hero-heading i{
-      height:9px;
-      width:2px;
-      margin:0 5px;
-    }
-
-    .hero-slider{
-      width:100%;
-      aspect-ratio:16/9;
-      border-radius:0;
-      border-left:0;
-      border-right:0;
-    }
-    .hero-slide img{object-position:center}
-    .slider-arrow{
-      width:40px;
-      height:40px;
-      font-size:34px;
-      line-height:30px;
-      background:rgba(0,0,0,.55);
-    }
-    .slider-arrow.left{left:10px}
-    .slider-arrow.right{right:10px}
-    .slider-dots{
-      bottom:10px;
-      gap:6px;
-      padding:6px 10px;
-    }
-    .slider-dots button{width:8px;height:8px}
-
-    .content-section{
-      width:100%;
-      padding:25px 0 28px;
-    }
-    .section-title-row{
-      align-items:flex-end;
-      gap:12px;
-      margin:0 16px 14px;
-    }
-    .section-title-row h2{
-      font-size:30px;
-      letter-spacing:-1.5px;
-    }
-    .section-title-row a{
-      padding:8px 11px;
-      border-radius:20px;
-      font-size:8px;
-      white-space:nowrap;
-    }
-
-    /* Mobile card slider: two cards visible, with reliable horizontal sliding. */
-    .sign-grid,
-    .shop-grid{
-      display:flex !important;
-      flex-wrap:nowrap !important;
-      gap:10px;
-      width:100%;
-      padding:0 16px 8px;
-      overflow-x:auto !important;
-      overflow-y:hidden !important;
-      scroll-behavior:smooth;
-      scroll-snap-type:x mandatory;
-      scrollbar-width:none;
-      -ms-overflow-style:none;
-    }
-    .sign-grid::-webkit-scrollbar,
-    .shop-grid::-webkit-scrollbar{display:none}
-    .sign-card,
-    .shop-card{
-      flex:0 0 calc((100% - 10px - 32px) / 2) !important;
-      width:calc((100% - 10px - 32px) / 2) !important;
-      min-width:0 !important;
-      height:auto !important;
-      transform:none !important;
-      scroll-snap-align:start;
-    }
-     .sign-image{
-      display:block !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:140px !important;
-      aspect-ratio:1/1 !important;
-      border-radius:10px;
-    }
-    .shop-card{
-      display:block !important;
-      width:100% !important;
-      height:auto !important;
-      min-height:140px !important;
-      aspect-ratio:1.18/1 !important;
-      border-radius:10px;
-    }
-    .sign-image h3,
-    .shop-overlay h3{
-      left:9px;
-      bottom:8px;
-      font-size:10px;
-    }
-    .sign-image img,
-    .shop-card img{
-      transform:scale(1) !important;
-      object-fit:cover;
-    }
-    .sign-grid .sign-card:last-child{grid-column:auto}
-
-    /* The estimate becomes a compact, thumb-friendly action bar. */
-    .estimate-section{
-      width:calc(100% - 32px);
-      margin:3px 16px 22px;
-      border-radius:14px;
-      padding:2px;
-    }
-    .estimate-toggle{
-      grid-template-columns:38px 1fr 25px;
-      gap:9px;
-      padding:16px 14px;
-      border-radius:11px;
-    }
-    .estimate-icon svg{width:30px;height:30px}
-    .estimate-text{gap:5px}
-    .estimate-text small{
-      font-size:7px;
-      letter-spacing:1.8px;
-    }
-    .estimate-text strong{
-      font-size:16px;
-      line-height:1.15;
-    }
-    .estimate-toggle>b{font-size:32px}
-    .calculator{
-      grid-template-columns:1fr;
-      gap:10px;
-      padding:13px;
-    }
-    .estimate-output,
-    .quote-button{grid-column:auto}
-
-    .shop-section{
-      padding-top:8px;
-    }
-    .shop-section .section-title-row{
-      align-items:center;
-    }
-    .shop-section .section-title-row a{
-      min-width:190px;
-      min-height:58px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:10px 16px;
-      font-size:11px;
-      text-align:center;
-    }
-    .shop-section p{
-      margin-top:5px;
-      font-size:8px;
-      letter-spacing:2.5px;
-    }
-
-    .benefits{
-      width:100%;
-      padding:18px 10px 14px;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:0;
-    }
-    .benefits div{
-      min-height:42px;
-      padding:6px 3px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:4px;
-      border-right:1px solid #303437;
-      border-bottom:0;
-      text-align:center;
-    }
-    .benefits div:last-child{border-right:0}
-    .benefits b{
-      font-size:13px;
-      line-height:1;
-      flex:0 0 auto;
-    }
-    .benefits strong{
-      font-size:7px;
-      line-height:1;
-      white-space:nowrap;
-      letter-spacing:.1px;
-    }
-    .benefits span{display:none}
-
+    .hero{width:100%;margin:0;padding:14px 0 22px}.hero-heading{text-align:center;padding:0 12px 14px}
+    h1{font-size:clamp(25px,7.2vw,31px);line-height:1;letter-spacing:.6px;white-space:nowrap}.hero-heading p{margin-top:10px;font-size:8px;letter-spacing:2.8px;line-height:1.4;white-space:nowrap;text-align:center}.hero-heading i{height:9px;width:2px;margin:0 5px}
+    .hero-slider{width:100%;aspect-ratio:16/9;border-radius:0;border-left:0;border-right:0}.hero-slide img{object-position:center}
+    .slider-arrow{width:40px;height:40px;font-size:34px;line-height:30px;background:rgba(0,0,0,.55)}.slider-arrow.left{left:10px}.slider-arrow.right{right:10px}
+    .slider-dots{bottom:10px;gap:6px;padding:6px 10px}.slider-dots button{width:8px;height:8px}
+    .content-section{width:100%;padding:25px 0 28px}.section-title-row{align-items:flex-end;gap:12px;margin:0 16px 14px}.section-title-row h2{font-size:30px;letter-spacing:-1.5px}.section-title-row a{padding:8px 11px;border-radius:20px;font-size:8px;white-space:nowrap}
+    .shop-grid{display:flex !important;flex-wrap:nowrap !important;gap:10px;width:100%;padding:0 16px 8px;overflow-x:auto !important;overflow-y:hidden !important;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}.shop-grid::-webkit-scrollbar{display:none}
+    .shop-card{flex:0 0 calc((100% - 10px - 32px) / 2) !important;width:calc((100% - 10px - 32px) / 2) !important;min-width:0 !important;height:auto !important;transform:none !important;scroll-snap-align:start;display:block !important;aspect-ratio:1.18/1 !important;border-radius:10px}
+    .shop-overlay h3{left:9px;bottom:8px;font-size:10px}.shop-card img{transform:scale(1) !important;object-fit:cover}
+    .estimate-section{width:calc(100% - 32px);margin:3px 16px 22px;border-radius:14px;padding:2px}.estimate-toggle{grid-template-columns:38px 1fr 25px;gap:9px;padding:16px 14px;border-radius:11px}.estimate-icon svg{width:30px;height:30px}.estimate-text{gap:5px}.estimate-text small{font-size:7px;letter-spacing:1.8px}.estimate-text strong{font-size:16px;line-height:1.15}.estimate-toggle>b{font-size:32px}.calculator{grid-template-columns:1fr;gap:10px;padding:13px}.estimate-output,.quote-button{grid-column:auto}
+    .shop-section{padding-top:8px}.shop-section .section-title-row{align-items:center}.shop-section .section-title-row a{min-width:190px;min-height:58px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;font-size:11px;text-align:center}.shop-section p{margin-top:5px;font-size:8px;letter-spacing:2.5px}
+    .benefits{width:100%;padding:18px 10px 14px;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}.benefits div{min-height:42px;padding:6px 3px;display:flex;align-items:center;justify-content:center;gap:4px;border-right:1px solid #303437;border-bottom:0;text-align:center}.benefits div:last-child{border-right:0}.benefits b{font-size:13px;line-height:1;flex:0 0 auto}.benefits strong{font-size:7px;line-height:1;white-space:nowrap;letter-spacing:.1px}.benefits span{display:none}
   }
 </style>

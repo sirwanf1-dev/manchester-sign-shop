@@ -37,10 +37,10 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
       </button>
       <div class="calculator" id="calculator" aria-hidden="true">
         <div class="field"><label>SIGN TYPE</label><select id="signType"><option value="flat">Flat Sign</option><option value="3d">3D Sign</option><option value="neon">Neon</option><option value="lightbox">Lightbox Sign</option><option value="rgb">RGB Sign</option></select></div>
-        <div class="field"><label>WIDTH <small>cm</small></label><input id="width" type="number" min="10" step="1" value="100" /></div>
-        <div class="field"><label>HEIGHT <small>cm</small></label><input id="height" type="number" min="10" step="1" value="50" /></div>
+        <div class="field"><label>WIDTH <small>cm</small></label><input id="width" type="number" min="10" step="1" placeholder="Enter width" /></div>
+        <div class="field"><label>HEIGHT <small>cm</small></label><input id="height" type="number" min="10" step="1" placeholder="Enter height" /></div>
         <div class="field"><label>FINISH</label><select id="finish"><option value="standard">Standard</option><option value="premium">Premium finish</option></select></div>
-        <div class="estimate-output"><span>INDICATIVE STARTING PRICE</span><strong id="estimatePrice">£200</strong></div>
+        <div class="estimate-output"><span>INDICATIVE STARTING PRICE</span><strong id="estimatePrice">Enter your size</strong></div>
         <a class="quote-button" id="quoteButton" href="https://wa.me/447594106206" target="_blank" rel="noopener">REQUEST A QUOTE →</a>
       </div>
     </section>
@@ -73,7 +73,7 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
   toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});
   const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),finish=document.querySelector('#finish'),output=document.querySelector('#estimatePrice');
   const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,'neon':300,'lightbox':250,rgb:350};
-  function calculate(){const widthCm=Math.max(0,Number(width?.value||0));const heightCm=Math.max(0,Number(height?.value||0));const area=widthCm*heightCm*100;const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
+  function calculate(){const widthCm=Number(width?.value||0);const heightCm=Number(height?.value||0);if(!widthCm||!heightCm){if(output)output.textContent='Enter your size';return;}const area=widthCm*heightCm*100;const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
   [type,width,height,finish].forEach(el=>el?.addEventListener('input',calculate));calculate();
 
   const quoteButton=document.querySelector('#quoteButton');

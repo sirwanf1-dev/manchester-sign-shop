@@ -7,11 +7,11 @@ export const signCategories = [
 ];
 
 export const shopProducts = [
-  { title: 'Paper Print Service', image: '/manchester-sign-shop/images/shop/ceiling-panels.svg' },
-  { title: 'Glue & Adhesives', image: '/manchester-sign-shop/images/shop/glue-adhesives-v2.svg' },
-  { title: 'RGB Lights', image: '/manchester-sign-shop/images/shop/rgb-lights.svg' },
-  { title: 'White Lights', image: '/manchester-sign-shop/images/shop/white-lights.svg' },
-  { title: 'Power Supplies', image: '/manchester-sign-shop/images/shop/power-supplies.svg' }
+  { title: 'Paper Print Service', image: '/manchester-sign-shop/images/shop/paper-print-service.png' },
+  { title: 'Glue & Adhesives', image: '/manchester-sign-shop/images/shop/glue-adhesives.png' },
+  { title: 'RGB Lights', image: '/manchester-sign-shop/images/shop/rgb-lights.png' },
+  { title: 'White Lights', image: '/manchester-sign-shop/images/shop/white-lights.png' },
+  { title: 'Power Supplies', image: '/manchester-sign-shop/images/shop/power-supplies.png' }
 ];
 
 export const realImageNames = Array.from({ length: 10 }, (_, i) => `real-image-${i + 1}.jpg`);

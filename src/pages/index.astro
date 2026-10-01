@@ -5,7 +5,7 @@ import Layout from '../layouts/Layout.astro';
 import { signCategories, shopProducts } from '../data/website.js';
 
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
-const realFiles = fs.existsSync(realDir) ? fs.readdirSync(realDir).filter(file => /^hero-(?:0[1-9]|1[0-2])\.png$/i.test(file)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})) : [];
+const realFiles = fs.existsSync(realDir) ? fs.readdirSync(realDir).filter(file => /^hero-\d+\.png$/i.test(file)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})) : [];
 const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-images/${file}`);
 const heroImages = realImages.length ? realImages : signCategories.slice(0,3).map(item => item.image);
 ---

@@ -7,7 +7,7 @@ export const signCategories = [
 ];
 
 export const shopProducts = [
-  { title: 'Paper Print Service', image: '/manchester-sign-shop/images/shop/paper-print-service.png' },
+  { title: 'Print Service', image: '/manchester-sign-shop/images/shop/paper-print-service.png' },
   { title: 'Glue & Adhesives', image: '/manchester-sign-shop/images/shop/glue-adhesives.png' },
   { title: 'RGB Lights', image: '/manchester-sign-shop/images/shop/rgb-lights.png' },
   { title: 'White Lights', image: '/manchester-sign-shop/images/shop/white-lights.png' },

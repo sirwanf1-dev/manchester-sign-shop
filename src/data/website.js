@@ -3,7 +3,7 @@ export const signCategories = [
   { title: '3D Signs', image: '/manchester-sign-shop/images/signs/3d-signs.webp?v=3d-photo-20261001' },
   { title: 'Neon', image: '/manchester-sign-shop/images/signs/neon.svg' },
   { title: 'Lightbox Signs', image: '/manchester-sign-shop/images/signs/lightbox-signs.svg' },
-  { title: 'RGB Signs', image: '/manchester-sign-shop/images/signs/rgb-signs.svg?v=rgb-fix-20261001' }
+  { title: 'RGB Signs', image: '/manchester-sign-shop/images/signs/rgb-signs.jpg?v=rgb-photo-20261001' }
 ];
 
 export const shopProducts = [

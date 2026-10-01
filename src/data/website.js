@@ -2,7 +2,7 @@ export const signCategories = [
   { title: 'Flat Signs', image: '/manchester-sign-shop/images/signs/flat-signs.png' },
   { title: '3D Signs', image: '/manchester-sign-shop/images/signs/3d-signs.png' },
   { title: 'Neon', image: '/manchester-sign-shop/images/signs/neon-signs.png' },
-  { title: 'Lightbox Signs', image: '/manchester-sign-shop/images/signs/lightbox-signs.png' },
+  { title: 'Shop Fitting', image: '/manchester-sign-shop/images/signs/shop-fitting.png' },
   { title: 'RGB Signs', image: '/manchester-sign-shop/images/signs/rgb-signs.png' }
 ];
 

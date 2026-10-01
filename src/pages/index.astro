@@ -6,7 +6,7 @@ import LightboxGallery from '../components/LightboxGallery.astro';
 import { signCategories, shopProducts } from '../data/website.js';
 
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
-const realFiles = fs.existsSync(realDir) ? fs.readdirSync(realDir).filter(file => /^real-image-(?:[1-9]|10)\.(jpe?g|png|webp)$/i.test(file)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})) : [];
+const realFiles = fs.existsSync(realDir) ? fs.readdirSync(realDir).filter(file => /^hero-(?:0[1-9]|1[0-2])\.png$/i.test(file)).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})) : [];
 const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-images/${file}`);
 ---
 
@@ -18,14 +18,14 @@ const realImages = realFiles.map(file => `/manchester-sign-shop/images/real-imag
         <p>SIGNS <i></i> SUPPLIES <i></i> EVERYTHING YOU NEED</p>
       </div>
       <div class="hero-slider">
-        {signCategories.slice(0,3).map((item,index)=>(
+        {realImages.map((image,index)=>(
           <article class:list={['hero-slide',{active:index===0}]} data-slide={index}>
-            <img src={item.image} alt={item.title} />
+            <img src={image} alt={`Manchester Sign Group recent sign work ${index + 1}`} />
             <button class="slider-arrow left" type="button" data-prev aria-label="Previous sign">‹</button>
             <button class="slider-arrow right" type="button" data-next aria-label="Next sign">›</button>
           </article>
         ))}
-        <div class="slider-dots">{signCategories.slice(0,3).map((_,index)=><button type="button" data-dot={index} aria-label={`Slide ${index+1}`}></button>)}</div>
+        <div class="slider-dots">{realImages.map((_,index)=><button type="button" data-dot={index} aria-label={`Slide ${index+1}`}></button>)}</div>
       </div>
     </section>
 

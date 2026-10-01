@@ -1,9 +1,9 @@
 export const signCategories = [
-  { title: 'Flat Signs', image: '/manchester-sign-shop/images/signs/flat-signs.webp' },
-  { title: '3D Signs', image: '/manchester-sign-shop/images/signs/3d-signs.webp?v=3d-photo-20261001' },
-  { title: 'Neon', image: '/manchester-sign-shop/images/signs/neon-signs.jpg?v=neon-photo-20261001' },
-  { title: 'Lightbox Signs', image: '/manchester-sign-shop/images/signs/lightbox-signs.svg' },
-  { title: 'RGB Signs', image: '/manchester-sign-shop/images/signs/rgb-signs.jpg?v=rgb-photo-20261001' }
+  { title: 'Flat Signs', image: '/manchester-sign-shop/images/signs/flat-signs.png' },
+  { title: '3D Signs', image: '/manchester-sign-shop/images/signs/3d-signs.png' },
+  { title: 'Neon', image: '/manchester-sign-shop/images/signs/neon-signs.png' },
+  { title: 'Lightbox Signs', image: '/manchester-sign-shop/images/signs/lightbox-signs.png' },
+  { title: 'RGB Signs', image: '/manchester-sign-shop/images/signs/rgb-signs.png' }
 ];
 
 export const shopProducts = [

@@ -2,7 +2,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../layouts/Layout.astro';
-import LightboxGallery from '../components/LightboxGallery.astro';
 import { signCategories, shopProducts } from '../data/website.js';
 
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
@@ -65,7 +64,6 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
       <div><b>♧</b><strong>EXPERT SUPPORT</strong><span>WE'RE HERE TO HELP</span></div>
     </section>
 
-    {realImages.length > 0 && <section class="content-section real-work"><div class="section-title-row"><h2>RECENT <em>WORK</em></h2></div><LightboxGallery images={realImages} /></section>}
   </main>
 </Layout>
 
@@ -143,7 +141,6 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
   .calculator{display:none;grid-template-columns:repeat(2,1fr);gap:12px;padding:25px;background:#0b0d0e;border-radius:0 0 16px 16px}.calculator.open{display:grid}.field{display:grid;gap:7px}.field label{font-size:9px;color:#888;font-weight:900;letter-spacing:1.5px}.field input,.field select{width:100%;padding:13px;border:1px solid #303437;background:#15191b;color:#fff;border-radius:4px}.estimate-output{grid-column:1/-1;padding-top:15px;border-top:1px solid #303437}.estimate-output span{font-size:9px;color:#888;letter-spacing:2px}.estimate-output strong{display:block;color:#ff1730;font-size:38px;margin-top:5px}.quote-button{grid-column:1/-1;padding:15px;text-align:center;background:#ff1730;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1.5px}
   .shop-section{padding-top:12px}.shop-card{aspect-ratio:1/.98}.shop-overlay{background:linear-gradient(transparent 45%,rgba(0,0,0,.9) 100%)}
   .benefits{width:min(1200px,94%);margin:0 auto;padding:34px 0 25px;border-top:1px solid #303437;display:grid;grid-template-columns:repeat(4,1fr)}.benefits div{display:grid;grid-template-columns:42px 1fr;column-gap:10px;padding:0 25px;border-right:1px solid #303437}.benefits div:last-child{border:0}.benefits b{grid-row:span 2;color:#ff1730;font-size:30px}.benefits strong{font-size:12px}.benefits span{color:#888;font-size:10px;margin-top:3px}
-  .real-work{padding-top:60px}
   @media(max-width:760px){
     :global(body){background:#050708}
 
@@ -362,6 +359,5 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
     }
     .benefits span{display:none}
 
-    .real-work{padding-top:36px}
   }
 </style>

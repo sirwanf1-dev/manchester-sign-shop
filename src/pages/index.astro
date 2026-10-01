@@ -41,12 +41,12 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
         <div class="field"><label>HEIGHT <small>cm</small></label><input id="height" type="number" min="10" step="1" value="50" /></div>
         <div class="field"><label>FINISH</label><select id="finish"><option value="standard">Standard</option><option value="premium">Premium finish</option></select></div>
         <div class="estimate-output"><span>INDICATIVE STARTING PRICE</span><strong id="estimatePrice">£200</strong></div>
-        <a class="quote-button" href="mailto:info@manchestersignshop.co.uk?subject=Sign%20quote%20request">REQUEST A QUOTE →</a>
+        <a class="quote-button" id="quoteButton" href="https://wa.me/447594106206" target="_blank" rel="noopener">REQUEST A QUOTE →</a>
       </div>
     </section>
 
     <section class="content-section shop-section" id="shop">
-      <div class="section-title-row"><div><h2><em>SHOP</em></h2><p>SIGN MAKING SUPPLIES</p></div><a href="#shop">ORDER NOW <span>→</span></a></div>
+      <div class="section-title-row"><div><h2><em>SHOP</em></h2><p>SIGN MAKING SUPPLIES</p></div><a href="https://wa.me/447594106206?text=Hi%20Manchester%20Sign%20Group%2C%20I%27d%20like%20to%20place%20an%20order.%20Please%20let%20me%20know%20the%20next%20steps.%20Thank%20you." target="_blank" rel="noopener">ORDER NOW <span>→</span></a></div>
       <div class="shop-grid">{shopProducts.map(item=><article class="shop-card"><img src={item.image} alt={item.title} loading="lazy" /><div class="shop-overlay"><h3>{item.title}</h3></div></article>)}</div>
     </section>
 
@@ -75,6 +75,25 @@ const heroImages = realImages.length ? realImages : signCategories.slice(0,3).ma
   const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,'neon':300,'lightbox':250,rgb:350};
   function calculate(){const widthCm=Math.max(0,Number(width?.value||0));const heightCm=Math.max(0,Number(height?.value||0));const area=widthCm*heightCm*100;const price=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*(finish?.value==='premium'?1.22:1)));if(output)output.textContent=`£${price.toLocaleString('en-GB')}`}
   [type,width,height,finish].forEach(el=>el?.addEventListener('input',calculate));calculate();
+
+  const quoteButton=document.querySelector('#quoteButton');
+  quoteButton?.addEventListener('click',()=>{
+    const signTypeLabel=type?.options[type.selectedIndex]?.text || 'Sign';
+    const finishLabel=finish?.options[finish.selectedIndex]?.text || 'Standard';
+    const price=output?.textContent || '£0';
+    const message=[
+      'Hi Manchester Sign Group, I would like a quote for a sign.',
+      '',
+      `Sign type: ${signTypeLabel}`,
+      `Width: ${width?.value || 0} cm`,
+      `Height: ${height?.value || 0} cm`,
+      `Finish: ${finishLabel}`,
+      `Estimated price: ${price}`,
+      '',
+      'Please confirm the quote and let me know the next steps. Thank you.'
+    ].join('\\n');
+    quoteButton.href=`https://wa.me/447594106206?text=${encodeURIComponent(message)}`;
+  });
 
   function setupCardSlider(selector){
     const rail=document.querySelector(selector);

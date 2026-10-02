@@ -25,13 +25,25 @@ const { title = 'Manchester Sign Group' } = Astro.props;
 
 <style>
   :global(*) { box-sizing:border-box; }
-  :global(html) { scroll-behavior:smooth; }
-  :global(body) { margin:0; background:#050708; color:#f7f7f8; font-family:Arial,Helvetica,sans-serif; -webkit-font-smoothing:antialiased; }
+  :global(html) { width:100%; min-width:0; overflow-x:hidden; scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  :global(body) { width:100%; max-width:100%; min-width:0; margin:0; background:#050708; color:#f7f7f8; font-family:Arial,Helvetica,sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+  :global(img),:global(video) { max-width:100%; }
+  :global(button),:global(a),:global(input),:global(select) { -webkit-tap-highlight-color:transparent; }
   .site-header { height:94px; position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 3.5%; background:rgba(5,7,8,.88); border-bottom:1px solid rgba(255,255,255,.12); backdrop-filter:blur(18px); }
   .menu-button { width:52px; height:48px; display:flex; flex-direction:column; justify-content:center; gap:7px; padding:0; border:0; background:transparent; cursor:pointer; }
   .menu-button span { display:block; width:41px; height:4px; border-radius:3px; background:#fff; }
   .header-order { display:flex; align-items:center; gap:10px; padding:17px 28px; border-radius:12px; background:#ff1730; color:#fff; text-decoration:none; font-size:16px; font-weight:900; letter-spacing:.4px; box-shadow:0 0 28px rgba(255,23,48,.28); }
   .header-order span { font-size:22px; line-height:1; }
   .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 4%; border-top:1px solid #202326; color:#777; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
-  @media(max-width:600px){ .site-header{height:82px;padding:0 20px}.menu-button{width:42px}.menu-button span{width:36px;height:3px}.header-order{padding:14px 19px;border-radius:9px;font-size:13px}.header-order span{font-size:18px}.site-footer{flex-direction:column} }
+  @media(max-width:600px){
+    .site-header{height:82px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+    .menu-button{width:42px}.menu-button span{width:36px;height:3px}
+    .header-order{padding:14px 19px;border-radius:9px;font-size:13px;white-space:nowrap}
+    .header-order span{font-size:18px}.site-footer{flex-direction:column}
+  }
+  @media(max-width:360px){
+    .site-header{height:76px;padding-left:14px;padding-right:14px}
+    .menu-button{width:38px}.menu-button span{width:32px}
+    .header-order{padding:12px 14px;font-size:11px}.header-order span{font-size:16px}
+  }
 </style>

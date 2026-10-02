@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+const workDir=path.join(process.cwd(),'public','images','our-work');
+const workFiles=fs.existsSync(workDir)?fs.readdirSync(workDir).filter(f=>/\.(?:png|jpe?g|webp)$/i.test(f)).sort():[];
+---
+<Layout title="Our Work | Manchester Sign Group">
+  <main class="inner-page">
+    <div class="page-head"><small>RECENT PROJECTS</small><h1>OUR <em>WORK</em></h1><p>Real signage and completed projects from Manchester Sign Group.</p></div>
+    {workFiles.length ? <div class="work-grid">{workFiles.map((file)=><figure><img src={`/manchester-sign-shop/images/our-work/${file}`} alt="Manchester Sign Group project" loading="lazy" /></figure>)}</div> : <div class="empty"><strong>OUR WORK</strong><p>Project photos will appear here as they are added.</p></div>}
+  </main>
+</Layout>
+<style>
+.inner-page{width:min(1120px,92%);margin:auto;padding:70px 0 90px}.page-head{max-width:760px;margin-bottom:35px}.page-head small{color:#ff1730;font-size:11px;font-weight:900;letter-spacing:3px}.page-head h1{margin:10px 0 14px;font-size:clamp(42px,7vw,76px);line-height:.95;letter-spacing:-3px}.page-head h1 em{font-style:normal;color:#ff1730}.page-head p{color:#aaa;line-height:1.6}.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.work-grid figure{margin:0;overflow:hidden;border:1px solid #303437;border-radius:12px;background:#0c0f11;aspect-ratio:4/3}.work-grid img{width:100%;height:100%;display:block;object-fit:cover}.empty{padding:45px 25px;border:1px solid #303437;border-radius:12px;background:#0c0f11}.empty strong{font-size:18px}.empty p{color:#888}@media(max-width:760px){.inner-page{padding:48px 0 65px}.work-grid{grid-template-columns:1fr 1fr}}@media(max-width:430px){.work-grid{grid-template-columns:1fr}}
+</style>

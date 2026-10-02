@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { shopProducts } from '../data/website.js';
+---
+<Layout title="Shop | Manchester Sign Group">
+  <main class="inner-page">
+    <div class="page-head"><small>SIGN MAKING SUPPLIES</small><h1><em>SHOP</em></h1><p>Materials and supplies for sign makers, installers and businesses.</p></div>
+    <div class="shop-grid">{shopProducts.map(item=><article><img src={item.image} alt={item.title} loading="lazy"/><h2>{item.title}</h2><a href="https://wa.me/447594106206?text=Hi%20Manchester%2C%20I%20would%20like%20to%20order%20some%20sign%20making%20materials." target="_blank" rel="noopener">ORDER NOW →</a></article>)}</div>
+  </main>
+</Layout>
+<style>
+  .inner-page{width:min(1120px,92%);margin:auto;padding:70px 0 90px}.page-head{max-width:760px;margin-bottom:35px}.page-head small{color:#b8ff5a;font-size:11px;font-weight:900;letter-spacing:3px}.page-head h1{margin:10px 0 14px;font-size:clamp(42px,7vw,76px);line-height:.95;letter-spacing:-3px}.page-head h1 em{font-style:normal;color:#b8ff5a}.page-head p{color:#aaa;line-height:1.6}.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.shop-grid article{border:1px solid #303437;border-radius:12px;overflow:hidden;background:#0c0f11}.shop-grid img{width:100%;aspect-ratio:1/.85;object-fit:cover;display:block}.shop-grid h2{font-size:15px;margin:15px 16px}.shop-grid a{display:inline-block;margin:0 16px 18px;color:#b8ff5a;text-decoration:none;font-size:10px;font-weight:900;letter-spacing:1px}@media(max-width:700px){.inner-page{padding:48px 0 65px}.shop-grid{grid-template-columns:repeat(2,1fr)}}
+</style>

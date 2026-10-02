@@ -28,6 +28,7 @@ const { title = 'Manchester Sign Group' } = Astro.props;
       </nav>
       <a class="menu-whatsapp" href="https://wa.me/447594106206?text=Hi%20Manchester%2C%20I%20would%20like%20to%20ask%20about%20your%20sign%20services." target="_blank" rel="noopener">WHATSAPP US <span>→</span></a>
     </aside>
+    <a class="floating-home" href="/manchester-sign-shop/" aria-label="Back to home">⌂ <span>HOME</span></a>
     <slot />
     <footer class="site-footer">
       <span>MANCHESTER SIGN GROUP</span>
@@ -59,6 +60,9 @@ const { title = 'Manchester Sign Group' } = Astro.props;
   .site-menu nav a span { color:#ff1730; font-size:22px; }
   .menu-whatsapp { margin-top:auto; display:flex; align-items:center; justify-content:space-between; padding:15px 17px; border:1px solid #b8ff5a; border-radius:10px; color:#b8ff5a; text-decoration:none; font-size:12px; font-weight:900; letter-spacing:1px; }
   .menu-whatsapp span { font-size:20px; }
+  .floating-home { position:fixed; right:18px; bottom:20px; z-index:150; display:flex; align-items:center; gap:7px; padding:10px 13px; border:1px solid #ff1730; border-radius:22px; background:rgba(10,12,14,.94); color:#fff; text-decoration:none; font-size:12px; font-weight:900; letter-spacing:.8px; box-shadow:0 6px 22px rgba(0,0,0,.4),0 0 15px rgba(255,23,48,.16); backdrop-filter:blur(10px); }
+  .floating-home:first-letter { color:#ff1730; }
+  .floating-home span { color:#fff; }
   .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 4%; border-top:1px solid #202326; color:#777; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
   @media(max-width:600px){
     .site-header{height:82px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}

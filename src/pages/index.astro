@@ -111,12 +111,14 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     const installationLabel=installation?.options[installation.selectedIndex]?.text || 'No installation';
     const price=output?.textContent || '£0';
     const message=[
-      'Hi Manchester, I would like a sign quote.',
+      'Hi Manchester,',
+      '',
+      'SIGN QUOTE',
       `Type: ${signTypeLabel}`,
       `Size: ${width?.value || 0} × ${height?.value || 0} cm`,
-      `Light: ${illuminationLabel}`,
-      `Install: ${installationLabel}`,
-      `Estimate: ${price}`,
+      `Lighting: ${illuminationLabel}`,
+      `Installation: ${installationLabel}`,
+      `Estimated price: ${price}`,
       '',
       'Please confirm the quote. Thank you.'
     ].join('\\n');

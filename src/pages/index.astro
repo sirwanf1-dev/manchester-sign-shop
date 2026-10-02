@@ -51,7 +51,6 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
           <div class="field"><label>SIGN TYPE</label><select id="signType"><option value="flat">Flat Sign</option><option value="3d">3D Sign</option><option value="neon">Neon</option><option value="lightbox">Lightbox Sign</option><option value="rgb">RGB Sign</option></select></div>
           <div class="field"><label>WIDTH <small>cm</small></label><input id="width" type="number" min="10" step="1" placeholder="Enter width" /></div>
           <div class="field"><label>HEIGHT <small>cm</small></label><input id="height" type="number" min="10" step="1" placeholder="Enter height" /></div>
-          <div class="field"><label>FINISH</label><select id="finish"><option value="standard">Standard</option><option value="premium">Premium finish</option></select></div>
           <div class="field"><label>ILLUMINATION</label><select id="illumination"><option value="none">No illumination</option><option value="led">LED illumination</option><option value="backlit">Backlit</option></select></div>
           <div class="field"><label>INSTALLATION</label><select id="installation"><option value="none">No installation</option><option value="install">Installation +£400</option></select></div>
                   </div>
@@ -90,13 +89,13 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
 
   const toggle=document.querySelector('#estimateToggle'),calc=document.querySelector('#calculator');
   toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});
-  const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),finish=document.querySelector('#finish'),illumination=document.querySelector('#illumination'),installation=document.querySelector('#installation'),output=document.querySelector('#estimatePrice');
+  const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),illumination=document.querySelector('#illumination'),installation=document.querySelector('#installation'),output=document.querySelector('#estimatePrice');
   const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,'neon':300,'lightbox':250,rgb:350};
   function calculate(){
     const widthCm=Number(width?.value||0),heightCm=Number(height?.value||0);
     if(!widthCm||!heightCm){if(output)output.textContent='Enter your size';return;}
     const area=widthCm*heightCm*100;
-    const finishFactor=finish?.value==='premium'?1.22:1;
+    const finishFactor=1;
     const illuminationFactor={none:1,led:1.18,backlit:1.28}[illumination?.value||'none'];
     const installationCost=installation?.value==='install'?400:0;
     const deliveryCost=delivery?.value==='delivery'?35:0;
@@ -104,7 +103,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     const price=Math.round(unitPrice+installationCost);
     if(output)output.textContent=`£${price.toLocaleString('en-GB')}`;
   }
-  [type,width,height,finish,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));calculate();
+  [type,width,height,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));calculate();
 
   const quoteButton=document.querySelector('#quoteButton');
   quoteButton?.addEventListener('click',()=>{
@@ -120,7 +119,6 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
       `Sign type: ${signTypeLabel}`,
       `Width: ${width?.value || 0} cm`,
       `Height: ${height?.value || 0} cm`,
-      `Finish: ${finishLabel}`,
       
       `Illumination: ${illuminationLabel}`,
       `Installation: ${installationLabel}`,

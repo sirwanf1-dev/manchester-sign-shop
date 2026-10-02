@@ -52,11 +52,9 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
           <div class="field"><label>WIDTH <small>cm</small></label><input id="width" type="number" min="10" step="1" placeholder="Enter width" /></div>
           <div class="field"><label>HEIGHT <small>cm</small></label><input id="height" type="number" min="10" step="1" placeholder="Enter height" /></div>
           <div class="field"><label>FINISH</label><select id="finish"><option value="standard">Standard</option><option value="premium">Premium finish</option></select></div>
-          <div class="field"><label>QUANTITY</label><input id="quantity" type="number" min="1" step="1" value="1" /></div>
           <div class="field"><label>ILLUMINATION</label><select id="illumination"><option value="none">No illumination</option><option value="led">LED illumination</option><option value="backlit">Backlit</option></select></div>
-          <div class="field"><label>INSTALLATION</label><select id="installation"><option value="none">No installation</option><option value="install">Installation required</option></select></div>
-          <div class="field"><label>DELIVERY</label><select id="delivery"><option value="collection">Collection</option><option value="delivery">Delivery</option></select></div>
-        </div>
+          <div class="field"><label>INSTALLATION</label><select id="installation"><option value="none">No installation</option><option value="install">Installation +£400</option></select></div>
+                  </div>
         <aside class="estimate-summary">
           <span>INDICATIVE STARTING PRICE</span>
           <strong id="estimatePrice">Enter your size</strong>
@@ -92,21 +90,21 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
 
   const toggle=document.querySelector('#estimateToggle'),calc=document.querySelector('#calculator');
   toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});
-  const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),finish=document.querySelector('#finish'),quantity=document.querySelector('#quantity'),illumination=document.querySelector('#illumination'),installation=document.querySelector('#installation'),delivery=document.querySelector('#delivery'),output=document.querySelector('#estimatePrice');
+  const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),finish=document.querySelector('#finish'),illumination=document.querySelector('#illumination'),installation=document.querySelector('#installation'),output=document.querySelector('#estimatePrice');
   const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,'neon':300,'lightbox':250,rgb:350};
   function calculate(){
-    const widthCm=Number(width?.value||0),heightCm=Number(height?.value||0),qty=Math.max(1,Number(quantity?.value||1));
+    const widthCm=Number(width?.value||0),heightCm=Number(height?.value||0);
     if(!widthCm||!heightCm){if(output)output.textContent='Enter your size';return;}
     const area=widthCm*heightCm*100;
     const finishFactor=finish?.value==='premium'?1.22:1;
     const illuminationFactor={none:1,led:1.18,backlit:1.28}[illumination?.value||'none'];
-    const installationCost=installation?.value==='install'?95:0;
+    const installationCost=installation?.value==='install'?400:0;
     const deliveryCost=delivery?.value==='delivery'?35:0;
     const unitPrice=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*finishFactor*illuminationFactor));
-    const price=Math.round(unitPrice*qty+installationCost+deliveryCost);
+    const price=Math.round(unitPrice+installationCost);
     if(output)output.textContent=`£${price.toLocaleString('en-GB')}`;
   }
-  [type,width,height,finish,quantity,illumination,installation,delivery].forEach(el=>el?.addEventListener('input',calculate));calculate();
+  [type,width,height,finish,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));calculate();
 
   const quoteButton=document.querySelector('#quoteButton');
   quoteButton?.addEventListener('click',()=>{
@@ -123,10 +121,10 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
       `Width: ${width?.value || 0} cm`,
       `Height: ${height?.value || 0} cm`,
       `Finish: ${finishLabel}`,
-      `Quantity: ${quantity?.value || 1}`,
+      
       `Illumination: ${illuminationLabel}`,
       `Installation: ${installationLabel}`,
-      `Delivery: ${deliveryLabel}`,
+      
       `Estimated price: ${price}`,
       '',
       'Please confirm the quote and let me know the next steps. Thank you.'

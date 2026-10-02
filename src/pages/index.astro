@@ -96,7 +96,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     if(!widthCm||!heightCm){if(output)output.textContent='Enter your size';return;}
     const area=widthCm*heightCm*100;
     const finishFactor=1;
-    const illuminationFactor={none:0.65,led:1,backlit:1}[illumination?.value||'none'];
+    const illuminationFactor={none:0.65,led:type?.value==='3d'?0.78:1,backlit:type?.value==='3d'?0.78:1}[illumination?.value||'none'];
     const installationCost=installation?.value==='install'?400:0;
     const unitPrice=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*finishFactor*illuminationFactor));
     const price=Math.round(unitPrice+installationCost);

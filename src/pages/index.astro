@@ -113,7 +113,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     if(output)output.textContent=`£${price.toLocaleString('en-GB')}`;
   }
   [type,width,height,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));
-  function updateEstimatorOptions(){const isNeon=type?.value==='neon';const field=document.querySelector('#illuminationField');if(field)field.style.display=isNeon?'none':'';if(isNeon&&illumination)illumination.value='led';calculate();}
+  function updateEstimatorOptions(){const noIllumination=['neon','flat','sticker'].includes(type?.value);const field=document.querySelector('#illuminationField');if(field)field.style.display=noIllumination?'none':'';if(noIllumination&&illumination)illumination.value='none';calculate();}
   type?.addEventListener('change',updateEstimatorOptions);updateEstimatorOptions();
 
   const quoteButton=document.querySelector('#quoteButton');

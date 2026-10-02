@@ -51,7 +51,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
           <div class="field"><label>SIGN TYPE</label><select id="signType"><option value="flat">Flat Sign</option><option value="3d">3D Sign</option><option value="neon">Neon</option><option value="rgb">3D RGB Sign</option></select></div>
           <div class="field"><label>WIDTH <small>cm</small></label><input id="width" type="number" min="10" step="1" placeholder="Enter width" /></div>
           <div class="field"><label>HEIGHT <small>cm</small></label><input id="height" type="number" min="10" step="1" placeholder="Enter height" /></div>
-          <div class="field"><label>ILLUMINATION</label><select id="illumination"><option value="none">No illumination</option><option value="led">LED illumination</option><option value="backlit">Backlit</option></select></div>
+          <div class="field" id="illuminationField"><label>ILLUMINATION</label><select id="illumination"><option value="none">No illumination</option><option value="led">LED illumination</option><option value="backlit">Backlit</option></select></div>
           <div class="field"><label>INSTALLATION</label><select id="installation"><option value="none">No installation</option><option value="install">Installation</option></select></div>
                   </div>
         <aside class="estimate-summary">
@@ -97,12 +97,14 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     const area=widthCm*heightCm*100;
     const finishFactor=1;
     const illuminationFactor={none:0.65,led:(type?.value==='3d'||type?.value==='rgb')?0.78:1,backlit:type?.value==='3d'?0.78:1}[illumination?.value||'none'];
-    const installationCost=installation?.value==='install'?400:0;
+    const installationCost=installation?.value==='install'?(type?.value==='neon'?100:400):0;
     const unitPrice=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*finishFactor*illuminationFactor));
     const price=Math.round(unitPrice+installationCost);
     if(output)output.textContent=`£${price.toLocaleString('en-GB')}`;
   }
-  [type,width,height,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));calculate();
+  [type,width,height,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));
+  function updateEstimatorOptions(){const isNeon=type?.value==='neon';const field=document.querySelector('#illuminationField');if(field)field.style.display=isNeon?'none':'';if(isNeon&&illumination)illumination.value='led';calculate();}
+  type?.addEventListener('change',updateEstimatorOptions);updateEstimatorOptions();
 
   const quoteButton=document.querySelector('#quoteButton');
   quoteButton?.addEventListener('click',()=>{

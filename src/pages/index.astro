@@ -111,18 +111,14 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     const installationLabel=installation?.options[installation.selectedIndex]?.text || 'No installation';
     const price=output?.textContent || '£0';
     const message=[
-      'Hi Manchester Sign Group, I would like a quote for a sign.',
+      'Hi Manchester, I would like a sign quote.',
+      `Type: ${signTypeLabel}`,
+      `Size: ${width?.value || 0} × ${height?.value || 0} cm`,
+      `Light: ${illuminationLabel}`,
+      `Install: ${installationLabel}`,
+      `Estimate: ${price}`,
       '',
-      `Sign type: ${signTypeLabel}`,
-      `Width: ${width?.value || 0} cm`,
-      `Height: ${height?.value || 0} cm`,
-      
-      `Illumination: ${illuminationLabel}`,
-      `Installation: ${installationLabel}`,
-      
-      `Estimated price: ${price}`,
-      '',
-      'Please confirm the quote and let me know the next steps. Thank you.'
+      'Please confirm the quote. Thank you.'
     ].join('\\n');
     quoteButton.href=`https://wa.me/447594106206?text=${encodeURIComponent(message)}`;
   });

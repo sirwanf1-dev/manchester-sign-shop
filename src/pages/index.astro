@@ -90,16 +90,26 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
   const toggle=document.querySelector('#estimateToggle'),calc=document.querySelector('#calculator');
   toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});
   const type=document.querySelector('#signType'),width=document.querySelector('#width'),height=document.querySelector('#height'),illumination=document.querySelector('#illumination'),installation=document.querySelector('#installation'),output=document.querySelector('#estimatePrice');
-  const rates={flat:.0004,'3d':.00075,neon:.0009,lightbox:.0007,rgb:.001},minimums={flat:150,'3d':250,'neon':300,'lightbox':250,rgb:350};
+  const rates={flat:.0004,'3d':.00075,neon:.0009,rgb:.0009},minimums={flat:150,'3d':250,neon:300,rgb:300};
+  function billableDimension(cm){
+    if(cm<=50) return 50;
+    if(cm<=100) return 100;
+    return cm;
+  }
+  function roundEstimate(price){
+    if(price<=1000) return Math.round(price/10)*10;
+    return Math.round(price/100)*100-1;
+  }
   function calculate(){
     const widthCm=Number(width?.value||0),heightCm=Number(height?.value||0);
     if(!widthCm||!heightCm){if(output)output.textContent='Enter your size';return;}
-    const area=widthCm*heightCm*100;
-    const finishFactor=1;
-    const illuminationFactor={none:0.65,led:(type?.value==='3d'||type?.value==='rgb')?0.78:1,backlit:type?.value==='3d'?0.78:1}[illumination?.value||'none'];
+    const billableWidth=billableDimension(widthCm);
+    const billableHeight=billableDimension(heightCm);
+    const area=billableWidth*billableHeight*100;
+    const illuminationFactor=type?.value==='neon'?0.4:(illumination?.value==='none'?0.65:((type?.value==='3d'||type?.value==='rgb')?0.78:1));
     const installationCost=installation?.value==='install'?(type?.value==='neon'?100:400):0;
-    const unitPrice=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*finishFactor*illuminationFactor));
-    const price=Math.round(unitPrice+installationCost);
+    const unitPrice=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*illuminationFactor));
+    const price=roundEstimate(unitPrice+installationCost);
     if(output)output.textContent=`£${price.toLocaleString('en-GB')}`;
   }
   [type,width,height,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));

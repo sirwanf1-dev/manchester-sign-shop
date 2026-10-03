@@ -11,7 +11,7 @@ const mediaFiles = fs.existsSync(realDir)
       .sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}))
   : [];
 const heroMedia = mediaFiles.map(file => ({
-  src: `/manchester-sign-shop/images/real-images/${file}`,
+  src: `/images/real-images/${file}`,
   type: file.toLowerCase().endsWith('.mp4') ? 'video' : 'image'
 }));
 const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(item => ({src:item.image,type:'image'}));

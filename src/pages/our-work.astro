@@ -9,9 +9,9 @@ const workFiles = fs.existsSync(workDir)
   ? fs.readdirSync(workDir).filter((f) => /\.(?:png|jpe?g|webp)$/i.test(f)).sort()
   : [];
 
-const workMarkup = workFiles
-  .map((file) => '<figure><img src="' + BASE + 'images/our-work/' + file + '" alt="Manchester Sign Group project" loading="lazy"></figure>')
-  .join('');
+const workMarkup = workFiles.length
+  ? workFiles.map((file) => '<figure><img src="' + BASE + 'images/our-work/' + file + '" alt="Manchester Sign Group project" loading="lazy"></figure>').join('')
+  : '<div class="empty"><strong>OUR WORK</strong><p>Project photos will appear here as they are added.</p></div>';
 ---
 <Layout title="Our Work | Manchester Sign Group">
   <main class="inner-page">
@@ -21,14 +21,7 @@ const workMarkup = workFiles
       <p>Real signage and completed projects from Manchester Sign Group.</p>
     </div>
 
-    {workFiles.length > 0 ? (
-      <div class="work-grid" set:html={workMarkup}></div>
-    ) : (
-      <div class="empty">
-        <strong>OUR WORK</strong>
-        <p>Project photos will appear here as they are added.</p>
-      </div>
-    )}
+    <div class="work-grid" set:html={workMarkup}></div>
   </main>
 </Layout>
 

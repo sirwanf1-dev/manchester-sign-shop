@@ -9,7 +9,7 @@ const workFiles=fs.existsSync(workDir)?fs.readdirSync(workDir).filter(f=>/\.(?:p
 <Layout title="Our Work | Manchester Sign Group">
   <main class="inner-page">
     <div class="page-head"><small>RECENT PROJECTS</small><h1>OUR <em>WORK</em></h1><p>Real signage and completed projects from Manchester Sign Group.</p></div>
-    {workFiles.length ? <div class="work-grid">{workFiles.map((file)=><figure><img src={BASE + `images/our-work/${file}`} alt="Manchester Sign Group project" loading="lazy" /></figure>)}</div> : <div class="empty"><strong>OUR WORK</strong><p>Project photos will appear here as they are added.</p></div>}
+    {workFiles.length ? <div class="work-grid">{workFiles.map((file)=><figure><img src={BASE + 'images/our-work/' + file} alt="Manchester Sign Group project" loading="lazy" /></figure>)}</div> : <div class="empty"><strong>OUR WORK</strong><p>Project photos will appear here as they are added.</p></div>}
   </main>
 </Layout>
 <style>

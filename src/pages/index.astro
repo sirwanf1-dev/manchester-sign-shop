@@ -8,13 +8,19 @@ const BASE = '';
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
 const mediaFiles = fs.existsSync(realDir)
   ? fs.readdirSync(realDir)
-      .filter(file => /^hero-\d+\.(?:png|mp4)$/i.test(file))
+      .filter(file => /^hero-\d+\.(?:png|jpe?g|mp4)$/i.test(file))
       .sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}))
   : [];
-const heroMedia = mediaFiles.map(file => ({
-  src: `${BASE}images/real-images/${file}`,
-  type: file.toLowerCase().endsWith('.mp4') ? 'video' : 'image'
-}));
+const heroMedia = mediaFiles.map(file => {
+  const isVideo = file.toLowerCase().endsWith('.mp4');
+  const optimizedFile = isVideo
+    ? file
+    : `optimized/${file.replace(/\.(?:png|jpe?g)$/i, '.webp')}`;
+  return {
+    src: `${BASE}images/real-images/${optimizedFile}`,
+    type: isVideo ? 'video' : 'image'
+  };
+});
 const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(item => ({src:item.image,type:'image'}));
 ---
 

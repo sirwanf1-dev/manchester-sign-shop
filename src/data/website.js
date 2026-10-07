@@ -1,5 +1,5 @@
-const BASE = import.meta.env.BASE_URL;
-const asset = (path) => `${BASE}${path.replace(/^\//, '')}`;
+const IMAGE_BASE = '/';
+const asset = (path) => `${IMAGE_BASE}${path.replace(/^\//, '')}`;
 
 export const signCategories = [
   { title: 'Flat Signs', image: asset('/images/signs/flat-signs.png') },

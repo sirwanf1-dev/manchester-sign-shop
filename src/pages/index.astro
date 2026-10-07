@@ -31,7 +31,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
             {media.type === 'video' ? (
               <video src={media.src} autoplay muted loop playsinline preload="metadata" aria-label={`Manchester Sign Group video ${index + 1}`} />
             ) : (
-              <img src={media.src} alt={`Manchester Sign Group recent sign work ${index + 1}`} />
+              <img src={media.src} alt={`Manchester Sign Group recent sign work ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" fetchpriority={index === 0 ? 'high' : 'low'} />
             )}
             <button class="slider-arrow left" type="button" data-prev aria-label="Previous sign">‹</button>
             <button class="slider-arrow right" type="button" data-next aria-label="Next sign">›</button>

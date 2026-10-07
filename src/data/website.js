@@ -1,5 +1,4 @@
-const IMAGE_BASE = '/';
-const asset = (path) => `${IMAGE_BASE}${path.replace(/^\//, '')}`;
+const asset = (path) => path.replace(/^\//, '');
 
 export const signCategories = [
   { title: 'Flat Signs', image: asset('/images/signs/flat-signs.png') },

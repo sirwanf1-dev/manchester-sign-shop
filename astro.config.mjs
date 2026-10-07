@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://inf1-dev.github.io',
-  base: '/'
+  site: 'https://sirwanf1-dev.github.io',
+  base: '/manchester-sign-shop'
 });

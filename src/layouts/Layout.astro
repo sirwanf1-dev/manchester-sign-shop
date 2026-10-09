@@ -1,7 +1,7 @@
 ---
 const {
   title = 'Manchester Sign Group | Business Signs & Sign-Making Supplies',
-  description = 'Manchester Sign Group is based in Manchester and supplies signs and sign-making products across the UK, with throughout the United Kingdom delivery and a one-year product warranty.'
+  description = 'Manchester Sign Group is based in Manchester and supplies signs and sign-making products, with delivery throughout the United Kingdom and a one-year product warranty.'
 } = Astro.props;
 const BASE = import.meta.env.BASE_URL;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
@@ -31,7 +31,7 @@ const websiteSchema = {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#050708" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -54,7 +54,7 @@ const websiteSchema = {
       <a class="header-order" href="https://wa.me/447594106206?text=Hi%20Manchester%2C%20I%20would%20like%20to%20order%20a%20sign.%20Please%20let%20me%20know%20the%20next%20steps." target="_blank" rel="noopener">ORDER NOW <span>→</span></a>
     </header>
     <div class="menu-overlay" id="menuOverlay"></div>
-    <aside class="site-menu" id="siteMenu" aria-hidden="true">
+    <aside class="site-menu" id="siteMenu" aria-hidden="true" inert>
       <div class="menu-top"><strong>MENU</strong><button id="menuClose" type="button" aria-label="Close menu">×</button></div>
       <nav>
         <a href={`${BASE}`}>HOME <span>→</span></a>
@@ -95,7 +95,7 @@ const websiteSchema = {
   body.menu-open .menu-overlay { opacity:1; visibility:visible; }
   .menu-top { display:flex; align-items:center; justify-content:space-between; padding-bottom:24px; border-bottom:1px solid #303437; }
   .menu-top strong { font-size:13px; letter-spacing:3px; }
-  .menu-top button { border:0; background:none; color:#fff; font-size:42px; line-height:1; cursor:pointer; }
+  .menu-top button { width:48px; min-height:48px; border:0; background:none; color:#fff; font-size:42px; line-height:1; cursor:pointer; }
   .site-menu nav { display:grid; margin-top:18px; }
   .site-menu nav a { display:flex; align-items:center; justify-content:space-between; padding:18px 0; border-bottom:1px solid #25282b; color:#fff; text-decoration:none; font-size:16px; font-weight:900; letter-spacing:1px; }
   .site-menu nav a span { color:#ff1730; font-size:22px; }
@@ -104,7 +104,7 @@ const websiteSchema = {
   .floating-home { position:fixed; right:18px; bottom:20px; z-index:150; display:flex; align-items:center; gap:7px; padding:10px 13px; border:1px solid #ff1730; border-radius:22px; background:rgba(10,12,14,.94); color:#fff; text-decoration:none; font-size:12px; font-weight:900; letter-spacing:.8px; box-shadow:0 6px 22px rgba(0,0,0,.4),0 0 15px rgba(255,23,48,.16); backdrop-filter:blur(10px); }
   .floating-home:first-letter { color:#ff1730; }
   .floating-home span { color:#fff; }
-  .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 4%; border-top:1px solid #202326; color:#777; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
+  .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 4%; border-top:1px solid #202326; color:#a6a6a6; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
   @media(max-width:600px){.site-header{height:82px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}.menu-button{width:42px}.menu-button span{width:36px;height:3px}.header-order{padding:14px 19px;border-radius:9px;font-size:13px;white-space:nowrap}.header-order span{font-size:18px}.site-footer{flex-direction:column}}
   @media(max-width:360px){.site-header{height:76px;padding-left:14px;padding-right:14px}.menu-button{width:38px}.menu-button span{width:32px}.header-order{padding:12px 14px;font-size:11px}.header-order span{font-size:16px}}
 </style>
@@ -112,9 +112,22 @@ const websiteSchema = {
   const menuButton=document.querySelector('#menuButton');
   const menuClose=document.querySelector('#menuClose');
   const menuOverlay=document.querySelector('#menuOverlay');
-  function setMenu(open){document.body.classList.toggle('menu-open',open);menuButton?.setAttribute('aria-expanded',String(open));document.querySelector('#siteMenu')?.setAttribute('aria-hidden',String(!open));}
+  const siteMenu=document.querySelector('#siteMenu');
+  function setMenu(open){
+    document.body.classList.toggle('menu-open',open);
+    menuButton?.setAttribute('aria-expanded',String(open));
+    siteMenu?.setAttribute('aria-hidden',String(!open));
+    if(open){
+      siteMenu?.removeAttribute('inert');
+      requestAnimationFrame(()=>menuClose?.focus());
+    }else{
+      siteMenu?.setAttribute('inert','');
+      if(siteMenu?.contains(document.activeElement)) menuButton?.focus();
+    }
+  }
   menuButton?.addEventListener('click',()=>setMenu(true));
   menuClose?.addEventListener('click',()=>setMenu(false));
   menuOverlay?.addEventListener('click',()=>setMenu(false));
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.body.classList.contains('menu-open'))setMenu(false)});
   document.querySelectorAll('#siteMenu a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
 </script>

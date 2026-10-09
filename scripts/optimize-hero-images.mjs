@@ -14,8 +14,12 @@ await fs.mkdir(optimizedHeroDir, { recursive: true });
 for (const file of heroFiles) {
   const input = path.join(heroDir, file);
   const output = path.join(optimizedHeroDir, file.replace(/\.(?:png|jpe?g)$/i, '.webp'));
-  // High-quality WebP conversion; original source files remain untouched.
-  await sharp(input).webp({ quality: 92, effort: 5 }).toFile(output);
+  // Keep original files untouched; resize only oversized images and use high-quality WebP.
+  await sharp(input)
+    .rotate()
+    .resize({ width: 1600, height: 900, fit: 'inside', withoutEnlargement: true })
+    .webp({ quality: 88, effort: 6 })
+    .toFile(output);
 }
 
 async function walk(dir) {
@@ -29,14 +33,18 @@ async function walk(dir) {
   return found;
 }
 
-// Convert product, sign and portfolio images. Keep originals as a fallback.
+// Product, sign and portfolio images use a 1000px maximum width, sufficient for their card layouts.
 let converted = 0;
 for (const folder of ['shop', 'signs', 'our-work']) {
   const dir = path.join(imagesRoot, folder);
   try {
     for (const input of await walk(dir)) {
       const output = input.replace(/\.(?:png|jpe?g)$/i, '.webp');
-      await sharp(input).webp({ quality: 92, effort: 5 }).toFile(output);
+      await sharp(input)
+        .rotate()
+        .resize({ width: 1000, withoutEnlargement: true })
+        .webp({ quality: 88, effort: 6 })
+        .toFile(output);
       converted++;
     }
   } catch (error) {
@@ -44,4 +52,4 @@ for (const folder of ['shop', 'signs', 'our-work']) {
   }
 }
 
-console.log('Optimized ' + heroFiles.length + ' hero images and ' + converted + ' other images to high-quality WebP.');
+console.log('Optimized ' + heroFiles.length + ' hero images and ' + converted + ' other images to resized, high-quality WebP.');

@@ -1,7 +1,7 @@
 ---
 const {
   title = 'Manchester Sign Group | Business Signs & Sign-Making Supplies',
-  description = 'Manchester Sign Group provides business signage, 3D and illuminated signs, printed boards and sign-making supplies across Manchester and Greater Manchester.'
+  description = 'Manchester Sign Group is based in Manchester and supplies signs and sign-making products across the UK, with UK-wide delivery and a one-year product warranty.'
 } = Astro.props;
 const BASE = import.meta.env.BASE_URL;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
@@ -12,7 +12,7 @@ const organizationSchema = {
   name: 'Manchester Sign Group',
   url: new URL('/', Astro.site).href,
   telephone: '+447594106206',
-  areaServed: ['Manchester', 'Greater Manchester', 'United Kingdom'],
+  areaServed: { '@type': 'Country', name: 'United Kingdom' },
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: '+447594106206',

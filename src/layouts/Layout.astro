@@ -1,6 +1,31 @@
 ---
-const { title = 'Manchester Sign Group' } = Astro.props;
+const {
+  title = 'Manchester Sign Group | Business Signs & Sign-Making Supplies',
+  description = 'Manchester Sign Group provides business signage, 3D and illuminated signs, printed boards and sign-making supplies across Manchester and Greater Manchester.'
+} = Astro.props;
 const BASE = import.meta.env.BASE_URL;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': new URL('/#organization', Astro.site).href,
+  name: 'Manchester Sign Group',
+  url: new URL('/', Astro.site).href,
+  telephone: '+447594106206',
+  areaServed: ['Manchester', 'Greater Manchester', 'United Kingdom'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: '+447594106206',
+    contactType: 'customer service'
+  }
+};
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Manchester Sign Group',
+  url: new URL('/', Astro.site).href,
+  publisher: { '@id': organizationSchema['@id'] }
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -8,7 +33,19 @@ const BASE = import.meta.env.BASE_URL;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#050708" />
-    <meta name="description" content="Manchester Sign Group — signs, supplies and everything you need." />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Manchester Sign Group" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <title>{title}</title>
   </head>
   <body>

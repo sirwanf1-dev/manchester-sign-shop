@@ -29,7 +29,6 @@
         <input id="managerPassword" type="password" autocomplete="current-password" minlength="8" placeholder="Enter your password" required />
         <button class="primary" type="submit" id="authButton">LOGIN <span>→</span></button>
       </form>
-      <button class="mode-button" type="button" id="modeButton">CREATE ACCOUNT</button>
       <p class="status" id="authStatus" role="status" aria-live="polite"></p>
     </section>
 
@@ -81,7 +80,6 @@
     other: 'Other sign services'
   };
   const byId = id => document.getElementById(id);
-  let creatingAccount = false;
 
   function setStatus(id, message, isError = false) {
     const node = byId(id);
@@ -196,39 +194,18 @@
     });
   }
 
-  byId('modeButton').addEventListener('click', () => {
-    creatingAccount = !creatingAccount;
-    byId('authTitle').textContent = creatingAccount ? 'CREATE ACCOUNT' : 'LOGIN';
-    
-    byId('authButton').innerHTML = creatingAccount ? 'CREATE ACCOUNT <span>→</span>' : 'LOGIN <span>→</span>';
-    byId('modeButton').textContent = creatingAccount ? 'BACK TO LOGIN' : 'CREATE ACCOUNT';
-    byId('managerPassword').autocomplete = creatingAccount ? 'new-password' : 'current-password';
-    setStatus('authStatus', '');
-  });
-
   byId('authForm').addEventListener('submit', async event => {
     event.preventDefault();
     const email = byId('managerEmail').value.trim().toLowerCase();
     const password = byId('managerPassword').value;
     const button = byId('authButton');
-    setBusy(button, true, creatingAccount ? 'CREATING ACCOUNT…' : 'SIGNING IN…');
-    setStatus('authStatus', creatingAccount ? 'Creating your account…' : 'Checking your sign-in…');
+    setBusy(button, true, 'SIGNING IN…');
+    setStatus('authStatus', 'Checking your sign-in…');
     try {
-      if (creatingAccount) {
-        const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + '/manage/' } });
-        if (error) throw error;
-        if (data.session && data.user) {
-          await enterManager(data.user);
-        } else {
-          setStatus('authStatus', 'Check your email for the confirmation message, then return here and sign in.');
-          byId('managerPassword').value = '';
-        }
-      } else {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        await enterManager(data.user);
-        byId('managerPassword').value = '';
-      }
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      await enterManager(data.user);
+      byId('managerPassword').value = '';
     } catch (error) {
       setStatus('authStatus', friendlyError(error), true);
     } finally {
@@ -352,7 +329,6 @@
   .primary{min-height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border:0;border-radius:8px;background:#ff1730;color:#fff;font-size:11px;font-weight:900;letter-spacing:1px;cursor:pointer}
   .primary span{font-size:18px}
   .primary:disabled{opacity:.6;cursor:wait}
-  .mode-button{margin-top:18px;padding:8px 0;border:0;background:transparent;color:#b8ff5a;font-size:11px;font-weight:900;letter-spacing:.8px;cursor:pointer}
   .small-note{color:#92989c;font-size:12px;line-height:1.55}
   .status{min-height:18px;margin:12px 0 0;color:#b8ff5a;font-size:12px;line-height:1.5}
   .status.error{color:#ff8a96}

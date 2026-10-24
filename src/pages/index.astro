@@ -67,9 +67,9 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
           <div class="field"><label>INSTALLATION</label><select id="installation"><option value="none">No installation</option><option value="install">Installation</option></select></div>
                   </div>
         <aside class="estimate-summary">
-          <span>INDICATIVE STARTING PRICE</span>
+          <span>ESTIMATED PRICE · 10% OFF SIGNS</span>
           <strong id="estimatePrice">Enter your size</strong>
-          <small>Final price is confirmed after reviewing your sign.</small>
+          <small>Includes 10% off the sign price. Installation is added separately when selected.</small>
           <a class="quote-button" id="quoteButton" href="https://wa.me/447594106206" target="_blank" rel="noopener">SEND MY ESTIMATE →</a>
         </aside>
       </div>
@@ -126,7 +126,8 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     const illuminationFactor=type?.value==='neon'?0.4:(illumination?.value==='none'?0.65:((type?.value==='3d'||type?.value==='rgb')?0.78:1));
     const installationCost=installation?.value==='install'?(type?.value==='neon'?100:400):0;
     const unitPrice=Math.max(minimums[type?.value],Math.round(area*rates[type?.value]*illuminationFactor));
-    const price=roundEstimate(unitPrice+installationCost);
+    const discountedSignPrice=unitPrice*0.9;
+    const price=roundEstimate(discountedSignPrice+installationCost);
     if(output)output.textContent=`£${price.toLocaleString('en-GB')}`;
   }
   [type,width,height,illumination,installation].forEach(el=>el?.addEventListener('input',calculate));

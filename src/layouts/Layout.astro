@@ -51,8 +51,10 @@ const websiteSchema = {
   </head>
   <body>
     <header class="site-header">
-      <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu"><span></span><span></span><span></span></button>
-      <a class="manager-login" href={`${BASE}manage/`} aria-label="Open website manager sign in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/></svg><span>SIGN IN</span></a>
+      <div class="header-left">
+        <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteMenu"><span></span><span></span><span></span></button>
+        <a class="manager-login" href={`${BASE}manage/`} aria-label="Login">LOGIN</a>
+      </div>
       <a class="header-order" href="https://wa.me/447594106206?text=Hi%20Manchester%2C%20I%20would%20like%20to%20order%20a%20sign.%20Please%20let%20me%20know%20the%20next%20steps." target="_blank" rel="noopener">ORDER NOW <span>→</span></a>
     </header>
     <div class="menu-overlay" id="menuOverlay"></div>
@@ -87,6 +89,9 @@ const websiteSchema = {
   :global(img),:global(video) { max-width:100%; }
   :global(button),:global(a),:global(input),:global(select) { -webkit-tap-highlight-color:transparent; }
   .site-header { height:94px; position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 3.5%; background:rgba(5,7,8,.88); border-bottom:1px solid rgba(255,255,255,.12); backdrop-filter:blur(18px); }
+  .header-left { display:flex; align-items:center; gap:14px; }
+  .manager-login { color:#fff; text-decoration:none; font-size:12px; font-weight:900; letter-spacing:1px; }
+  .manager-login:hover,.manager-login:focus-visible { color:#b8ff5a; }
   .menu-button { width:52px; height:48px; display:flex; flex-direction:column; justify-content:center; gap:7px; padding:0; border:0; background:transparent; cursor:pointer; }
   .menu-button span { display:block; width:41px; height:4px; border-radius:3px; background:#fff; }
   .header-order { display:flex; align-items:center; gap:10px; padding:17px 28px; border-radius:12px; background:#ff1730; color:#fff; text-decoration:none; font-size:16px; font-weight:900; letter-spacing:.4px; box-shadow:0 0 28px rgba(255,23,48,.28); }
@@ -109,7 +114,7 @@ const websiteSchema = {
   .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 4%; border-top:1px solid #202326; color:#a6a6a6; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
   @media(max-width:600px){.site-header{height:82px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}.menu-button{width:42px}.menu-button span{width:36px;height:3px}.header-order{padding:14px 19px;border-radius:9px;font-size:13px;white-space:nowrap}.header-order span{font-size:18px}.site-footer{flex-direction:column}}
   @media(max-width:360px){.site-header{height:76px;padding-left:14px;padding-right:14px}.menu-button{width:38px}.menu-button span{width:32px}.header-order{padding:12px 14px;font-size:11px}.header-order span{font-size:16px}}
-.manager-login{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 10px;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:.8px}.manager-login svg{width:20px;height:20px;fill:none;stroke:#b8ff5a;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}@media(max-width:600px){.manager-login{width:42px;height:42px;min-height:42px;padding:0;border:1px solid #303437;border-radius:50%}.manager-login span{display:none}}
+
 </style>
 <script>
   const menuButton=document.querySelector('#menuButton');

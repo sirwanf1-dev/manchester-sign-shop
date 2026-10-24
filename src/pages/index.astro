@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Layout from '../layouts/Layout.astro';
-import { signCategories, shopProducts } from '../data/website.js';
+import { signCategories } from '../data/website.js';
 const BASE = '';
 
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
@@ -75,9 +75,14 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
       </div>
     </section>
 
-    <section class="content-section shop-section" id="shop">
-      <div class="section-title-row"><div><h2><em>SHOP</em></h2><p>SIGN MAKING SUPPLIES</p></div><a href="https://wa.me/447594106206?text=Hi%20Manchester%2C%20I%20would%20like%20to%20order%20some%20sign%20making%20materials.%20Please%20let%20me%20know%20what%20you%20need." target="_blank" rel="noopener">ORDER NOW <span>→</span></a></div>
-      <div class="shop-grid">{shopProducts.map(item=><article class="shop-card"><img src={item.image} alt={item.title} loading="lazy" /><div class="shop-overlay"><h3>{item.title}</h3></div></article>)}</div>
+    <section class="content-section other-services-section" id="other-services">
+      <div class="section-title-row"><div><h2><em>OTHER SERVICES</em></h2><p>REPAIRS • CLEANING • REPAINTING</p></div><a href="/other-services/">VIEW SERVICES <span>→</span></a></div>
+      <div class="other-services-grid">
+        <a class="other-service-card" href="/other-services/"><img src="/images/services/sign-repair.svg" alt="Shop sign with one unlit letter, ready for repair" loading="lazy" /><div class="other-service-overlay"><h3>SIGN REPAIRS</h3><p>One letter gone dark? We can help.</p></div></a>
+        <a class="other-service-card" href="/other-services/"><img src="/images/services/sign-cleaning.svg" alt="Refreshed shop sign with sparkle details" loading="lazy" /><div class="other-service-overlay"><h3>SIGN CLEANING</h3><p>Bring back a clean, bright finish.</p></div></a>
+        <a class="other-service-card" href="/other-services/"><img src="/images/services/sign-repainting.svg" alt="Shop sign receiving a fresh paint finish" loading="lazy" /><div class="other-service-overlay"><h3>SIGN PAINTING</h3><p>Refresh or repaint existing signs.</p></div></a>
+        <a class="other-service-card" href="/other-services/"><img src="/images/services/other-sign-services.svg" alt="Custom sign service illustration" loading="lazy" /><div class="other-service-overlay"><h3>OTHER SERVICES</h3><p>Ask us about your sign project.</p></div></a>
+      </div>
     </section>
 
     <section class="benefits">
@@ -174,7 +179,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
   }
 
   if(window.matchMedia('(max-width:760px)').matches){
-    setupCardSlider('.shop-grid');
+    setupCardSlider('.other-services-grid');
   }
 </script>
 
@@ -186,27 +191,27 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
   :global(button),:global(input),:global(select){font:inherit}
   main{width:100%;max-width:100%;overflow:hidden}
   .hero{width:min(1200px,94%);margin:auto;padding:20px 0 32px}.hero-heading{text-align:center;padding:0 0 18px}
-  h1{margin:0;font-size:clamp(42px,7vw,82px);line-height:.95;letter-spacing:-4px;font-weight:950;white-space:nowrap}h1 em,.section-title-row h2 em,.shop-section h2 em{font-style:normal;color:#ff1730}
+  h1{margin:0;font-size:clamp(42px,7vw,82px);line-height:.95;letter-spacing:-4px;font-weight:950;white-space:nowrap}h1 em,.section-title-row h2 em,.other-services-section h2 em{font-style:normal;color:#ff1730}
   .hero-heading p{margin:12px 0 0;color:#ddd;font-size:14px;letter-spacing:7px;font-weight:700}.hero-heading i{display:inline-block;width:3px;height:16px;margin:0 13px;background:#ff1730;vertical-align:-3px}
   .hero-slider{position:relative;aspect-ratio:16/9;border:1px solid #34383c;border-radius:18px;overflow:hidden;background:#121518}.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s}.hero-slide.active{opacity:1}.hero-slide img,.hero-slide video{width:100%;height:100%;display:block;object-fit:cover}
   .slider-arrow{position:absolute;top:50%;transform:translateY(-50%);width:58px;height:58px;border:2px solid rgba(255,255,255,.8);border-radius:50%;background:rgba(0,0,0,.4);color:#fff;font-size:50px;line-height:45px;cursor:pointer}.slider-arrow.left{left:18px}.slider-arrow.right{right:18px}
   .slider-dots{position:absolute;left:50%;bottom:15px;transform:translateX(-50%);display:flex;gap:2px;padding:4px 8px;border-radius:20px;background:rgba(0,0,0,.7)}.slider-dots button{width:24px;height:24px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;cursor:pointer}.slider-dots button::before{content:"";width:10px;height:10px;border-radius:50%;background:#777}.slider-dots button.active::before{background:#ff1730}
   .content-section{width:min(1200px,94%);margin:auto;padding:20px 0 34px}.section-title-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px}.section-title-row h2{margin:0;font-size:clamp(32px,5vw,54px);letter-spacing:-2px;line-height:1}
   .section-title-row a{border:2px solid #ff1730;border-radius:28px;padding:12px 20px;color:#fff;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.5px;box-shadow:0 0 18px rgba(255,23,48,.16)}.section-title-row a span{color:#ff1730;font-size:18px;margin-left:6px}
-  .shop-section .section-title-row{align-items:end}.shop-section h2{margin:0}.shop-section h2 em{color:#b8ff5a}.shop-section p{margin:7px 0 0;color:#eee;letter-spacing:4px;font-size:12px;font-weight:800}
-  .shop-section .section-title-row a{border-color:#b8ff5a;box-shadow:0 0 18px rgba(184,255,90,.18)}
-  .shop-section .section-title-row a span{color:#b8ff5a}
-  .shop-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.shop-card{min-width:0}
-  .shop-card{position:relative;aspect-ratio:1/1.05;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.shop-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}.shop-card:hover img{transform:scale(1.05)}
-  .shop-overlay{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(0,0,0,.85) 100%)}.shop-overlay h3{position:absolute;bottom:14px;left:16px;right:10px;margin:0;color:#fff;font-size:15px;font-weight:900;text-transform:uppercase}
+  .other-services-section .section-title-row{align-items:end}.other-services-section h2{margin:0}.other-services-section h2 em{color:#b8ff5a}.other-services-section p{margin:7px 0 0;color:#eee;letter-spacing:4px;font-size:12px;font-weight:800}
+  .other-services-section .section-title-row a{border-color:#b8ff5a;box-shadow:0 0 18px rgba(184,255,90,.18)}
+  .other-services-section .section-title-row a span{color:#b8ff5a}
+  .other-services-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}.other-service-card{min-width:0}
+  .other-service-card{position:relative;aspect-ratio:1/1.05;border:1px solid #4a4e52;border-radius:13px;overflow:hidden;background:#15191b}.other-service-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s}.other-service-card:hover img{transform:scale(1.05)}
+  .other-service-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:16px;background:linear-gradient(transparent 28%,rgba(0,0,0,.9) 100%)}.other-service-overlay h3{margin:0;color:#fff;font-size:15px;font-weight:900;text-transform:uppercase}.other-service-overlay p{margin:0;color:#e3e3e3;font-size:12px;line-height:1.35}
   .estimate-section{width:min(1120px,92%);margin:5px auto 20px;padding:3px;border:2px solid #ff1730;border-radius:20px;background:linear-gradient(110deg,#ff1730,#b00018 55%,#ff1730);box-shadow:0 0 35px rgba(255,23,48,.28)}
   .estimate-toggle{width:100%;display:grid;grid-template-columns:85px 1fr 45px;align-items:center;gap:18px;padding:25px 42px;border:0;border-radius:16px;background:#9d071a;color:#fff;text-align:left;cursor:pointer}.estimate-icon{display:flex;align-items:center;justify-content:center;color:#fff}.estimate-icon svg{width:52px;height:52px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.estimate-text{display:grid;gap:8px}.estimate-text small{font-size:12px;letter-spacing:4px;font-weight:800}.estimate-text strong{font-size:30px;line-height:1.05}.estimate-toggle>b{font-size:52px;font-weight:300;text-align:center;transition:transform .3s}.estimate-toggle[aria-expanded=true]>b{transform:rotate(90deg)}
   .calculator{display:none;grid-template-columns:minmax(0,1fr) 250px;gap:18px;padding:18px;background:#0b0d0e;border-radius:0 0 16px 16px;align-items:stretch}.calculator.open{display:grid}.calculator-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field{display:grid;gap:6px;min-width:0}.field label{font-size:9px;color:#b8b8b8;font-weight:900;letter-spacing:1.5px}.field label small{color:#ff1730;font-size:9px}.field input,.field select{width:100%;min-width:0;padding:12px 13px;border:1px solid #303437;background:#15191b;color:#fff;border-radius:6px;font-size:14px}.field input:focus,.field select:focus{outline:2px solid rgba(255,23,48,.55);border-color:#ff1730}.estimate-summary{display:flex;flex-direction:column;justify-content:center;min-width:0;padding:18px;border:1px solid #3a3d40;border-radius:12px;background:linear-gradient(145deg,#16191b,#0b0d0e)}.estimate-summary>span{font-size:9px;color:#b8b8b8;letter-spacing:2px;font-weight:900}.estimate-summary strong{display:block;color:#ff1730;font-size:36px;line-height:1.05;margin:7px 0}.estimate-summary small{color:#b0b0b0;font-size:10px;line-height:1.4}.quote-button{display:flex;align-items:center;justify-content:center;min-height:46px;margin-top:16px;padding:12px;background:#ff1730;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1.3px;border-radius:7px;box-shadow:0 0 18px rgba(255,23,48,.16)}
-  .shop-section{padding-top:12px}.shop-card{aspect-ratio:1/.98}.shop-overlay{background:linear-gradient(transparent 45%,rgba(0,0,0,.9) 100%)}
+  .other-services-section{padding-top:12px}.other-service-card{aspect-ratio:1/.98}.other-service-overlay{background:linear-gradient(transparent 45%,rgba(0,0,0,.9) 100%)}
   .benefits{width:min(1200px,94%);margin:0 auto;padding:34px 0 25px;border-top:1px solid #303437;display:grid;grid-template-columns:repeat(4,1fr)}.benefits div{display:grid;grid-template-columns:42px 1fr;column-gap:10px;padding:0 25px;border-right:1px solid #303437}.benefits div:last-child{border:0}.benefits b{grid-row:span 2;color:#ff1730;font-size:30px}.benefits strong{font-size:12px}.benefits span{color:#b0b0b0;font-size:10px;margin-top:3px}
   @media(max-width:1024px){
     .hero{width:min(1200px,96%)}.content-section,.benefits{width:min(1200px,96%)}
-    .shop-grid{grid-template-columns:repeat(3,1fr)}
+    .other-services-grid{grid-template-columns:repeat(3,1fr)}
     .estimate-section{width:min(1120px,94%)}
   }
   @media(max-width:760px){
@@ -219,11 +224,11 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     .slider-arrow{width:44px;height:44px;font-size:34px;line-height:30px;background:rgba(0,0,0,.65)}.slider-arrow.left{left:10px}.slider-arrow.right{right:10px}
     .slider-dots{bottom:10px;gap:6px;padding:6px 10px}.slider-dots button{width:8px;height:8px}
     .content-section{width:100%;padding:25px 0 28px}.section-title-row{align-items:flex-end;gap:12px;margin:0 16px 14px}.section-title-row h2{font-size:clamp(27px,8vw,34px);letter-spacing:-1.5px}.section-title-row a{min-height:44px;display:flex;align-items:center;justify-content:center;padding:8px 11px;border-radius:20px;font-size:8px;white-space:nowrap}
-    .shop-grid{display:flex !important;flex-wrap:nowrap !important;gap:10px;width:100%;padding:0 16px 8px;overflow-x:auto !important;overflow-y:hidden !important;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}.shop-grid::-webkit-scrollbar{display:none}
-    .shop-card{flex:0 0 calc((100% - 42px) / 2) !important;width:calc((100% - 42px) / 2) !important;min-width:0 !important;height:auto !important;transform:none !important;scroll-snap-align:start;display:block !important;aspect-ratio:1.18/1 !important;border-radius:10px}
-    .shop-overlay h3{left:9px;bottom:8px;font-size:clamp(9px,2.5vw,11px)}.shop-card img{transform:scale(1) !important;object-fit:cover}
+    .other-services-grid{display:flex !important;flex-wrap:nowrap !important;gap:10px;width:100%;padding:0 16px 8px;overflow-x:auto !important;overflow-y:hidden !important;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}.other-services-grid::-webkit-scrollbar{display:none}
+    .other-service-card{flex:0 0 calc((100% - 42px) / 2) !important;width:calc((100% - 42px) / 2) !important;min-width:0 !important;height:auto !important;transform:none !important;scroll-snap-align:start;display:block !important;aspect-ratio:1.18/1 !important;border-radius:10px}
+    .other-service-overlay{padding:10px}.other-service-overlay h3{font-size:clamp(9px,2.5vw,11px)}.other-service-overlay p{font-size:10px}.other-service-card img{transform:scale(1) !important;object-fit:cover}
     .estimate-section{width:calc(100% - 32px);margin:3px 16px 22px;border-radius:14px;padding:2px}.estimate-toggle{grid-template-columns:38px minmax(0,1fr) 25px;gap:9px;padding:16px 14px;border-radius:11px}.estimate-icon svg{width:30px;height:30px}.estimate-text{gap:5px;min-width:0}.estimate-text small{font-size:clamp(6px,1.8vw,8px);letter-spacing:1.6px}.estimate-text strong{font-size:clamp(14px,4.3vw,17px);line-height:1.15}.estimate-toggle>b{font-size:32px}.calculator{grid-template-columns:1fr;gap:12px;padding:13px}.calculator-fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.estimate-summary{padding:15px}.field input,.field select{min-height:46px;font-size:16px}.quote-button{min-height:48px;display:flex;align-items:center;justify-content:center}
-    .shop-section{padding-top:8px}.shop-section .section-title-row{align-items:center}.shop-section .section-title-row a{min-width:0;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;font-size:10px;text-align:center}.shop-section p{margin-top:5px;font-size:clamp(7px,2vw,9px);letter-spacing:2.2px}
+    .other-services-section{padding-top:8px}.other-services-section .section-title-row{align-items:center}.other-services-section .section-title-row a{min-width:0;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;font-size:10px;text-align:center}.other-services-section p{margin-top:5px;font-size:clamp(7px,2vw,9px);letter-spacing:2.2px}
     .benefits{width:100%;padding:18px 10px 14px;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}.benefits div{min-height:42px;padding:6px 3px;display:flex;align-items:center;justify-content:center;gap:4px;border-right:1px solid #303437;border-bottom:0;text-align:center}.benefits div:last-child{border-right:0}.benefits b{font-size:13px;line-height:1;flex:0 0 auto}.benefits strong{font-size:clamp(6px,1.8vw,8px);line-height:1;white-space:nowrap;letter-spacing:.1px}.benefits span{display:none}
   }
   @media(max-width:360px){
@@ -235,14 +240,14 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     h1{font-size:23px;letter-spacing:0}
     .hero-heading p{font-size:6.8px;letter-spacing:1.5px}
     .section-title-row{margin-left:12px;margin-right:12px}
-    .shop-grid{padding-left:12px;padding-right:12px}
-    .shop-card{flex-basis:calc((100% - 34px) / 2) !important;width:calc((100% - 34px) / 2) !important}
+    .other-services-grid{padding-left:12px;padding-right:12px}
+    .other-service-card{flex-basis:calc((100% - 34px) / 2) !important;width:calc((100% - 34px) / 2) !important}
     .estimate-section{width:calc(100% - 24px);margin-left:12px;margin-right:12px}
     .estimate-toggle{grid-template-columns:32px minmax(0,1fr) 20px;padding-left:10px;padding-right:10px}
     .estimate-text small{letter-spacing:1px}
     .estimate-text strong{font-size:13px}
     .calculator-fields .field:first-child{grid-column:1/-1}
-    .shop-section .section-title-row a{font-size:9px;padding-left:10px;padding-right:10px}
+    .other-services-section .section-title-row a{font-size:9px;padding-left:10px;padding-right:10px}
   }
   @media(min-width:761px) and (max-width:1100px){
     .site-header{height:88px}

@@ -4,6 +4,7 @@ import path from 'node:path';
 import Layout from '../layouts/Layout.astro';
 import { signCategories } from '../data/website.js';
 import serviceImages from '../data/service-images.json';
+import { supabase } from '../lib/supabase.js';
 const BASE = '';
 
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
@@ -79,10 +80,10 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     <section class="content-section other-services-section" id="other-services">
       <div class="section-title-row"><div><h2><em>OTHER SERVICES</em></h2><p>REPAIRS • CLEANING • REPAINTING</p></div><a href="/other-services/">VIEW SERVICES <span>→</span></a></div>
       <div class="other-services-grid">
-        <a class="other-service-card" href="/other-services/"><img src={serviceImages.repair} alt="Shop sign with one unlit letter, ready for repair" loading="lazy" /><div class="other-service-overlay"><h3>SIGN REPAIRS</h3><p>One letter gone dark? We can help.</p></div></a>
-        <a class="other-service-card" href="/other-services/"><img src={serviceImages.cleaning} alt="Refreshed shop sign with sparkle details" loading="lazy" /><div class="other-service-overlay"><h3>SIGN CLEANING</h3><p>Bring back a clean, bright finish.</p></div></a>
-        <a class="other-service-card" href="/other-services/"><img src={serviceImages.repainting} alt="Shop sign receiving a fresh paint finish" loading="lazy" /><div class="other-service-overlay"><h3>SIGN PAINTING</h3><p>Refresh or repaint existing signs.</p></div></a>
-        <a class="other-service-card" href="/other-services/"><img src={serviceImages.other} alt="Custom sign service illustration" loading="lazy" /><div class="other-service-overlay"><h3>OTHER SERVICES</h3><p>Ask us about your sign project.</p></div></a>
+        <a class="other-service-card" href="/other-services/"><img src={serviceImages.repair} data-service-image="repair" alt="Shop sign with one unlit letter, ready for repair" loading="lazy" /><div class="other-service-overlay"><h3>SIGN REPAIRS</h3><p>One letter gone dark? We can help.</p></div></a>
+        <a class="other-service-card" href="/other-services/"><img src={serviceImages.cleaning} data-service-image="cleaning" alt="Refreshed shop sign with sparkle details" loading="lazy" /><div class="other-service-overlay"><h3>SIGN CLEANING</h3><p>Bring back a clean, bright finish.</p></div></a>
+        <a class="other-service-card" href="/other-services/"><img src={serviceImages.repainting} data-service-image="repainting" alt="Shop sign receiving a fresh paint finish" loading="lazy" /><div class="other-service-overlay"><h3>SIGN PAINTING</h3><p>Refresh or repaint existing signs.</p></div></a>
+        <a class="other-service-card" href="/other-services/"><img src={serviceImages.other} data-service-image="other" alt="Custom sign service illustration" loading="lazy" /><div class="other-service-overlay"><h3>OTHER SERVICES</h3><p>Ask us about your sign project.</p></div></a>
       </div>
     </section>
 
@@ -97,13 +98,83 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
 </Layout>
 
 <script>
-  const slides=[...document.querySelectorAll('[data-slide]')],dots=[...document.querySelectorAll('[data-dot]')];
-  let active=0,timer;
-  function show(i){active=(i+slides.length)%slides.length;slides.forEach((s,n)=>s.classList.toggle('active',n===active));dots.forEach((d,n)=>d.classList.toggle('active',n===active));}
-  function restart(){clearInterval(timer);timer=setInterval(()=>show(active+1),5000);}
-  document.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();show(active+1);restart()}));
-  document.querySelectorAll('[data-prev]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();show(active-1);restart()}));
-  dots.forEach((d,i)=>d.addEventListener('click',()=>{show(i);restart()})); if(slides.length){show(0);restart()}
+  const heroSlider=document.querySelector('.hero-slider');
+  async function appendUploadedSlides(){
+    const {data,error}=await supabase.storage.from('website-images').list('slides',{limit:1000,sortBy:{column:'name',order:'asc'}});
+    if(error||!data?.length||!heroSlider) return;
+    const dotRail=heroSlider.querySelector('.slider-dots');
+    data.filter(file=>/\\.(?:jpe?g|png|webp)$/i.test(file.name)).forEach(file=>{
+      const slide=document.createElement('article');
+      slide.className='hero-slide';
+      slide.dataset.slide='';
+      const image=document.createElement('img');
+      image.src=supabase.storage.from('website-images').getPublicUrl('slides/'+file.name).data.publicUrl;
+      image.alt='Manchester Sign Group sign project';
+      image.loading='lazy';
+      image.decoding='async';
+      const previous=document.createElement('button');
+      previous.className='slider-arrow left';
+      previous.type='button';
+      previous.dataset.prev='';
+      previous.setAttribute('aria-label','Previous sign');
+      previous.textContent='‹';
+      const next=document.createElement('button');
+      next.className='slider-arrow right';
+      next.type='button';
+      next.dataset.next='';
+      next.setAttribute('aria-label','Next sign');
+      next.textContent='›';
+      slide.append(image,previous,next);
+      heroSlider.insertBefore(slide,dotRail);
+    });
+  }
+  async function initializeHeroSlider(){
+    try{await appendUploadedSlides()}catch(error){console.warn('Could not load uploaded slideshow photos:',error.message)}
+    const slides=[...document.querySelectorAll('[data-slide]')];
+    const dotRail=document.querySelector('.slider-dots');
+    if(!slides.length||!dotRail) return;
+    dotRail.replaceChildren();
+    slides.forEach((slide,index)=>{
+      slide.dataset.slide=String(index);
+      const dot=document.createElement('button');
+      dot.type='button';
+      dot.dataset.dot=String(index);
+      dot.setAttribute('aria-label','Slide '+(index+1));
+      dotRail.append(dot);
+    });
+    const dots=[...dotRail.querySelectorAll('[data-dot]')];
+    let active=0,timer;
+    function show(index){
+      active=(index+slides.length)%slides.length;
+      slides.forEach((slide,n)=>slide.classList.toggle('active',n===active));
+      dots.forEach((dot,n)=>dot.classList.toggle('active',n===active));
+    }
+    function restart(){clearInterval(timer);timer=setInterval(()=>show(active+1),5000)}
+    document.querySelectorAll('[data-next]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();show(active+1);restart()}));
+    document.querySelectorAll('[data-prev]').forEach(button=>button.addEventListener('click',event=>{event.stopPropagation();show(active-1);restart()}));
+    dots.forEach((dot,index)=>dot.addEventListener('click',()=>{show(index);restart()}));
+    show(0);
+    restart();
+  }
+  initializeHeroSlider();
+
+  async function loadUploadedServicePhotos(){
+    const {data,error}=await supabase.storage.from('website-images').list('services',{limit:1000,sortBy:{column:'name',order:'asc'}});
+    if(error||!data) return;
+    const latest={};
+    const files=data
+      .filter(file=>/\\.(?:jpe?g|png|webp)$/i.test(file.name))
+      .sort((a,b)=>new Date(b.updated_at||b.created_at||0)-new Date(a.updated_at||a.created_at||0));
+    files.forEach(file=>{
+      const key=['repair','cleaning','repainting','other'].find(service=>file.name.startsWith(service+'-'));
+      if(key&&!latest[key]) latest[key]=file;
+    });
+    document.querySelectorAll('[data-service-image]').forEach(image=>{
+      const file=latest[image.dataset.serviceImage];
+      if(file) image.src=supabase.storage.from('website-images').getPublicUrl('services/'+file.name).data.publicUrl;
+    });
+  }
+  loadUploadedServicePhotos().catch(error=>console.warn('Could not load uploaded service photos:',error.message));
 
   const toggle=document.querySelector('#estimateToggle'),calc=document.querySelector('#calculator');
   toggle?.addEventListener('click',()=>{const open=calc.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));calc.setAttribute('aria-hidden',String(!open))});

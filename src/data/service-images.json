@@ -1,0 +1,6 @@
+{
+  "repair": "/images/services/sign-repair.svg",
+  "cleaning": "/images/services/sign-cleaning.svg",
+  "repainting": "/images/services/sign-repainting.svg",
+  "other": "/images/services/other-sign-services.svg"
+}

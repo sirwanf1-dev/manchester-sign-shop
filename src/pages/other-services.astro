@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Sign Repairs, Cleaning & Repainting | Manchester Sign Group" description="Keep your signage looking its best with sign repairs, LED fault checks, sign cleaning and repainting from Manchester Sign Group. Ask us about your sign maintenance project.">
+  <main class="inner-page">
+    <header class="page-head">
+      <small>CARE FOR YOUR EXISTING SIGN</small>
+      <h1>OTHER <em>SERVICES</em></h1>
+      <p>Already have a sign that needs attention? We can help with repairs, lighting faults, cleaning and repainting. Send us a photo and a few details and we’ll discuss the best next step.</p>
+    </header>
+
+    <section class="service-grid" aria-label="Sign maintenance services">
+      <article class="service-card">
+        <img src="/images/services/sign-repair.svg" alt="Illuminated shop sign with one unlit letter, ready for repair" loading="lazy" />
+        <div><small>01 / REPAIR</small><h2>Sign repairs & lighting faults</h2><p>One letter gone dark, damaged lettering or a sign that is not working as it should? We can assess the issue and advise on repair options.</p></div>
+      </article>
+      <article class="service-card">
+        <img src="/images/services/sign-cleaning.svg" alt="Clean shopfront sign with sparkle details" loading="lazy" />
+        <div><small>02 / CLEANING</small><h2>Sign cleaning</h2><p>Refresh the look of your shopfront with sign cleaning to remove everyday dirt and help your business stand out again.</p></div>
+      </article>
+      <article class="service-card">
+        <img src="/images/services/sign-repainting.svg" alt="Shop sign being refreshed with a new coat of paint" loading="lazy" />
+        <div><small>03 / REPAINTING</small><h2>Sign painting & repainting</h2><p>Give existing signage a new lease of life with paint touch-ups or a refreshed finish, subject to the sign’s condition and material.</p></div>
+      </article>
+      <article class="service-card">
+        <img src="/images/services/other-sign-services.svg" alt="Custom sign service illustration" loading="lazy" />
+        <div><small>04 / MORE HELP</small><h2>Other sign services</h2><p>Need help with a different sign issue or maintenance job? Tell us what you have in mind and we’ll let you know how we can help.</p></div>
+      </article>
+    </section>
+
+    <section class="contact-panel">
+      <div><small>GET STARTED</small><h2>Show us what needs fixing</h2><p>Send a photo of your sign, your location and a short description of the work you need.</p></div>
+      <a href="https://wa.me/447594106206?text=Hi%20Manchester%20Sign%20Group%2C%20I%20need%20help%20with%20a%20sign%20repair%20or%20maintenance.%20I%20can%20send%20a%20photo." target="_blank" rel="noopener">ASK ABOUT A REPAIR <span>→</span></a>
+    </section>
+  </main>
+</Layout>
+<style>
+  .inner-page{width:min(1120px,92%);margin:auto;padding:70px 0 90px}.page-head{max-width:760px;margin-bottom:34px}.page-head small,.service-card small,.contact-panel small{color:#b8ff5a;font-size:10px;font-weight:900;letter-spacing:3px}.page-head h1{margin:10px 0 14px;font-size:clamp(42px,7vw,76px);line-height:.95;letter-spacing:-3px}.page-head h1 em{font-style:normal;color:#b8ff5a}.page-head p{color:#aaa;line-height:1.65;font-size:15px}.service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.service-card{overflow:hidden;border:1px solid #303437;border-radius:14px;background:#0c0f11}.service-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#101317}.service-card>div{padding:20px 22px 23px}.service-card h2{margin:9px 0 8px;font-size:21px;letter-spacing:-.5px}.service-card p{margin:0;color:#aaa;font-size:14px;line-height:1.6}.contact-panel{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:24px;padding:26px;border:1px solid #303437;border-radius:14px;background:#101316}.contact-panel h2{margin:8px 0;font-size:24px}.contact-panel p{margin:0;color:#aaa;line-height:1.5}.contact-panel a{display:inline-flex;align-items:center;gap:14px;flex:none;padding:15px 20px;border-radius:8px;background:#ff1730;color:#fff;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1px}.contact-panel a span{font-size:18px}@media(max-width:700px){.inner-page{padding:48px 0 65px}.service-grid{grid-template-columns:1fr}.service-card>div{padding:18px}.contact-panel{align-items:flex-start;flex-direction:column;padding:21px}.contact-panel a{width:100%;justify-content:center}.page-head h1{font-size:44px}}
+</style>

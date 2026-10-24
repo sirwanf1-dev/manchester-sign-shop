@@ -20,43 +20,40 @@
     <section class="intro">
       <p class="eyebrow">MANCHESTER SIGN GROUP</p>
       <h1>Manage your <em>images</em></h1>
-      <p class="lede">Add photos to the homepage slideshow and update the images shown for your services.</p>
+      <p class="lede">Sign in with your manager email and password to update the homepage slideshow and service photos.</p>
     </section>
 
     <section class="login-card" id="loginCard">
-      <div class="card-heading"><span class="step">01</span><div><h2>Sign in with GitHub</h2><p>Your token stays in this browser tab and is never saved by this page.</p></div></div>
-      <form id="loginForm">
-        <label for="githubToken">Fine-grained access token</label>
-        <input id="githubToken" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" required />
-        <button class="primary" type="submit" id="loginButton">CONNECT GITHUB <span>→</span></button>
+      <div class="card-heading"><span class="step">01</span><div><h2 id="authTitle">Sign in to your manager</h2><p id="authDescription">Use your Manchester Sign Group manager email and password.</p></div></div>
+      <form id="authForm">
+        <label for="managerEmail">Manager email</label>
+        <input id="managerEmail" type="email" value="sirwanf0@gmail.com" autocomplete="username" readonly required />
+        <label for="managerPassword">Password</label>
+        <input id="managerPassword" type="password" autocomplete="current-password" minlength="8" placeholder="Enter your password" required />
+        <button class="primary" type="submit" id="authButton">SIGN IN <span>→</span></button>
       </form>
-      <div class="setup-help">
-        <strong>First time here?</strong>
-        <ol>
-          <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Create a fine-grained token on GitHub</a>.</li>
-          <li>Choose owner <b>sirwanf1-dev</b> and repository <b>manchester-sign-shop</b>.</li>
-          <li>Under Repository permissions, set <b>Contents</b> to <b>Read and write</b>, then create and paste the token here.</li>
-        </ol>
-      </div>
-      <p class="status" id="loginStatus" role="status"></p>
+      <button class="mode-button" type="button" id="modeButton">FIRST TIME HERE? CREATE YOUR MANAGER LOGIN</button>
+      <p class="auth-note" id="authNote">For your first visit, create a password for this email. We’ll send a confirmation message; after confirming, return here and sign in.</p>
+      <p class="status" id="authStatus" role="status" aria-live="polite"></p>
     </section>
 
     <section class="manager" id="manager" hidden>
-      <div class="connected-row"><p>Connected as <strong id="githubUser"></strong></p><button type="button" class="text-button" id="logoutButton">SIGN OUT</button></div>
+      <div class="connected-row"><p>Signed in as <strong id="managerUser"></strong></p><button type="button" class="text-button" id="logoutButton">SIGN OUT</button></div>
       <div class="manager-grid">
         <section class="panel">
-          <div class="card-heading"><span class="step">02</span><div><h2>Homepage slideshow</h2><p>Upload JPG or PNG photos to add them to the end of the homepage slideshow.</p></div></div>
+          <div class="card-heading"><span class="step">02</span><div><h2>Homepage slideshow</h2><p>Add photos to the end of the homepage slideshow.</p></div></div>
           <form id="slideForm" class="upload-form">
-            <label class="dropzone" for="slideFiles"><span class="upload-icon">↑</span><strong>Choose slideshow photos</strong><small>JPG or PNG · up to 8 MB each · up to 10 at a time</small><input id="slideFiles" type="file" accept="image/jpeg,image/png" multiple required /></label>
+            <label class="dropzone" for="slideFiles"><span class="upload-icon">↑</span><strong>Choose slideshow photos</strong><small>JPG, PNG or WebP · up to 8 MB each · up to 10 at a time</small><input id="slideFiles" type="file" accept="image/jpeg,image/png,image/webp" multiple required /></label>
             <button class="primary" type="submit" id="slideButton">ADD TO SLIDESHOW <span>→</span></button>
           </form>
-          <p class="status" id="slideStatus" role="status"></p>
-          <div class="preview-heading"><h3>Current slideshow</h3><span id="slideCount"></span></div>
+          <p class="status" id="slideStatus" role="status" aria-live="polite"></p>
+          <div class="preview-heading"><h3>Photos you’ve uploaded</h3><span id="slideCount"></span></div>
           <div class="thumb-grid" id="slideGallery"></div>
+          <p class="small-note">Photos already on the website remain in the slideshow.</p>
         </section>
 
         <section class="panel">
-          <div class="card-heading"><span class="step">03</span><div><h2>Service photos</h2><p>Choose a service and upload a replacement image for its cards.</p></div></div>
+          <div class="card-heading"><span class="step">03</span><div><h2>Service photos</h2><p>Choose a service and upload a new photo for its cards.</p></div></div>
           <form id="serviceForm" class="upload-form">
             <label for="serviceChoice">Service</label>
             <select id="serviceChoice">
@@ -65,85 +62,64 @@
               <option value="repainting">Sign painting & repainting</option>
               <option value="other">Other sign services</option>
             </select>
-            <label class="dropzone compact" for="serviceFile"><span class="upload-icon">↑</span><strong>Choose a service photo</strong><small>JPG or PNG · up to 8 MB</small><input id="serviceFile" type="file" accept="image/jpeg,image/png" required /></label>
-            <button class="primary" type="submit" id="serviceButton">UPDATE SERVICE IMAGE <span>→</span></button>
+            <label class="dropzone compact" for="serviceFile"><span class="upload-icon">↑</span><strong>Choose a service photo</strong><small>JPG, PNG or WebP · up to 8 MB</small><input id="serviceFile" type="file" accept="image/jpeg,image/png,image/webp" required /></label>
+            <button class="primary" type="submit" id="serviceButton">UPDATE SERVICE PHOTO <span>→</span></button>
           </form>
-          <p class="status" id="serviceStatus" role="status"></p>
-          <div class="preview-heading"><h3>Current service images</h3></div>
+          <p class="status" id="serviceStatus" role="status" aria-live="polite"></p>
+          <div class="preview-heading"><h3>Current service photos</h3></div>
           <div class="service-gallery" id="serviceGallery"></div>
         </section>
       </div>
-      <div class="deploy-note"><span>✓</span><p>Each upload is committed to the website repository. The live site updates after GitHub Pages finishes rebuilding, usually within a few minutes.</p></div>
+      <div class="deploy-note"><span>✓</span><p>Uploads are saved securely and appear on the website shortly. Your sign-in stays available on this browser until you sign out.</p></div>
     </section>
-    <footer>Manchester Sign Group · Secure uploads are sent directly from your browser to GitHub.</footer>
+    <footer>Manchester Sign Group · Secure manager sign-in and image uploads.</footer>
   </main>
 <script>
-  const OWNER = 'sirwanf1-dev';
-  const REPO = 'manchester-sign-shop';
-  const BRANCH = 'main';
-  const API = 'https://api.github.com';
+  import { supabase } from '../lib/supabase.js';
+
+  const ADMIN_EMAIL = 'sirwanf0@gmail.com';
+  const BUCKET = 'website-images';
   const serviceLabels = {
     repair: 'Sign repairs & lighting faults',
     cleaning: 'Sign cleaning',
     repainting: 'Sign painting & repainting',
     other: 'Other sign services'
   };
-  let accessToken = '';
-  let currentServiceImages = {};
-  let currentSlides = [];
-
   const byId = id => document.getElementById(id);
+  let creatingAccount = false;
+
   function setStatus(id, message, isError = false) {
     const node = byId(id);
     node.textContent = message;
     node.classList.toggle('error', isError);
   }
-  async function github(path, options = {}) {
-    const headers = {
-      Accept: 'application/vnd.github+json',
-      Authorization: 'Bearer ' + accessToken,
-      'X-GitHub-Api-Version': '2022-11-28',
-      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
-      ...(options.headers || {})
-    };
-    const response = await fetch(API + path, { ...options, headers });
-    const result = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(result.message || 'GitHub could not complete that request.');
-    return result;
+  function friendlyError(error) {
+    return error?.message || 'Something went wrong. Please try again.';
   }
-  function contentsUrl(path) {
-    return '/repos/' + OWNER + '/' + REPO + '/contents/' + path.split('/').map(encodeURIComponent).join('/') + '?ref=' + BRANCH;
-  }
-  async function readJsonFile(path) {
-    const file = await github(contentsUrl(path));
-    const bytes = Uint8Array.from(atob(file.content.replace(/\s/g, '')), character => character.charCodeAt(0));
-    return { sha: file.sha, value: JSON.parse(new TextDecoder().decode(bytes)) };
-  }
-  async function putFile(path, base64Content, message, sha) {
-    const body = { message, content: base64Content, branch: BRANCH };
-    if (sha) body.sha = sha;
-    return github('/repos/' + OWNER + '/' + REPO + '/contents/' + path.split('/').map(encodeURIComponent).join('/'), {
-      method: 'PUT',
-      body: JSON.stringify(body)
-    });
-  }
-  function fileAsBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result).split(',')[1]);
-      reader.onerror = () => reject(new Error('Could not read that image.'));
-      reader.readAsDataURL(file);
-    });
+  function fileExtension(file) {
+    if (file.type === 'image/png') return 'png';
+    if (file.type === 'image/webp') return 'webp';
+    return 'jpg';
   }
   function validateImage(file) {
-    if (!file || !['image/jpeg', 'image/png'].includes(file.type)) throw new Error('Choose a JPG or PNG image.');
+    if (!file || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+      throw new Error('Choose a JPG, PNG or WebP image.');
+    }
     if (file.size > 8 * 1024 * 1024) throw new Error('Each image must be 8 MB or smaller.');
   }
-  function extension(file) {
-    return file.type === 'image/png' ? 'png' : 'jpg';
+  function safeName(file) {
+    return file.name.replace(/\.[^.]+$/, '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 48) || 'photo';
   }
-  function rawImageUrl(path) {
-    return 'https://raw.githubusercontent.com/' + OWNER + '/' + REPO + '/' + BRANCH + '/public' + path + '?v=' + Date.now();
+  function publicImageUrl(path) {
+    return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+  }
+  async function listImages(folder) {
+    const { data, error } = await supabase.storage.from(BUCKET).list(folder, {
+      limit: 1000,
+      sortBy: { column: 'name', order: 'asc' }
+    });
+    if (error) throw error;
+    return (data || []).filter(file => /\.(?:jpe?g|png|webp)$/i.test(file.name));
   }
   function addThumbnail(container, src, alt, title) {
     const figure = document.createElement('figure');
@@ -156,63 +132,124 @@
     figure.append(image, caption);
     container.append(figure);
   }
+  function setBusy(button, busy, busyLabel) {
+    button.disabled = busy;
+    button.dataset.originalLabel ||= button.innerHTML;
+    button.innerHTML = busy ? busyLabel : button.dataset.originalLabel;
+  }
+  function newestFirst(files) {
+    return [...files].sort((a, b) => {
+      const dateA = new Date(a.updated_at || a.created_at || 0).getTime();
+      const dateB = new Date(b.updated_at || b.created_at || 0).getTime();
+      return dateB - dateA;
+    });
+  }
   async function refreshManager() {
-    const [slideFiles, serviceFile] = await Promise.all([
-      github(contentsUrl('public/images/real-images')),
-      readJsonFile('src/data/service-images.json')
-    ]);
-    currentSlides = slideFiles
-      .filter(file => /^hero-\d+\.(?:png|jpe?g)$/i.test(file.name))
-      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
-    currentServiceImages = serviceFile.value;
+    const [slides, serviceFiles] = await Promise.all([listImages('slides'), listImages('services')]);
     const slideGallery = byId('slideGallery');
     slideGallery.replaceChildren();
-    currentSlides.forEach(file => addThumbnail(slideGallery, rawImageUrl('/images/real-images/' + file.name), file.name, file.name));
-    byId('slideCount').textContent = currentSlides.length + ' photo' + (currentSlides.length === 1 ? '' : 's');
+    slides.forEach(file => addThumbnail(slideGallery, publicImageUrl('slides/' + file.name), file.name, file.name));
+    byId('slideCount').textContent = slides.length + ' photo' + (slides.length === 1 ? '' : 's');
+    if (!slides.length) {
+      const note = document.createElement('p');
+      note.className = 'empty-note';
+      note.textContent = 'No new photos uploaded yet.';
+      slideGallery.append(note);
+    }
+
+    const latestByService = {};
+    newestFirst(serviceFiles).forEach(file => {
+      const key = Object.keys(serviceLabels).find(service => file.name.startsWith(service + '-'));
+      if (key && !latestByService[key]) latestByService[key] = file;
+    });
     const serviceGallery = byId('serviceGallery');
     serviceGallery.replaceChildren();
     Object.entries(serviceLabels).forEach(([key, label]) => {
-      const path = currentServiceImages[key];
-      if (path) addThumbnail(serviceGallery, rawImageUrl(path), label, label);
+      const file = latestByService[key];
+      if (file) {
+        addThumbnail(serviceGallery, publicImageUrl('services/' + file.name), label, label);
+      } else {
+        const figure = document.createElement('figure');
+        const empty = document.createElement('div');
+        empty.className = 'empty-preview';
+        empty.textContent = 'No photo uploaded';
+        const caption = document.createElement('figcaption');
+        caption.textContent = label;
+        figure.append(empty, caption);
+        serviceGallery.append(figure);
+      }
     });
   }
-  function setBusy(button, busy, label) {
-    button.disabled = busy;
-    button.dataset.originalLabel ||= button.innerHTML;
-    button.innerHTML = busy ? label : button.dataset.originalLabel;
+
+  function enterManager(user) {
+    const email = (user?.email || '').toLowerCase();
+    if (email !== ADMIN_EMAIL) {
+      return supabase.auth.signOut().then(() => {
+        throw new Error('This email is not allowed to manage the website.');
+      });
+    }
+    byId('managerUser').textContent = user.email;
+    byId('loginCard').hidden = true;
+    byId('manager').hidden = false;
+    setStatus('authStatus', '');
+    return refreshManager().catch(error => {
+      setStatus('slideStatus', 'Signed in, but could not load images: ' + friendlyError(error), true);
+    });
   }
 
-  byId('loginForm').addEventListener('submit', async event => {
+  byId('modeButton').addEventListener('click', () => {
+    creatingAccount = !creatingAccount;
+    byId('authTitle').textContent = creatingAccount ? 'Create your manager login' : 'Sign in to your manager';
+    byId('authDescription').textContent = creatingAccount ? 'Choose a password for your manager email.' : 'Use your Manchester Sign Group manager email and password.';
+    byId('authButton').innerHTML = creatingAccount ? 'CREATE MANAGER LOGIN <span>→</span>' : 'SIGN IN <span>→</span>';
+    byId('modeButton').textContent = creatingAccount ? 'ALREADY HAVE A LOGIN? SIGN IN' : 'FIRST TIME HERE? CREATE YOUR MANAGER LOGIN';
+    byId('authNote').hidden = !creatingAccount;
+    byId('managerPassword').autocomplete = creatingAccount ? 'new-password' : 'current-password';
+    setStatus('authStatus', '');
+  });
+
+  byId('authForm').addEventListener('submit', async event => {
     event.preventDefault();
-    const button = byId('loginButton');
-    accessToken = byId('githubToken').value.trim();
-    if (!accessToken) return;
-    setBusy(button, true, 'CONNECTING…');
-    setStatus('loginStatus', 'Checking access to your website repository…');
+    const email = byId('managerEmail').value.trim().toLowerCase();
+    const password = byId('managerPassword').value;
+    const button = byId('authButton');
+    if (email !== ADMIN_EMAIL) {
+      setStatus('authStatus', 'Use the manager email shown above.', true);
+      return;
+    }
+    setBusy(button, true, creatingAccount ? 'CREATING LOGIN…' : 'SIGNING IN…');
+    setStatus('authStatus', creatingAccount ? 'Creating your manager login…' : 'Checking your sign-in…');
     try {
-      const user = await github('/user');
-      await github('/repos/' + OWNER + '/' + REPO + '/contents/src/data/service-images.json?ref=' + BRANCH);
-      await refreshManager();
-      byId('githubUser').textContent = user.login;
-      byId('githubToken').value = '';
-      byId('loginCard').hidden = true;
-      byId('manager').hidden = false;
+      if (creatingAccount) {
+        const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + '/manage/' } });
+        if (error) throw error;
+        if (data.session && data.user) {
+          await enterManager(data.user);
+        } else {
+          setStatus('authStatus', 'Check your email for the confirmation message, then return here and sign in.');
+          byId('managerPassword').value = '';
+        }
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        await enterManager(data.user);
+        byId('managerPassword').value = '';
+      }
     } catch (error) {
-      accessToken = '';
-      setStatus('loginStatus', error.message + ' Check that your token has access to this repository and Contents read/write permission.', true);
+      setStatus('authStatus', friendlyError(error), true);
     } finally {
-      setBusy(button, false, 'CONNECTING…');
+      setBusy(button, false, '');
     }
   });
 
-  byId('logoutButton').addEventListener('click', () => {
-    accessToken = '';
-    byId('githubToken').value = '';
+  byId('logoutButton').addEventListener('click', async () => {
+    await supabase.auth.signOut();
     byId('manager').hidden = true;
     byId('loginCard').hidden = false;
     byId('slideGallery').replaceChildren();
     byId('serviceGallery').replaceChildren();
-    setStatus('loginStatus', 'Signed out.');
+    byId('managerPassword').value = '';
+    setStatus('authStatus', 'Signed out.');
   });
 
   byId('slideForm').addEventListener('submit', async event => {
@@ -225,22 +262,23 @@
       files.forEach(validateImage);
       setBusy(button, true, 'UPLOADING…');
       setStatus('slideStatus', 'Uploading your slideshow photos…');
-      const latest = await github(contentsUrl('public/images/real-images'));
-      let nextNumber = latest.reduce((max, file) => {
-        const match = file.name.match(/^hero-(\d+)\.(?:png|jpe?g)$/i);
-        return match ? Math.max(max, Number(match[1])) : max;
-      }, 0) + 1;
-      for (const file of files) {
-        const name = 'hero-' + String(nextNumber++).padStart(2, '0') + '.' + extension(file);
-        await putFile('public/images/real-images/' + name, await fileAsBase64(file), 'Add homepage slideshow photo ' + name);
+      for (let index = 0; index < files.length; index++) {
+        const file = files[index];
+        const filename = Date.now() + '-' + String(index + 1).padStart(2, '0') + '-' + crypto.randomUUID().slice(0, 8) + '-' + safeName(file) + '.' + fileExtension(file);
+        const { error } = await supabase.storage.from(BUCKET).upload('slides/' + filename, file, {
+          cacheControl: '3600',
+          contentType: file.type,
+          upsert: false
+        });
+        if (error) throw error;
       }
       byId('slideFiles').value = '';
       await refreshManager();
-      setStatus('slideStatus', 'Added ' + files.length + ' photo' + (files.length === 1 ? '' : 's') + '. The site is rebuilding now.');
+      setStatus('slideStatus', 'Photos added. They will appear in the homepage slideshow shortly.');
     } catch (error) {
-      setStatus('slideStatus', error.message, true);
+      setStatus('slideStatus', friendlyError(error), true);
     } finally {
-      setBusy(button, false, 'UPLOADING…');
+      setBusy(button, false, '');
     }
   });
 
@@ -252,27 +290,110 @@
     try {
       validateImage(file);
       setBusy(button, true, 'UPDATING…');
-      setStatus('serviceStatus', 'Uploading the new service image…');
-      const ext = extension(file);
-      const filename = key + '-' + Date.now() + '.' + ext;
-      const path = '/images/services/' + filename;
-      await putFile('public' + path, await fileAsBase64(file), 'Update image for ' + serviceLabels[key]);
-      const manifest = await readJsonFile('src/data/service-images.json');
-      manifest.value[key] = path;
-      const encodedManifest = btoa(JSON.stringify(manifest.value, null, 2) + '\n');
-      await putFile('src/data/service-images.json', encodedManifest, 'Set new image for ' + serviceLabels[key], manifest.sha);
+      setStatus('serviceStatus', 'Uploading the new service photo…');
+      const oldFiles = await listImages('services');
+      const filename = key + '-' + Date.now() + '-' + crypto.randomUUID().slice(0, 8) + '.' + fileExtension(file);
+      const { error } = await supabase.storage.from(BUCKET).upload('services/' + filename, file, {
+        cacheControl: '3600',
+        contentType: file.type,
+        upsert: false
+      });
+      if (error) throw error;
+      const stalePaths = oldFiles
+        .filter(oldFile => oldFile.name.startsWith(key + '-'))
+        .map(oldFile => 'services/' + oldFile.name);
+      if (stalePaths.length) {
+        const { error: removeError } = await supabase.storage.from(BUCKET).remove(stalePaths);
+        if (removeError) console.warn('Could not remove previous service photo:', removeError.message);
+      }
       byId('serviceFile').value = '';
       await refreshManager();
-      setStatus('serviceStatus', serviceLabels[key] + ' image updated. The site is rebuilding now.');
+      setStatus('serviceStatus', serviceLabels[key] + ' photo updated on the website.');
     } catch (error) {
-      setStatus('serviceStatus', error.message, true);
+      setStatus('serviceStatus', friendlyError(error), true);
     } finally {
-      setBusy(button, false, 'UPDATING…');
+      setBusy(button, false, '');
     }
   });
+
+  async function restoreSession() {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+      setStatus('authStatus', friendlyError(error), true);
+      return;
+    }
+    if (data.session?.user) {
+      try {
+        await enterManager(data.session.user);
+      } catch (problem) {
+        setStatus('authStatus', friendlyError(problem), true);
+      }
+    }
+  }
+  restoreSession();
 </script>
 <style>
-  *{box-sizing:border-box}body{margin:0;background:#050708;color:#f7f7f8;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}.shell{width:min(1180px,92%);margin:auto}.topbar{height:86px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #202326}.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:2px}.brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:8px;background:#e31b35;color:#fff;font-size:25px;letter-spacing:-2px}.back-link{color:#b8ff5a;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1px}.intro{padding:48px 0 25px}.eyebrow{margin:0 0 9px;color:#b8ff5a;font-size:10px;font-weight:900;letter-spacing:3px}.intro h1{margin:0;font-size:clamp(38px,6vw,62px);letter-spacing:-2px}.intro h1 em{font-style:normal;color:#b8ff5a}.lede{max-width:620px;color:#aaa;line-height:1.6}.login-card,.panel{border:1px solid #303437;border-radius:14px;background:#0c0f11;padding:24px}.login-card{max-width:700px;margin:12px 0 40px}.card-heading{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}.step{display:grid;place-items:center;flex:none;width:34px;height:34px;border:1px solid #b8ff5a;border-radius:50%;color:#b8ff5a;font-size:11px;font-weight:900}.card-heading h2{margin:0 0 6px;font-size:20px}.card-heading p{margin:0;color:#96999c;font-size:13px;line-height:1.5}.login-card form,.upload-form{display:grid;gap:12px}.login-card label,.upload-form>label:not(.dropzone){font-size:12px;font-weight:800;color:#eee}.login-card input,.upload-form select{width:100%;min-height:46px;padding:12px 14px;border:1px solid #45494d;border-radius:8px;background:#080a0b;color:#fff;font:inherit}.primary{min-height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border:0;border-radius:8px;background:#ff1730;color:#fff;font-size:11px;font-weight:900;letter-spacing:1px;cursor:pointer}.primary span{font-size:18px}.primary:disabled{opacity:.6;cursor:wait}.setup-help{margin-top:22px;padding:17px 18px;border:1px solid #282d31;border-radius:9px;background:#090b0d;color:#aeb2b6;font-size:12px;line-height:1.6}.setup-help strong{color:#fff}.setup-help ol{margin:8px 0 0;padding-left:20px}.setup-help a{color:#b8ff5a}.setup-help b{color:#fff}.status{min-height:18px;margin:12px 0 0;color:#b8ff5a;font-size:12px;line-height:1.5}.status.error{color:#ff8a96}.manager[hidden],.login-card[hidden]{display:none}.connected-row{display:flex;justify-content:space-between;align-items:center;margin:8px 0 16px;color:#aeb2b6;font-size:13px}.connected-row strong{color:#fff}.text-button{padding:9px 12px;border:1px solid #45494d;border-radius:7px;background:transparent;color:#fff;font-size:10px;font-weight:900;letter-spacing:1px;cursor:pointer}.manager-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:16px}.panel{min-width:0}.dropzone{position:relative;display:flex;min-height:138px;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;border:1px dashed #555d62;border-radius:10px;background:#090b0d;text-align:center;cursor:pointer}.dropzone:hover{border-color:#b8ff5a}.dropzone.compact{min-height:122px}.upload-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#171d18;color:#b8ff5a;font-size:20px;font-weight:900}.dropzone strong{font-size:13px}.dropzone small{color:#92989c;font-size:11px}.dropzone input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}.preview-heading{display:flex;align-items:center;justify-content:space-between;margin:23px 0 10px}.preview-heading h3{margin:0;font-size:13px}.preview-heading span{color:#a5aaad;font-size:11px}.thumb-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:310px;overflow:auto}.thumb-grid figure,.service-gallery figure{min-width:0;margin:0;overflow:hidden;border:1px solid #292d30;border-radius:8px;background:#080a0b}.thumb-grid img{display:block;width:100%;aspect-ratio:1.35;object-fit:cover}.thumb-grid figcaption,.service-gallery figcaption{padding:7px;color:#b9bdc0;font-size:10px;line-height:1.35}.service-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.service-gallery img{display:block;width:100%;aspect-ratio:1.5;object-fit:cover;background:#101317}.deploy-note{display:flex;align-items:center;gap:12px;margin:16px 0 40px;padding:16px;border:1px solid #29352a;border-radius:10px;background:#0b100b;color:#aeb8ab}.deploy-note span{color:#b8ff5a;font-size:21px}.deploy-note p{margin:0;font-size:12px;line-height:1.5}footer{padding:20px 0 30px;border-top:1px solid #202326;color:#73797d;font-size:11px}@media(max-width:800px){.manager-grid{grid-template-columns:1fr}.intro{padding-top:35px}.panel,.login-card{padding:19px}}@media(max-width:480px){.shell{width:92%}.topbar{height:72px}.brand{font-size:9px;letter-spacing:1.3px}.brand-mark{width:32px;height:32px}.back-link{font-size:9px}.intro h1{font-size:39px}.connected-row{align-items:flex-start}.thumb-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.service-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  *{box-sizing:border-box}
+  body{margin:0;background:#050708;color:#f7f7f8;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
+  .shell{width:min(1180px,92%);margin:auto}
+  .topbar{height:86px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #202326}
+  .brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:2px}
+  .brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:8px;background:#e31b35;color:#fff;font-size:25px;letter-spacing:-2px}
+  .back-link{color:#b8ff5a;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1px}
+  .intro{padding:48px 0 25px}
+  .eyebrow{margin:0 0 9px;color:#b8ff5a;font-size:10px;font-weight:900;letter-spacing:3px}
+  .intro h1{margin:0;font-size:clamp(38px,6vw,62px);letter-spacing:-2px}
+  .intro h1 em{font-style:normal;color:#b8ff5a}
+  .lede{max-width:650px;color:#aaa;line-height:1.6}
+  .login-card,.panel{border:1px solid #303437;border-radius:14px;background:#0c0f11;padding:24px}
+  .login-card{max-width:700px;margin:12px 0 40px}
+  .card-heading{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}
+  .step{display:grid;place-items:center;flex:none;width:34px;height:34px;border:1px solid #b8ff5a;border-radius:50%;color:#b8ff5a;font-size:11px;font-weight:900}
+  .card-heading h2{margin:0 0 6px;font-size:20px}
+  .card-heading p{margin:0;color:#96999c;font-size:13px;line-height:1.5}
+  #authForm,.upload-form{display:grid;gap:12px}
+  #authForm label,.upload-form>label:not(.dropzone){font-size:12px;font-weight:800;color:#eee}
+  #authForm input,.upload-form select{width:100%;min-height:46px;padding:12px 14px;border:1px solid #45494d;border-radius:8px;background:#080a0b;color:#fff;font:inherit}
+  #authForm input[readonly]{color:#cdd0d2}
+  .primary{min-height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border:0;border-radius:8px;background:#ff1730;color:#fff;font-size:11px;font-weight:900;letter-spacing:1px;cursor:pointer}
+  .primary span{font-size:18px}
+  .primary:disabled{opacity:.6;cursor:wait}
+  .mode-button{margin-top:18px;padding:8px 0;border:0;background:transparent;color:#b8ff5a;font-size:11px;font-weight:900;letter-spacing:.8px;cursor:pointer}
+  .auth-note,.small-note{color:#92989c;font-size:12px;line-height:1.55}
+  .auth-note{margin:7px 0 0}
+  .status{min-height:18px;margin:12px 0 0;color:#b8ff5a;font-size:12px;line-height:1.5}
+  .status.error{color:#ff8a96}
+  .manager[hidden],.login-card[hidden]{display:none}
+  .connected-row{display:flex;justify-content:space-between;align-items:center;margin:8px 0 16px;color:#aeb2b6;font-size:13px}
+  .connected-row strong{color:#fff}
+  .text-button{padding:9px 12px;border:1px solid #45494d;border-radius:7px;background:transparent;color:#fff;font-size:10px;font-weight:900;letter-spacing:1px;cursor:pointer}
+  .manager-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:16px}
+  .panel{min-width:0}
+  .dropzone{position:relative;display:flex;min-height:138px;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;border:1px dashed #555d62;border-radius:10px;background:#090b0d;text-align:center;cursor:pointer}
+  .dropzone:hover{border-color:#b8ff5a}
+  .dropzone.compact{min-height:122px}
+  .upload-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#171d18;color:#b8ff5a;font-size:20px;font-weight:900}
+  .dropzone strong{font-size:13px}
+  .dropzone small{color:#92989c;font-size:11px}
+  .dropzone input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+  .preview-heading{display:flex;align-items:center;justify-content:space-between;margin:23px 0 10px}
+  .preview-heading h3{margin:0;font-size:13px}
+  .preview-heading span{color:#a5aaad;font-size:11px}
+  .thumb-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:310px;overflow:auto}
+  .thumb-grid figure,.service-gallery figure{min-width:0;margin:0;overflow:hidden;border:1px solid #292d30;border-radius:8px;background:#080a0b}
+  .thumb-grid img{display:block;width:100%;aspect-ratio:1.35;object-fit:cover}
+  .thumb-grid figcaption,.service-gallery figcaption{padding:7px;color:#b9bdc0;font-size:10px;line-height:1.35}
+  .service-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .service-gallery img,.empty-preview{display:block;width:100%;aspect-ratio:1.5;object-fit:cover;background:#101317}
+  .empty-preview{display:grid;place-items:center;padding:10px;color:#71777b;font-size:11px;text-align:center}
+  .empty-note{grid-column:1/-1;margin:0;padding:18px;border:1px dashed #35393d;border-radius:8px;color:#92989c;font-size:12px;text-align:center}
+  .small-note{margin:10px 0 0}
+  .deploy-note{display:flex;align-items:center;gap:12px;margin:16px 0 40px;padding:16px;border:1px solid #29352a;border-radius:10px;background:#0b100b;color:#aeb8ab}
+  .deploy-note span{color:#b8ff5a;font-size:21px}
+  .deploy-note p{margin:0;font-size:12px;line-height:1.5}
+  footer{padding:20px 0 30px;border-top:1px solid #202326;color:#73797d;font-size:11px}
+  @media(max-width:800px){.manager-grid{grid-template-columns:1fr}.intro{padding-top:35px}.panel,.login-card{padding:19px}}
+  @media(max-width:480px){.shell{width:92%}.topbar{height:72px}.brand{font-size:9px;letter-spacing:1.3px}.brand-mark{width:32px;height:32px}.back-link{font-size:9px}.intro h1{font-size:39px}.connected-row{align-items:flex-start}.thumb-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.service-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </body>
 </html>

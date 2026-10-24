@@ -221,7 +221,7 @@
     setStatus('authStatus', creatingAccount ? 'Creating your manager login…' : 'Checking your sign-in…');
     try {
       if (creatingAccount) {
-        const { data, error } = await supabase.auth.signUp({ email, password });
+        const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + '/manage/' } });
         if (error) throw error;
         if (data.session && data.user) {
           await enterManager(data.user);

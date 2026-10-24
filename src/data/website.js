@@ -8,12 +8,4 @@ export const signCategories = [
   { title: 'RGB Signs', image: asset('/images/signs/rgb-signs.webp') }
 ];
 
-export const shopProducts = [
-  { title: 'Print Service', image: asset('/images/shop/paper-print-service.webp') },
-  { title: 'Glue & Adhesives', image: asset('/images/shop/glue-adhesives.webp') },
-  { title: 'RGB Lights', image: asset('/images/shop/rgb-lights.webp') },
-  { title: 'White Lights', image: asset('/images/shop/white-lights.webp') },
-  { title: 'Power Supplies', image: asset('/images/shop/power-supplies.webp') }
-];
-
 export const realImageNames = Array.from({ length: 10 }, (_, i) => `real-image-${i + 1}.jpg`);

@@ -1,10 +1,13 @@
 ---
 const {
   title = 'Manchester Sign Group | Business Signs & Sign-Making Supplies',
-  description = 'Manchester Sign Group is based in Manchester and supplies signs and sign-making products, with delivery throughout the United Kingdom and a one-year product warranty.'
+  description = 'Manchester Sign Group makes business signs and supplies sign-making products from Manchester, with UK-wide delivery and a one-year product warranty.',
+  robots = 'index, follow, max-image-preview:large',
+  image = '/images/signs/3d-signs.webp'
 } = Astro.props;
 const BASE = import.meta.env.BASE_URL;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).href;
+const socialImageURL = new URL(image, Astro.site).href;
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
@@ -28,7 +31,7 @@ const websiteSchema = {
 };
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -36,15 +39,19 @@ const websiteSchema = {
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${BASE}favicon.svg`} />
     <link rel="canonical" href={canonicalURL} />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content={robots} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Manchester Sign Group" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content="Business signage from Manchester Sign Group" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
     <title>{title}</title>
@@ -112,7 +119,7 @@ const websiteSchema = {
   .floating-home:first-letter { color:#ff1730; }
   .floating-home span { color:#fff; }
   .site-footer { display:flex; justify-content:space-between; gap:20px; padding:30px 4%; border-top:1px solid #202326; color:#a6a6a6; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
-  @media(max-width:600px){.site-header{height:82px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}.menu-button{width:42px}.menu-button span{width:36px;height:3px}.header-order{padding:14px 19px;border-radius:9px;font-size:13px;white-space:nowrap}.header-order span{font-size:18px}.site-footer{flex-direction:column}}
+  @media(max-width:600px){.site-header{height:82px;padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));background:rgba(5,7,8,.96);backdrop-filter:none;-webkit-backdrop-filter:none}.menu-button{width:42px}.menu-button span{width:36px;height:3px}.header-order{padding:14px 19px;border-radius:9px;font-size:13px;white-space:nowrap}.header-order span{font-size:18px}.floating-home{backdrop-filter:none;-webkit-backdrop-filter:none}.site-footer{flex-direction:column}}
   @media(max-width:360px){.site-header{height:76px;padding-left:14px;padding-right:14px}.menu-button{width:38px}.menu-button span{width:32px}.header-order{padding:12px 14px;font-size:11px}.header-order span{font-size:16px}}
 
 </style>

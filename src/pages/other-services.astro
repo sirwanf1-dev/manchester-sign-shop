@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import serviceImages from '../data/service-images.json';
+const serviceImageSrcset = image => `${image.replace(/\.webp$/i, '-640.webp')} 640w, ${image} 1200w`;
 ---
-<Layout title="Sign Repairs, Cleaning & Installation | Manchester Sign Group" description="Keep your business signage in good shape with sign repairs, lighting fault checks, cleaning and installation for suitable projects in Manchester and across the UK.">
+<Layout title="Sign Repairs, Cleaning & Fitting | Manchester Sign Group" description="Sign repairs, lighting fault checks, cleaning and installation for suitable projects in Manchester and across the UK.">
   <main class="inner-page">
     <header class="page-head">
       <small>REPAIRS & SIGN INSTALLATION</small>
@@ -12,15 +13,15 @@ import serviceImages from '../data/service-images.json';
 
     <section class="service-grid" aria-label="Additional sign services">
       <article class="service-card">
-        <img src={serviceImages.repair} data-service-image="repair" alt="Illuminated shop sign with one unlit letter, ready for repair" loading="lazy" />
+        <img src={serviceImages.repair} srcset={serviceImageSrcset(serviceImages.repair)} sizes="(max-width: 700px) 92vw, (max-width: 1120px) 46vw, 550px" data-service-image="repair" alt="Illuminated shop sign with one unlit letter, ready for repair" loading="lazy" decoding="async" />
         <div><small>01 / REPAIR</small><h2>Sign repairs & lighting faults</h2><p>One letter gone dark, damaged lettering or a sign that is not working as it should? We can assess the issue and advise on repair options.</p></div>
       </article>
       <article class="service-card">
-        <img src={serviceImages.cleaning} data-service-image="cleaning" alt="A sign cleaner wiping grime from raised shop sign letters" loading="lazy" />
+        <img src={serviceImages.cleaning} srcset={serviceImageSrcset(serviceImages.cleaning)} sizes="(max-width: 700px) 92vw, (max-width: 1120px) 46vw, 550px" data-service-image="cleaning" alt="A sign cleaner wiping grime from raised shop sign letters" loading="lazy" decoding="async" />
         <div><small>02 / CLEANING</small><h2>Sign cleaning</h2><p>Refresh the look of your shopfront with sign cleaning to remove everyday dirt and help your business stand out again.</p></div>
       </article>
       <article class="service-card">
-        <img src={serviceImages.installation} data-service-image="installation" alt="Illustrative photo of an installer fitting an NHS sign at a health centre" loading="lazy" />
+        <img src={serviceImages.installation} srcset={serviceImageSrcset(serviceImages.installation)} sizes="(max-width: 700px) 92vw, (max-width: 1120px) 46vw, 550px" data-service-image="installation" alt="Illustrative photo of an installer fitting an NHS sign at a health centre" loading="lazy" decoding="async" />
         <div><small>03 / INSTALLATION</small><h2>Sign installation & fitting</h2><p>Installation can be arranged for suitable signage projects. Tell us the sign type, location and fitting requirements so we can advise.</p></div>
       </article>
     </section>
@@ -47,7 +48,11 @@ import serviceImages from '../data/service-images.json';
     });
     document.querySelectorAll('[data-service-image]').forEach(image=>{
       const file=latest[image.dataset.serviceImage];
-      if(file) image.src=supabase.storage.from('website-images').getPublicUrl('services/'+file.name).data.publicUrl;
+      if(file){
+        image.removeAttribute('srcset');
+        image.removeAttribute('sizes');
+        image.src=supabase.storage.from('website-images').getPublicUrl('services/'+file.name).data.publicUrl;
+      }
     });
   }
   loadUploadedServicePhotos().catch(error=>console.warn('Could not load uploaded service photos:',error.message));

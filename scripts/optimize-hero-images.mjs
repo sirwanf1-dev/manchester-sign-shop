@@ -48,4 +48,19 @@ for (const folder of ['shop', 'signs', 'our-work']) {
   } catch (error) { if (error.code !== 'ENOENT') throw error; }
 }
 
-console.log('Generated responsive 800/1200/1600px hero WebP variants for ' + heroFiles.length + ' images and optimized ' + converted + ' other images.');
+let optimizedServices = 0;
+const servicesDir = path.join(imagesRoot, 'services');
+for (const input of await walk(servicesDir)) {
+  const stem = path.basename(input).replace(/\.(?:png|jpe?g)$/i, '');
+  for (const { width, suffix, quality } of [
+    { width: 640, suffix: '-640', quality: 80 },
+    { width: 1200, suffix: '', quality: 84 }
+  ]) {
+    const output = path.join(servicesDir, stem + suffix + '.webp');
+    await sharp(input).rotate().resize({ width, withoutEnlargement: true })
+      .webp({ quality, effort: 6 }).toFile(output);
+  }
+  optimizedServices++;
+}
+
+console.log('Generated responsive hero WebP variants for ' + heroFiles.length + ' images, optimized ' + converted + ' other images, and created 640/1200px service images for ' + optimizedServices + ' photos.');

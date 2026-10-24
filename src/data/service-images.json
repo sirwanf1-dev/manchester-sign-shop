@@ -1,5 +1,5 @@
 {
-  "repair": "/images/services/sign-repair-photo.png",
-  "cleaning": "/images/services/sign-cleaning-photo.png",
-  "installation": "/images/services/sign-installation-photo.png"
+  "repair": "/images/services/sign-repair-photo.webp",
+  "cleaning": "/images/services/sign-cleaning-photo.webp",
+  "installation": "/images/services/sign-installation-photo.webp"
 }

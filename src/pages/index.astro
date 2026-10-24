@@ -6,6 +6,7 @@ import { signCategories } from '../data/website.js';
 import serviceImages from '../data/service-images.json';
 import { supabase } from '../lib/supabase.js';
 const BASE = '';
+const serviceImageSrcset = image => `${image.replace(/\.webp$/i, '-640.webp')} 640w, ${image} 1200w`;
 
 const realDir = path.join(process.cwd(), 'public', 'images', 'real-images');
 const mediaFiles = fs.existsSync(realDir)
@@ -84,15 +85,15 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
         <div class="other-services-stage" data-service-stage>
           <div class="other-services-rail" data-service-rail role="region" tabindex="0" aria-label="Other sign services. Scroll or swipe to explore.">
             <a class="other-service-card" data-service-panel href="/other-services/">
-              <img src={serviceImages.repair} data-service-image="repair" alt="MASON 3D sign with one unlit letter, showing a sign repair" loading="lazy" decoding="async" />
+              <img src={serviceImages.repair} srcset={serviceImageSrcset(serviceImages.repair)} sizes="(max-width: 760px) 86vw, (max-width: 1200px) 82vw, 1000px" data-service-image="repair" alt="MASON 3D sign with one unlit letter, showing a sign repair" loading="lazy" decoding="async" />
               <div class="other-service-overlay"><small>01 / REPAIR</small><h3>SIGN REPAIRS</h3><p>One letter gone dark? We can help.</p></div>
             </a>
             <a class="other-service-card" data-service-panel href="/other-services/">
-              <img src={serviceImages.cleaning} data-service-image="cleaning" alt="A sign cleaner wiping grime from raised shop sign letters" loading="lazy" decoding="async" />
+              <img src={serviceImages.cleaning} srcset={serviceImageSrcset(serviceImages.cleaning)} sizes="(max-width: 760px) 86vw, (max-width: 1200px) 82vw, 1000px" data-service-image="cleaning" alt="A sign cleaner wiping grime from raised shop sign letters" loading="lazy" decoding="async" />
               <div class="other-service-overlay"><small>02 / CLEANING</small><h3>SIGN CLEANING</h3><p>Bring back a clean, bright finish.</p></div>
             </a>
             <a class="other-service-card" data-service-panel href="/other-services/">
-              <img src={serviceImages.installation} data-service-image="installation" alt="Illustrative photo of an installer fitting an NHS sign at a health centre" loading="lazy" decoding="async" />
+              <img src={serviceImages.installation} srcset={serviceImageSrcset(serviceImages.installation)} sizes="(max-width: 760px) 86vw, (max-width: 1200px) 82vw, 1000px" data-service-image="installation" alt="Illustrative photo of an installer fitting an NHS sign at a health centre" loading="lazy" decoding="async" />
               <div class="other-service-overlay"><small>03 / INSTALLATION</small><h3>SIGN INSTALLATION</h3><p>Professional fitting for suitable sign projects.</p></div>
             </a>
           </div>
@@ -191,7 +192,11 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     });
     document.querySelectorAll('[data-service-image]').forEach(image=>{
       const file=latest[image.dataset.serviceImage];
-      if(file) image.src=supabase.storage.from('website-images').getPublicUrl('services/'+file.name).data.publicUrl;
+      if(file){
+        image.removeAttribute('srcset');
+        image.removeAttribute('sizes');
+        image.src=supabase.storage.from('website-images').getPublicUrl('services/'+file.name).data.publicUrl;
+      }
     });
   }
   loadUploadedServicePhotos().catch(error=>console.warn('Could not load uploaded service photos:',error.message));
@@ -284,16 +289,18 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
       let nearest=0;
       let nearestDistance=Number.POSITIVE_INFINITY;
       cards.forEach((card,index)=>{
-        const position=rail.offsetLeft+card.offsetLeft+card.offsetWidth/2-(scrollDriven?travelX*progress:rail.scrollLeft);
+        const position=(scrollDriven?rail.offsetLeft:0)+card.offsetLeft+card.offsetWidth/2-(scrollDriven?travelX*progress:rail.scrollLeft);
         const offset=position-center;
         const distance=Math.abs(offset);
         if(distance<nearestDistance){nearestDistance=distance;nearest=index;}
 
-        const normalized=Math.max(-1,Math.min(1,offset/Math.max(1,centerWidth*.82)));
-        const depth=Math.min(1.2,Math.abs(normalized));
-        const tilt=normalized*11;
-        const scale=1-depth*.075;
-        card.style.transform=`translateZ(${-depth*72}px) rotateY(${tilt}deg) scale(${scale})`;
+        if(!mobile.matches&&!reducedMotion.matches){
+          const normalized=Math.max(-1,Math.min(1,offset/Math.max(1,centerWidth*.82)));
+          const depth=Math.min(1.2,Math.abs(normalized));
+          const tilt=normalized*11;
+          const scale=1-depth*.075;
+          card.style.transform=`translateZ(${-depth*72}px) rotateY(${tilt}deg) scale(${scale})`;
+        }
       });
 
       if(progressBar) progressBar.style.transform=`scaleX(${progress})`;
@@ -308,10 +315,12 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
       const scrollDriven=!mobile.matches&&!reducedMotion.matches;
       gallery.classList.toggle('is-scroll-driven',scrollDriven);
       rail.style.removeProperty('transform');
+      if(scrollDriven) window.addEventListener('scroll',scheduleUpdate,{passive:true});
+      else window.removeEventListener('scroll',scheduleUpdate);
+      if(!scrollDriven) cards.forEach(card=>card.style.removeProperty('transform'));
       scheduleUpdate();
     }
 
-    window.addEventListener('scroll',scheduleUpdate,{passive:true});
     rail.addEventListener('scroll',scheduleUpdate,{passive:true});
     window.addEventListener('resize',setGalleryMode,{passive:true});
     mobile.addEventListener('change',setGalleryMode);
@@ -385,9 +394,9 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     .slider-arrow{width:44px;height:44px;font-size:34px;line-height:30px;background:rgba(0,0,0,.65)}.slider-arrow.left{left:10px}.slider-arrow.right{right:10px}
     .slider-dots{bottom:10px;gap:6px;padding:6px 10px}.slider-dots button{width:8px;height:8px}
     .content-section{width:100%;padding:25px 0 28px}.section-title-row{align-items:flex-end;gap:12px;margin:0 16px 14px}.section-title-row h2{font-size:clamp(27px,8vw,34px);letter-spacing:-1.5px}.section-title-row a{min-height:44px;display:flex;align-items:center;justify-content:center;padding:8px 11px;border-radius:20px;font-size:8px;white-space:nowrap}
-    .other-services-scrollspace{height:auto !important}.other-services-stage{position:relative !important;top:auto !important;height:auto !important;display:block !important;overflow:visible !important;padding:0 !important;perspective:1200px}
-    .other-services-rail{width:100% !important;max-width:none;gap:14px;padding:14px 16px 22px !important;overflow-x:auto !important;overflow-y:hidden !important;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}.other-services-rail::-webkit-scrollbar{display:none}
-    .other-service-card{flex:0 0 min(86vw,480px) !important;width:min(86vw,480px) !important;min-width:0 !important;height:auto !important;min-height:0;aspect-ratio:4/3;border-radius:16px;scroll-snap-align:center}
+    .other-services-scrollspace{height:auto !important}.other-services-stage{position:relative !important;top:auto !important;height:auto !important;display:block !important;overflow:visible !important;padding:0 !important;perspective:none}
+    .other-services-rail{width:100% !important;max-width:none;gap:14px;padding:14px 16px 22px !important;overflow-x:auto !important;overflow-y:hidden !important;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;transform-style:flat}.other-services-rail::-webkit-scrollbar{display:none}
+    .other-service-card{flex:0 0 min(86vw,480px) !important;width:min(86vw,480px) !important;min-width:0 !important;height:auto !important;min-height:0;aspect-ratio:4/3;border-radius:16px;scroll-snap-align:center;transform:none;transform-style:flat;backface-visibility:visible;box-shadow:0 12px 30px rgba(0,0,0,.38)}
     .other-service-overlay{gap:7px;padding:20px}.other-service-overlay small{font-size:9px;letter-spacing:2px}.other-service-overlay h3{font-size:clamp(20px,6vw,27px);letter-spacing:-.7px}.other-service-overlay p{font-size:13px;letter-spacing:0;line-height:1.4}.other-service-card img{object-fit:cover}
     .service-gallery-hud{width:calc(100% - 32px);margin:0 16px;padding:0;gap:12px;font-size:9px;letter-spacing:1.3px}.service-gallery-hud strong{min-width:42px;font-size:9px}.gallery-hint-sideways{display:none}.gallery-hint-swipe{display:inline}
     .estimate-section{width:calc(100% - 32px);margin:3px 16px 22px;border-radius:14px;padding:2px}.estimate-toggle{grid-template-columns:38px minmax(0,1fr) 25px;gap:9px;padding:16px 14px;border-radius:11px}.estimate-icon svg{width:30px;height:30px}.estimate-text{gap:5px;min-width:0}.estimate-text small{font-size:clamp(6px,1.8vw,8px);letter-spacing:1.6px}.estimate-text strong{font-size:clamp(14px,4.3vw,17px);line-height:1.15}.estimate-toggle>b{font-size:32px}.calculator{grid-template-columns:1fr;gap:12px;padding:13px}.calculator-fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.estimate-summary{padding:15px}.field input,.field select{min-height:46px;font-size:16px}.quote-button{min-height:48px;display:flex;align-items:center;justify-content:center}

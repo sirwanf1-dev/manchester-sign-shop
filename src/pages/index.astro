@@ -78,8 +78,8 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
     </section>
 
     <section class="content-section other-services-section" id="other-services" data-service-gallery>
-      <div class="section-title-row"><div><h2><em>OTHER SERVICES</em></h2><p>REPAIRS • CLEANING • REPAINTING</p></div><a href="/other-services/">VIEW SERVICES <span>→</span></a></div>
-      <p class="service-gallery-intro">Scroll to explore the details. We’ll help bring your sign back to life.</p>
+      <div class="section-title-row"><div><h2><em>OTHER SERVICES</em></h2><p>REPAIRS • CLEANING • INSTALLATION</p></div><a href="/other-services/">VIEW SERVICES <span>→</span></a></div>
+      <p class="service-gallery-intro">Explore our sign repair, cleaning and installation services.</p>
       <div class="other-services-scrollspace" data-service-scrollspace>
         <div class="other-services-stage" data-service-stage>
           <div class="other-services-rail" data-service-rail role="region" tabindex="0" aria-label="Other sign services. Scroll or swipe to explore.">
@@ -92,12 +92,8 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
               <div class="other-service-overlay"><small>02 / CLEANING</small><h3>SIGN CLEANING</h3><p>Bring back a clean, bright finish.</p></div>
             </a>
             <a class="other-service-card" data-service-panel href="/other-services/">
-              <img src={serviceImages.repainting} data-service-image="repainting" alt="Shop sign receiving a fresh paint finish" loading="lazy" decoding="async" />
-              <div class="other-service-overlay"><small>03 / REPAINTING</small><h3>SIGN PAINTING</h3><p>Refresh or repaint existing signs.</p></div>
-            </a>
-            <a class="other-service-card" data-service-panel href="/other-services/">
-              <img src={serviceImages.other} data-service-image="other" alt="Custom sign service illustration" loading="lazy" decoding="async" />
-              <div class="other-service-overlay"><small>04 / MORE HELP</small><h3>OTHER SERVICES</h3><p>Ask us about your sign project.</p></div>
+              <img src={serviceImages.installation} data-service-image="installation" alt="Shop interior with illuminated fitted sign panels" loading="lazy" decoding="async" />
+              <div class="other-service-overlay"><small>03 / INSTALLATION</small><h3>SIGN INSTALLATION</h3><p>Professional fitting for suitable sign projects.</p></div>
             </a>
           </div>
           <div class="service-gallery-hud" aria-hidden="true">
@@ -105,7 +101,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
             <span class="gallery-hint-sideways">SCROLL SIDEWAYS</span>
             <span class="gallery-hint-swipe">SWIPE TO EXPLORE</span>
             <span class="gallery-progress"><i data-service-progress></i></span>
-            <strong><span data-service-current>01</span> / 04</strong>
+            <strong><span data-service-current>01</span> / 03</strong>
           </div>
         </div>
       </div>
@@ -190,7 +186,7 @@ const heroImages = heroMedia.length ? heroMedia : signCategories.slice(0,3).map(
       .filter(file=>/\.(?:jpe?g|png|webp)$/i.test(file.name))
       .sort((a,b)=>new Date(b.updated_at||b.created_at||0)-new Date(a.updated_at||a.created_at||0));
     files.forEach(file=>{
-      const key=['repair','cleaning','repainting','other'].find(service=>file.name.startsWith(service+'-'));
+      const key=['repair','cleaning','installation'].find(service=>file.name.startsWith(service+'-'));
       if(key&&!latest[key]) latest[key]=file;
     });
     document.querySelectorAll('[data-service-image]').forEach(image=>{

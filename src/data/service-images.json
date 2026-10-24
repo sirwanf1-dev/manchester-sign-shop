@@ -1,6 +1,5 @@
 {
   "repair": "/images/services/sign-repair-photo.png",
   "cleaning": "/images/services/sign-cleaning-photo.png",
-  "repainting": "/images/services/sign-repainting.svg",
-  "other": "/images/services/other-sign-services.svg"
+  "installation": "/images/signs/shop-fitting.png"
 }

@@ -54,8 +54,7 @@
             <select id="serviceChoice">
               <option value="repair">Sign repairs & lighting faults</option>
               <option value="cleaning">Sign cleaning</option>
-              <option value="repainting">Sign painting & repainting</option>
-              <option value="other">Other sign services</option>
+              <option value="installation">Sign installation & fitting</option>
             </select>
             <label class="dropzone compact" for="serviceFile"><span class="upload-icon">↑</span><strong>Choose a service photo</strong><small>JPG, PNG or WebP · up to 8 MB</small><input id="serviceFile" type="file" accept="image/jpeg,image/png,image/webp" required /></label>
             <button class="primary" type="submit" id="serviceButton">UPDATE SERVICE PHOTO <span>→</span></button>
@@ -76,8 +75,7 @@
   const serviceLabels = {
     repair: 'Sign repairs & lighting faults',
     cleaning: 'Sign cleaning',
-    repainting: 'Sign painting & repainting',
-    other: 'Other sign services'
+    installation: 'Sign installation & fitting'
   };
   const byId = id => document.getElementById(id);
 

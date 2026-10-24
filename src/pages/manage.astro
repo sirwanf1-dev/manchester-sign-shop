@@ -194,6 +194,7 @@
       await github('/repos/' + OWNER + '/' + REPO + '/contents/src/data/service-images.json?ref=' + BRANCH);
       await refreshManager();
       byId('githubUser').textContent = user.login;
+      byId('githubToken').value = '';
       byId('loginCard').hidden = true;
       byId('manager').hidden = false;
     } catch (error) {

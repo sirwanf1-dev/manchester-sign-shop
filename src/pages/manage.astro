@@ -27,13 +27,13 @@
       <div class="card-heading"><span class="step">01</span><div><h2 id="authTitle">Sign in to your manager</h2><p id="authDescription">Use your Manchester Sign Group manager email and password.</p></div></div>
       <form id="authForm">
         <label for="managerEmail">Manager email</label>
-        <input id="managerEmail" type="email" value="sirwanf0@gmail.com" autocomplete="username" readonly required />
+        <input id="managerEmail" type="email" placeholder="Enter your manager email" autocomplete="username" required />
         <label for="managerPassword">Password</label>
         <input id="managerPassword" type="password" autocomplete="current-password" minlength="8" placeholder="Enter your password" required />
         <button class="primary" type="submit" id="authButton">SIGN IN <span>→</span></button>
       </form>
       <button class="mode-button" type="button" id="modeButton">FIRST TIME HERE? CREATE YOUR MANAGER LOGIN</button>
-      <p class="auth-note" id="authNote">For your first visit, create a password for this email. We’ll send a confirmation message; after confirming, return here and sign in.</p>
+      <p class="auth-note" id="authNote">For your first visit, create a password for your manager email. We’ll send a confirmation message; after confirming, return here and sign in.</p>
       <p class="status" id="authStatus" role="status" aria-live="polite"></p>
     </section>
 
@@ -77,7 +77,6 @@
 <script>
   import { supabase } from '../lib/supabase.js';
 
-  const ADMIN_EMAIL = 'sirwanf0@gmail.com';
   const BUCKET = 'website-images';
   const serviceLabels = {
     repair: 'Sign repairs & lighting faults',
@@ -181,12 +180,16 @@
     });
   }
 
-  function enterManager(user) {
+  async function enterManager(user) {
     const email = (user?.email || '').toLowerCase();
-    if (email !== ADMIN_EMAIL) {
-      return supabase.auth.signOut().then(() => {
-        throw new Error('This email is not allowed to manage the website.');
-      });
+    const { data: managerAccess, error: accessError } = await supabase
+      .from('website_managers')
+      .select('email')
+      .eq('email', email)
+      .maybeSingle();
+    if (accessError || !managerAccess) {
+      await supabase.auth.signOut();
+      throw new Error('This email is not set up as a website manager.');
     }
     byId('managerUser').textContent = user.email;
     byId('loginCard').hidden = true;
@@ -213,10 +216,6 @@
     const email = byId('managerEmail').value.trim().toLowerCase();
     const password = byId('managerPassword').value;
     const button = byId('authButton');
-    if (email !== ADMIN_EMAIL) {
-      setStatus('authStatus', 'Use the manager email shown above.', true);
-      return;
-    }
     setBusy(button, true, creatingAccount ? 'CREATING LOGIN…' : 'SIGNING IN…');
     setStatus('authStatus', creatingAccount ? 'Creating your manager login…' : 'Checking your sign-in…');
     try {

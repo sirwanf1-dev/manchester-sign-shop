@@ -226,6 +226,12 @@
         if (data.session && data.user) {
           await enterManager(data.user);
         } else {
+          creatingAccount = false;
+          byId('authTitle').textContent = 'Confirm your email';
+          byId('authDescription').textContent = 'After confirming, return here and sign in.';
+          byId('authButton').innerHTML = 'SIGN IN <span>→</span>';
+          byId('modeButton').textContent = 'FIRST TIME HERE? CREATE YOUR MANAGER LOGIN';
+          byId('authNote').hidden = true;
           setStatus('authStatus', 'Check your email for the confirmation message, then return here and sign in.');
           byId('managerPassword').value = '';
         }

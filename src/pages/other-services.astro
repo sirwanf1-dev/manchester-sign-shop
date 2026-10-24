@@ -43,7 +43,7 @@ import serviceImages from '../data/service-images.json';
     if(error||!data) return;
     const latest={};
     const files=data
-      .filter(file=>/\\.(?:jpe?g|png|webp)$/i.test(file.name))
+      .filter(file=>/\.(?:jpe?g|png|webp)$/i.test(file.name))
       .sort((a,b)=>new Date(b.updated_at||b.created_at||0)-new Date(a.updated_at||a.created_at||0));
     files.forEach(file=>{
       const key=['repair','cleaning','repainting','other'].find(service=>file.name.startsWith(service+'-'));

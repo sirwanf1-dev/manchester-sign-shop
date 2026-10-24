@@ -7,33 +7,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#050708" />
-  <title>Website Manager | Manchester Sign Group</title>
+  <title>Login | Manchester Sign Group</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
 <body>
   <main class="shell">
     <header class="topbar">
-      <a class="brand" href="/" aria-label="Manchester Sign Group home"><span class="brand-mark">M</span><span>WEBSITE MANAGER</span></a>
+      <a class="brand" href="/" aria-label="Manchester Sign Group home"><span class="brand-mark">M</span><span>MANCHESTER SIGN GROUP</span></a>
       <a class="back-link" href="/">VIEW WEBSITE ↗</a>
     </header>
 
     <section class="intro">
-      <p class="eyebrow">MANCHESTER SIGN GROUP</p>
-      <h1>Manage your <em>images</em></h1>
-      <p class="lede">Sign in with your manager email and password to update the homepage slideshow and service photos.</p>
+      <h1>LOGIN</h1>
     </section>
 
     <section class="login-card" id="loginCard">
-      <div class="card-heading"><span class="step">01</span><div><h2 id="authTitle">Sign in to your manager</h2><p id="authDescription">Use your Manchester Sign Group manager email and password.</p></div></div>
+      <h2 class="login-title" id="authTitle">LOGIN</h2>
       <form id="authForm">
-        <label for="managerEmail">Manager email</label>
-        <input id="managerEmail" type="email" placeholder="Enter your manager email" autocomplete="username" required />
+        <label for="managerEmail">Email</label>
+        <input id="managerEmail" type="email" placeholder="Enter your email" autocomplete="username" required />
         <label for="managerPassword">Password</label>
         <input id="managerPassword" type="password" autocomplete="current-password" minlength="8" placeholder="Enter your password" required />
-        <button class="primary" type="submit" id="authButton">SIGN IN <span>→</span></button>
+        <button class="primary" type="submit" id="authButton">LOGIN <span>→</span></button>
       </form>
-      <button class="mode-button" type="button" id="modeButton">FIRST TIME HERE? CREATE YOUR MANAGER LOGIN</button>
-      <p class="auth-note" id="authNote">For your first visit, create a password for your manager email. We’ll send a confirmation message; after confirming, return here and sign in.</p>
+      <button class="mode-button" type="button" id="modeButton">CREATE ACCOUNT</button>
       <p class="status" id="authStatus" role="status" aria-live="polite"></p>
     </section>
 
@@ -72,7 +69,7 @@
       </div>
       <div class="deploy-note"><span>✓</span><p>Uploads are saved securely and appear on the website shortly. Your sign-in stays available on this browser until you sign out.</p></div>
     </section>
-    <footer>Manchester Sign Group · Secure manager sign-in and image uploads.</footer>
+    <footer>Manchester Sign Group · Secure sign-in and image uploads.</footer>
   </main>
 <script>
   import { supabase } from '../lib/supabase.js';
@@ -189,7 +186,7 @@
       .maybeSingle();
     if (accessError || !managerAccess) {
       await supabase.auth.signOut();
-      throw new Error('This email is not set up as a website manager.');
+      throw new Error('This account does not have access.');
     }
     byId('managerUser').textContent = user.email;
     byId('loginCard').hidden = true;
@@ -202,11 +199,10 @@
 
   byId('modeButton').addEventListener('click', () => {
     creatingAccount = !creatingAccount;
-    byId('authTitle').textContent = creatingAccount ? 'Create your manager login' : 'Sign in to your manager';
-    byId('authDescription').textContent = creatingAccount ? 'Choose a password for your manager email.' : 'Use your Manchester Sign Group manager email and password.';
-    byId('authButton').innerHTML = creatingAccount ? 'CREATE MANAGER LOGIN <span>→</span>' : 'SIGN IN <span>→</span>';
-    byId('modeButton').textContent = creatingAccount ? 'ALREADY HAVE A LOGIN? SIGN IN' : 'FIRST TIME HERE? CREATE YOUR MANAGER LOGIN';
-    byId('authNote').hidden = !creatingAccount;
+    byId('authTitle').textContent = creatingAccount ? 'CREATE ACCOUNT' : 'LOGIN';
+    
+    byId('authButton').innerHTML = creatingAccount ? 'CREATE ACCOUNT <span>→</span>' : 'LOGIN <span>→</span>';
+    byId('modeButton').textContent = creatingAccount ? 'BACK TO LOGIN' : 'CREATE ACCOUNT';
     byId('managerPassword').autocomplete = creatingAccount ? 'new-password' : 'current-password';
     setStatus('authStatus', '');
   });
@@ -216,8 +212,8 @@
     const email = byId('managerEmail').value.trim().toLowerCase();
     const password = byId('managerPassword').value;
     const button = byId('authButton');
-    setBusy(button, true, creatingAccount ? 'CREATING LOGIN…' : 'SIGNING IN…');
-    setStatus('authStatus', creatingAccount ? 'Creating your manager login…' : 'Checking your sign-in…');
+    setBusy(button, true, creatingAccount ? 'CREATING ACCOUNT…' : 'SIGNING IN…');
+    setStatus('authStatus', creatingAccount ? 'Creating your account…' : 'Checking your sign-in…');
     try {
       if (creatingAccount) {
         const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + '/manage/' } });
@@ -339,13 +335,14 @@
   .brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:2px}
   .brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:8px;background:#e31b35;color:#fff;font-size:25px;letter-spacing:-2px}
   .back-link{color:#b8ff5a;text-decoration:none;font-size:11px;font-weight:900;letter-spacing:1px}
-  .intro{padding:48px 0 25px}
+  .intro{padding:48px 0 16px}
   .eyebrow{margin:0 0 9px;color:#b8ff5a;font-size:10px;font-weight:900;letter-spacing:3px}
   .intro h1{margin:0;font-size:clamp(38px,6vw,62px);letter-spacing:-2px}
   .intro h1 em{font-style:normal;color:#b8ff5a}
   .lede{max-width:650px;color:#aaa;line-height:1.6}
   .login-card,.panel{border:1px solid #303437;border-radius:14px;background:#0c0f11;padding:24px}
-  .login-card{max-width:700px;margin:12px 0 40px}
+  .login-card{max-width:480px;margin:12px 0 40px}
+  .login-title{margin:0 0 20px;font-size:20px}
   .card-heading{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}
   .step{display:grid;place-items:center;flex:none;width:34px;height:34px;border:1px solid #b8ff5a;border-radius:50%;color:#b8ff5a;font-size:11px;font-weight:900}
   .card-heading h2{margin:0 0 6px;font-size:20px}
@@ -358,8 +355,7 @@
   .primary span{font-size:18px}
   .primary:disabled{opacity:.6;cursor:wait}
   .mode-button{margin-top:18px;padding:8px 0;border:0;background:transparent;color:#b8ff5a;font-size:11px;font-weight:900;letter-spacing:.8px;cursor:pointer}
-  .auth-note,.small-note{color:#92989c;font-size:12px;line-height:1.55}
-  .auth-note{margin:7px 0 0}
+  .small-note{color:#92989c;font-size:12px;line-height:1.55}
   .status{min-height:18px;margin:12px 0 0;color:#b8ff5a;font-size:12px;line-height:1.5}
   .status.error{color:#ff8a96}
   .manager[hidden],.login-card[hidden]{display:none}
